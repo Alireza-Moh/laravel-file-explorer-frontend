@@ -5,10 +5,12 @@ import ItemActionList from "@/components/_baseComponents/ItemActionList.vue";
 import ExplorerMenu from "@/components/_baseComponents/ExplorerMenu.vue";
 import DirTree from "@/components/dirTree/DirTree.vue";
 import TreeContainer from "@/components/dirTree/TreeContainer.vue";
+import DirContentTable from "@/components/dirTree/DirContentTable.vue";
 
 export default {
   name: "App",
   components: {
+    DirContentTable,
     TreeContainer,
     TopMenu,
     DiskList,
@@ -22,6 +24,7 @@ export default {
       defaultDisk: null,
       dirs: null,
       selectedDir: null,
+      dirItems: null
     }
   },
   created() {
@@ -38,6 +41,7 @@ export default {
           this.defaultDisk = data.initData.defaultDisk;
           this.dirs = data.initData.dirs;
           this.selectedDir = data.initData.selectedDir;
+          this.dirItems = data.initData.dirItems;
         }
       });
     }
@@ -56,6 +60,7 @@ export default {
           <ItemActionList/>
           <ExplorerMenu/>
         </div>
+        <DirContentTable :items="dirItems"/>
       </div>
     </main>
   </div>
