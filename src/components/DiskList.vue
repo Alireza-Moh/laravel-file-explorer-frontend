@@ -1,5 +1,4 @@
 <script>
-
 import storesMixin from "@/mixins/storesMixin.js";
 
 export default {
@@ -22,30 +21,44 @@ export default {
     getDiskDirs(diskName) {
       const diskDirs = this.diskDirsStore.getDiskDirs(diskName);
       if (diskDirs) {
-        this.selectedDisk = diskName;
-        const dirItems = this.dirItemsStore.getDirItems(diskName, diskDirs.selectedDir);
-        this.changeDefaultFileExplorerViewData(diskName, diskDirs.selectedDir, diskDirs.dirs, dirItems.dirItems);
+        this.handleExistingDiskDirs(diskName, diskDirs);
+      } else {
+        this.fetchDiskDirs(diskName);
       }
-      else {
-        this.$http.get(this.settingsStore.baseUrl + "disks/" + diskName).then((data) => {
-          const diskDirs = {
-            selectedDir: data.selectedDir,
-            diskName: diskName,
-            dirs: data.dirs,
-          }
-          this.diskDirsStore.setDiskDirs(diskDirs);
-
-          const dirItems = {
-            diskName: diskName,
-            dirName: data.selectedDir,
-            dirItems: data.dirItems
-          }
-          this.dirItemsStore.setDirItems(dirItems);
-
-          this.changeDefaultFileExplorerViewData(diskName, data.selectedDir, data.dirs, data.dirItems);
-          this.selectedDisk = diskName;
-        })
-      }
+    },
+    handleExistingDiskDirs(diskName, diskDirs) {
+      this.selectedDisk = diskName;
+      const dirItems = this.dirItemsStore.getDirItems(diskName, diskDirs.selectedDir);
+      this.updateExplorerViewData(diskName, diskDirs.selectedDir, diskDirs.dirs, dirItems.dirItems);
+    },
+    fetchDiskDirs(diskName) {
+      this.$http.get(this.settingsStore.baseUrl + "disks/" + diskName)
+          .then((data) => {
+            this.updateDiskDirsStore(data, diskName);
+            this.updateDirItemsStore(data, diskName);
+            this.updateExplorerViewData(diskName, data.selectedDir, data.dirs, data.selectedDirItems);
+            this.selectedDisk = diskName;
+          });
+    },
+    updateDiskDirsStore(data, diskName) {
+      const diskDirs = {
+        selectedDir: data.selectedDir,
+        diskName: diskName,
+        dirs: data.dirs,
+      };
+      this.diskDirsStore.setDiskDirs(diskDirs);
+    },
+    updateDirItemsStore(data, diskName) {
+      const dirItems = {
+        diskName: diskName,
+        dirName: data.selectedDir,
+        dirItems: data.selectedDirItems,
+      };
+      this.dirItemsStore.setDirItems(dirItems);
+    },
+    updateExplorerViewData(diskName, selectedDir, dirs, dirItems) {
+      this.selectedDisk = diskName;
+      this.changeDefaultFileExplorerViewData(diskName, selectedDir, dirs, dirItems);
     },
     changeDefaultFileExplorerViewData(diskName, selectedDir, diskDirs, dirItems) {
       const defaultData = {

@@ -10,37 +10,44 @@ export default {
             return dirName === this.selectedDir;
         },
         getItems($http, dir, settingsStore, dirItemsStore) {
-            const defaultExistingData = settingsStore.defaultFileExplorerViewData;
             const dirName = dir.label;
-            const dirItems = dirItemsStore.getDirItems(defaultExistingData.selectedDisk, dirName);
+            const dirItems = dirItemsStore.getDirItems(settingsStore.defaultFileExplorerViewData.selectedDisk, dirName);
 
             if (dirItems) {
-                const defaultData = {
-                    ...defaultExistingData,
-                    selectedDir: dirName,
-                    selectedDirItems: dirItems.dirItems,
-                };
-
-                settingsStore.setDefaultFileExplorerViewData(defaultData);
+                this.updateSettingDefaultStore(settingsStore, dirName, dirItems.dirItems);
             }
             else {
-                $http.get(settingsStore.baseUrl + "disks/" + defaultExistingData.selectedDisk + "/dirs/" + dirName).then((data) => {
-                    const dirItems = {
-                        diskName: defaultExistingData.selectedDisk,
-                        dirName: dirName,
-                        dirItems: data.items
-                    }
-                    dirItemsStore.setDirItems(dirItems);
-
-
-                    const defaultData = {
-                        ...settingsStore.defaultFileExplorerViewData,
-                        selectedDir: dirName,
-                        selectedDirItems: data.items,
-                    };
-                    settingsStore.setDefaultFileExplorerViewData(defaultData);
-                })
+                this.fetchDirItems($http, dir, settingsStore, dirItemsStore)
             }
+        },
+        fetchDirItems($http, dir, settingsStore, dirItemsStore) {
+            const diskName = settingsStore.defaultFileExplorerViewData.selectedDisk;
+            const dirName = dir.label;
+
+            const url = settingsStore.baseUrl + "disks/" + diskName + "/dirs/" + dirName
+
+            $http.get(url).then((data) => {
+                const items = data.items;
+
+                this.addsNewDirWithItemsToStore(dirItemsStore, diskName, dirName, items)
+                this.updateSettingDefaultStore(settingsStore, dirName, items);
+            })
+        },
+        addsNewDirWithItemsToStore(dirItemsStore, selectedDisk, selectedDir, items) {
+            const dirItems = {
+                diskName: selectedDisk,
+                dirName: selectedDir,
+                dirItems: items
+            }
+            dirItemsStore.setDirItems(dirItems);
+        },
+        updateSettingDefaultStore(settingsStore, selectedDir, items) {
+            const defaultData = {
+                ...settingsStore.defaultFileExplorerViewData,
+                selectedDir: selectedDir,
+                selectedDirItems: items,
+            };
+            settingsStore.setDefaultFileExplorerViewData(defaultData);
         }
     }
 }
