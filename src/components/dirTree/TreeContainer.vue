@@ -1,12 +1,23 @@
 <script>
 import DirTree from "@/components/dirTree/DirTree.vue";
+import storesMixin from "@/mixins/storesMixin.js";
 
 export default {
   name: "TreeContainer",
   components: {DirTree},
-  props: {
-    dirs: Object,
-    selectedDir: String
+  mixins: [storesMixin],
+  data() {
+    return {
+      dirs: []
+    }
+  },
+  created() {
+    this.dirs = this.settingsStore.defaultFileExplorerViewData.dirsForSelectedDisk;
+  },
+  mounted() {
+    this.settingsStore.$subscribe((mutation, state) => {
+      this.dirs = state.defaultFileExplorerViewData.dirsForSelectedDisk;
+    })
   }
 }
 </script>
@@ -14,7 +25,7 @@ export default {
 <template>
   <div class="nav" id="navbar">
     <div class="nav__items">
-      <DirTree :selected-dir="selectedDir" :dirs="dirs"/>
+      <DirTree :dirs="dirs"/>
     </div>
   </div>
 </template>
@@ -28,7 +39,6 @@ export default {
   border-right: 1px solid #e8ebef;
 }
 
-.nav__list,
 .nav__items {
   display: flex;
   flex-direction: column;

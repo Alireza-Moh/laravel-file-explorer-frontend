@@ -1,0 +1,47 @@
+<script>
+export default {
+  name: "Loader"
+}
+</script>
+
+<template>
+  <span class="loader"></span>
+</template>
+
+<style scoped>
+.loader {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+  position: relative;
+  animation: rotate 1.5s ease-in infinite alternate;
+  margin-top: 10em;
+  margin-left: 20em;
+}
+.loader::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: #FF3D00;
+  background: currentColor;
+  width: 64px;
+  height: 32px;
+  border-radius: 0 0 50px 50px;
+}
+.loader::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  background: #212121;
+  width: 8px;
+  height: 64px;
+  animation: rotate 1.2s linear infinite alternate-reverse;
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg)}
+}
+
+</style>

@@ -6,10 +6,14 @@ import ExplorerMenu from "@/components/_baseComponents/ExplorerMenu.vue";
 import DirTree from "@/components/dirTree/DirTree.vue";
 import TreeContainer from "@/components/dirTree/TreeContainer.vue";
 import DirContentTable from "@/components/dirTree/DirContentTable.vue";
+import Loader from "@/components/_baseComponents/Loader.vue";
+import storesMixin from "@/mixins/storesMixin.js";
 
 export default {
   name: "App",
+  mixins: [storesMixin],
   components: {
+    Loader,
     DirContentTable,
     TreeContainer,
     TopMenu,
@@ -20,30 +24,53 @@ export default {
   },
   data() {
     return {
-      disks: null,
-      defaultDisk: null,
-      dirs: null,
-      selectedDir: null,
-      dirItems: null
+      isLoading: true,
     }
   },
   created() {
-    this.$store.setBaseUrl("http://laravel-wrapper.localhost:8084/api/laravel-file-explorer/");
+    this.settingsStore.setBaseUrl("http://laravel-wrapper.localhost:8084/api/laravel-file-explorer/");
     this.initExplorer();
   },
   methods: {
     initExplorer() {
-      const endUrl = this.$store.baseUrl + "load-file-explorer";
+      const endUrl = this.settingsStore.baseUrl + "load-file-explorer";
 
       this.$http.get(endUrl, {}).then((data) => {
-        if (data.initData) {
-          this.disks = data.initData.disks;
-          this.defaultDisk = data.initData.defaultDisk;
-          this.dirs = data.initData.dirs;
-          this.selectedDir = data.initData.selectedDir;
-          this.dirItems = data.initData.dirItems;
+        if (data.status === 200) {
+          const receivedData = data.data;
+
+          this.storeDisks(receivedData.disks);
+          this.storeDirsForDisk(receivedData.dirsForSelectedDisk, receivedData.selectedDir);
+          this.storeDirItems(receivedData.selectedDirItems, receivedData.selectedDisk, receivedData.selectedDir);
+          this.storeDefaultFileExplorerViewData(receivedData)
+          this.isLoading = false;
         }
       });
+    },
+    storeDisks(disks) {
+      this.disksStore.setDisks(disks);
+    },
+    storeDirsForDisk(dirs, selectedDir) {
+      dirs.selectedDir = selectedDir;
+      this.diskDirsStore.setDiskDirs(dirs);
+    },
+    storeDirItems(items, diskName, dirName) {
+      const dirItems = {
+        diskName: diskName,
+        dirName: dirName,
+        dirItems: items
+      }
+      this.dirItemsStore.setDirItems(dirItems);
+    },
+    storeDefaultFileExplorerViewData(receivedData) {
+      const defaultData = {
+        selectedDisk: receivedData.selectedDisk,
+        selectedDir: receivedData.selectedDir,
+        dirsForSelectedDisk: receivedData.dirsForSelectedDisk.dirs,
+        selectedDirItems: receivedData.selectedDirItems,
+      };
+
+      this.settingsStore.setDefaultFileExplorerViewData(defaultData);
     }
   }
 }
@@ -53,42 +80,37 @@ export default {
   <div class="main-wrapper">
     <TopMenu/>
     <main>
-      <TreeContainer :dirs="dirs" :selected-dir="selectedDir"/>
-      <div class="content-box">
-        <div class="nav-box">
-          <DiskList v-if="disks" :disks="disks" :default-disk="defaultDisk"/>
+      <TreeContainer v-if="!isLoading"/>
+      <div v-if="!isLoading" class="content-box">
+        <Loader v-if="isLoading"/>
+        <div v-else class="nav-box">
+          <DiskList/>
           <ItemActionList/>
           <ExplorerMenu/>
         </div>
-        <DirContentTable :items="dirItems"/>
+        <DirContentTable/>
       </div>
     </main>
   </div>
 </template>
 
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-  }
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
 
-  .main-nav {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+.content-box {
+  margin-left: 250px;
+  border-left: 1px solid #e8ebef;
+}
 
-  .content-box {
-    margin-left: 250px;
-    border-left: 1px solid #e8ebef;
-  }
-
-  .selected {
-    background-color: #F2F2F3;
-  }
+.selected {
+  background-color: #F2F2F3 !important;
+}
 </style>

@@ -1,17 +1,61 @@
 <script>
+
+import storesMixin from "@/mixins/storesMixin.js";
+
 export default {
   name: "DiskList",
-  props: {
-    disks: {
-      type: Object
-    },
-    defaultDisk: {
-      type: String
+  mixins: [storesMixin],
+  data() {
+    return {
+      selectedDisk: null,
+      disks: []
     }
+  },
+  created() {
+    this.selectedDisk = this.settingsStore.defaultFileExplorerViewData.selectedDisk;
+    this.disks = this.disksStore.disks;
   },
   methods: {
     isSelectedDisk(diskName) {
-      return diskName === this.defaultDisk;
+      return diskName === this.selectedDisk;
+    },
+    getDiskDirs(diskName) {
+      const diskDirs = this.diskDirsStore.getDiskDirs(diskName);
+      if (diskDirs) {
+        this.selectedDisk = diskName;
+        const dirItems = this.dirItemsStore.getDirItems(diskName, diskDirs.selectedDir);
+        this.changeDefaultFileExplorerViewData(diskName, diskDirs.selectedDir, diskDirs.dirs, dirItems.dirItems);
+      }
+      else {
+        this.$http.get(this.settingsStore.baseUrl + "disks/" + diskName).then((data) => {
+          const diskDirs = {
+            selectedDir: data.selectedDir,
+            diskName: diskName,
+            dirs: data.dirs,
+          }
+          this.diskDirsStore.setDiskDirs(diskDirs);
+
+          const dirItems = {
+            diskName: diskName,
+            dirName: data.selectedDir,
+            dirItems: data.dirItems
+          }
+          this.dirItemsStore.setDirItems(dirItems);
+
+          this.changeDefaultFileExplorerViewData(diskName, data.selectedDir, data.dirs, data.dirItems);
+          this.selectedDisk = diskName;
+        })
+      }
+    },
+    changeDefaultFileExplorerViewData(diskName, selectedDir, diskDirs, dirItems) {
+      const defaultData = {
+        selectedDisk: diskName,
+        selectedDir: selectedDir,
+        dirsForSelectedDisk: diskDirs,
+        selectedDirItems: dirItems,
+      };
+
+      this.settingsStore.setDefaultFileExplorerViewData(defaultData);
     }
   }
 }
@@ -19,7 +63,12 @@ export default {
 
 <template>
   <div class="global-nav">
-    <button class="action-btn" v-for="diskName in disks" :class="{selected: isSelectedDisk(diskName)}" :disabled="isSelectedDisk(diskName)">
+    <button class="action-btn"
+            v-for="diskName in disks"
+            :key="diskName"
+            :class="{selected: isSelectedDisk(diskName)}"
+            :disabled="isSelectedDisk(diskName)"
+            @click="getDiskDirs(diskName)">
       <img src="../assets/img/hdd.svg" alt="hdd">
       <span class="action-btn__text">{{diskName}}</span>
     </button>
@@ -27,22 +76,13 @@ export default {
 </template>
 
 <style>
-.global-nav,
-.sub-nav {
+.global-nav {
   padding: 15px;
   border-bottom: 1px solid #e8ebef;
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
-.creation-box,
-.edit-box {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
 
 .action-btn {
   border: none;
@@ -59,42 +99,5 @@ export default {
 
 .action-btn:hover {
   background-color: #F2F2F3;
-}
-
-.sub-nav {
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.action-box,
-.search-box,
-.path-box {
-  display: flex;
-  align-items: center;
-}
-
-.search-box {
-  gap: 10px;
-}
-
-.path-box {
-  border: 1px solid #e8ebef;
-  padding: 5px 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  gap: 10px;
-  flex-grow: 3;
-}
-
-.search-box {
-  flex-grow: 1;
-}
-
-#itemSearch {
-  padding: 5px 12px;
-  border: 1px solid #e8ebef;
-  border-radius: 4px;
-  outline-color: #7071E8;
-  width: 100%;
 }
 </style>
