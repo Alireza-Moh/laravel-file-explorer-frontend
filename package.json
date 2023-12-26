@@ -2,8 +2,7 @@
   "name": "laravel-file-explorer",
   "version": "0.0.0",
   "private": true,
-  "main": "src/startExplorer.js",
-  "module": "src/startExplorer.js",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

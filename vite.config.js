@@ -1,33 +1,14 @@
-import { fileURLToPath, URL } from 'node:url'
+import { fileURLToPath } from 'node:url'
+import { mergeConfig, defineConfig, configDefaults } from 'vitest/config'
+import viteConfig from './vite.config'
 
-
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-
-import { resolve } from 'path';
-
-// https://vitejs.dev/config/
-export default defineConfig({
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/startExplorer.js'),
-      name: 'laravel-file-explorer',
-    },
-    rollupOptions: {
-      external: ['vue'],
-      output: {
-        globals: {
-          vue: "Vue"
-        }
+export default mergeConfig(
+    viteConfig,
+    defineConfig({
+      test: {
+        environment: 'jsdom',
+        exclude: [...configDefaults.exclude, 'e2e/*'],
+        root: fileURLToPath(new URL('./', import.meta.url))
       }
-    }
-  },
-  plugins: [
-    vue(),
-  ],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
-})
+    })
+)
