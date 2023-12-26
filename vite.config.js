@@ -12,7 +12,6 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/startExplorer.js'),
       name: 'laravel-file-explorer',
-      fileName: "laravel-file-explorer"
     },
     rollupOptions: {
       external: ['vue'],
