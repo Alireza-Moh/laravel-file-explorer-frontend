@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "main": "/src/startExplorer.js",
+  "main": "src/startExplorer.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
