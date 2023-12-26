@@ -8,11 +8,13 @@ import TreeContainer from "@/components/dirTree/TreeContainer.vue";
 import DirContentTable from "@/components/dirTree/DirContentTable.vue";
 import Loader from "@/components/_baseComponents/Loader.vue";
 import storesMixin from "@/mixins/storesMixin.js";
+import Alert from "@/components/_baseComponents/Alert.vue";
 
 export default {
   name: "App",
   mixins: [storesMixin],
   components: {
+    Alert,
     Loader,
     DirContentTable,
     TreeContainer,
@@ -78,6 +80,7 @@ export default {
 
 <template>
   <div class="main-wrapper">
+    <Alert/>
     <TopMenu/>
     <main>
       <TreeContainer v-if="!isLoading"/>

@@ -11,11 +11,24 @@ class Http {
         });
     }
 
+    put(url, options) {
+        return fetch(url, this.#getOptions("PUT", options)).then((response) => {
+            return response.json();
+        });
+    }
+
+    delete(url, options) {
+        return fetch(url, this.#getOptions("DELETE", options)).then((response) => {
+            return response.json();
+        });
+    }
+
     #getOptions(method, otherOptions) {
         const baseOptions = {
             method: method,
             headers: {
                 "Content-Type": "application/json",
+                "Accept": "application/json"
             },
         };
 
