@@ -8,26 +8,29 @@ export default {
   mixins: [storesMixin],
   data() {
     return {
-      dirItems: []
+      dirItems: [],
+      selectedDir: null,
+      selectedDisk: null
     }
   },
   created() {
-    this.dirItems = this.settingsStore.defaultFileExplorerViewData.selectedDirItems;
+    const defaultData = this.settingsStore.defaultFileExplorerViewData;
+
+    this.dirItems = defaultData.selectedDirItems;
+    this.selectedDir = defaultData.selectedDir;
+    this.selectedDisk = defaultData.selectedDisk;
   },
   mounted() {
-    let selectedDir = null;
-    let selectedDisk = null;
-
     this.settingsStore.$subscribe((mutation, state) => {
       const defaultData = state.defaultFileExplorerViewData;
 
       this.dirItems = defaultData.selectedDirItems;
-      selectedDir = defaultData.selectedDir;
-      selectedDisk = defaultData.selectedDisk;
+      this.selectedDir = defaultData.selectedDir;
+      this.selectedDisk = defaultData.selectedDisk;
     });
 
     this.dirItemsStore.$subscribe((mutation, state) => {
-      const dir = state.data.find((dir) => (dir.diskName === selectedDisk) && (dir.dirName === selectedDir));
+      const dir = state.data.find((dir) => (dir.diskName === this.selectedDisk) && (dir.dirName === this.selectedDir));
       if (dir && dir.dirItems) {
         this.dirItems = dir.dirItems;
       }

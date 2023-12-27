@@ -51,7 +51,7 @@ export default {
   position: fixed;
   width: 200px;
   border-radius: 10px;
-  background: #fff;
+  background-color: #fff;
   box-shadow: 0 12px 35px rgba(0,0,0,0.1);
 }
 
