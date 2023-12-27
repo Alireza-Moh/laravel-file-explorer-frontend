@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      isLoading: true,
+      isLoading: true
     }
   },
   created() {
@@ -115,5 +115,13 @@ body {
 
 .selected {
   background-color: #F2F2F3 !important;
+}
+
+.rename-input {
+  padding: 5px 12px;
+  border: 1px solid #e8ebef;
+  border-radius: 4px;
+  outline-color: #7071E8;
+  width: 100%;
 }
 </style>

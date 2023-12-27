@@ -24,12 +24,15 @@ export default {
 
       const options = {
         body: JSON.stringify({
-          oldName: this.dir.label,
           oldPath: this.dir.path,
           newPath: newPath
         })
       };
-      const ulr = this.settingsStore.baseUrl + "disks/" + this.settingsStore.defaultFileExplorerViewData.selectedDisk + "/dirs";
+      const ulr = this.settingsStore.baseUrl
+          + "disks/"
+          + this.settingsStore.defaultFileExplorerViewData.selectedDisk
+          + "/files/"
+          + this.dir.label;
 
       this.$http.put(ulr, options).then((data) => {
         if (data.result) {
@@ -38,7 +41,7 @@ export default {
           window.showAlert(status, data.result.message);
           this.$emit("hideRenameInput", status, this.newDirName, newPath);
         }
-      })
+      });
     },
   }
 }
@@ -46,7 +49,7 @@ export default {
 
 <template>
   <div class="rename-wrapper">
-    <input type="text" class="rename-btn" v-model="newDirName" ref="renameInput" autofocus/>
+    <input type="text" class="rename-input" v-model="newDirName" ref="renameInput" autofocus/>
     <img src="../../../assets/img/floppy.svg" alt="" width="12" height="12" @click="saveNewDirName">
   </div>
 </template>
@@ -56,13 +59,5 @@ export default {
   display: flex;
   align-items: center;
   gap: 5px;
-}
-
-.rename-btn {
-  padding: 5px 12px;
-  border: 1px solid #e8ebef;
-  border-radius: 4px;
-  outline-color: #7071E8;
-  width: 100%;
 }
 </style>

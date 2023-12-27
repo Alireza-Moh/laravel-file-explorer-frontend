@@ -29,8 +29,7 @@ export default {
       top: 0,
       showRenameInput: false,
       isSubNavOpen: false,
-      selectedDir: null,
-      canGetItems: true
+      selectedDir: null
     }
   },
   created() {
@@ -59,11 +58,9 @@ export default {
     },
     closeContextMenu() {
       this.showRightContext = false;
-      this.canGetItems = true;
     },
     renameDir() {
       this.showRenameInput = true;
-      this.canGetItems = false;
     },
     getItems() {
       const dirName = this.dir.label;
@@ -87,7 +84,7 @@ export default {
 
         this.addsNewDirWithItemsToStore(diskName, items)
         this.updateSettingDefaultStore(items);
-      })
+      });
     },
     addsNewDirWithItemsToStore(selectedDisk, items) {
       const dirItems = {
@@ -111,7 +108,6 @@ export default {
         this.dir.label = newDirName;
         this.dir.path = newPath;
       }
-      this.canGetItems = true;
     }
   }
 }
@@ -122,7 +118,7 @@ export default {
        :class="{ 'selected': isSelectedDir(dir.label) }"
        @contextmenu="showContextMenu">
 
-    <div class="nav__link-wrapper" @click="canGetItems ? getItems : null">
+    <div class="nav__link-wrapper" @click="getItems">
       <img v-if="showFolderIcon" src="../../assets/img/folder-fill.svg" alt="folder icon"/>
 
       <RenameInput v-if="showRenameInput" :dir="dir" @hide-rename-input="hideRenameInput"/>

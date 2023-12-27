@@ -1,8 +1,10 @@
 <script>
 import storesMixin from "@/mixins/storesMixin.js";
+import ContentTableRow from "@/components/dirTree/components/ContentTableRow.vue";
 
 export default {
   name: "DirContentTable",
+  components: {ContentTableRow},
   mixins: [storesMixin],
   data() {
     return {
@@ -13,9 +15,23 @@ export default {
     this.dirItems = this.settingsStore.defaultFileExplorerViewData.selectedDirItems;
   },
   mounted() {
+    let selectedDir = null;
+    let selectedDisk = null;
+
     this.settingsStore.$subscribe((mutation, state) => {
-      this.dirItems = state.defaultFileExplorerViewData.selectedDirItems;
-    })
+      const defaultData = state.defaultFileExplorerViewData;
+
+      this.dirItems = defaultData.selectedDirItems;
+      selectedDir = defaultData.selectedDir;
+      selectedDisk = defaultData.selectedDisk;
+    });
+
+    this.dirItemsStore.$subscribe((mutation, state) => {
+      const dir = state.data.find((dir) => (dir.diskName === selectedDisk) && (dir.dirName === selectedDir));
+      if (dir && dir.dirItems) {
+        this.dirItems = dir.dirItems;
+      }
+    });
   }
 }
 </script>
@@ -33,24 +49,7 @@ export default {
     </thead>
     <tbody>
     <template v-if="dirItems.length > 0">
-      <tr v-for="(item, index) in dirItems" :key="index">
-        <td>
-          <input type="checkbox" name="folder-item" class="folder-item-checkbox">
-        </td>
-        <td>
-          <img v-if="item.type === 'dir'" src="../../assets/img/folder-fill.svg" alt="folder icon" class="folder__icon">
-          <img v-if="item.type === 'file'" src="../../assets/img/file-earmark-fill.svg" alt="file icon" class="folder__icon">
-        </td>
-        <td class="folder-item-name">
-          {{item.name}}
-        </td>
-        <td>
-          {{item.lastModified}}
-        </td>
-        <td class="td-size">
-          {{item.size}}
-        </td>
-      </tr>
+      <ContentTableRow v-for="(item, index) in dirItems" :key="index" :item="item"/>
     </template>
     <tr v-else>
       <td class="folder-item-name empty-cell" colspan="5">
@@ -102,20 +101,12 @@ tr {
   text-align: right;
 }
 
-.td-size {
-  text-align: right;
-}
-
 .icon-cell {
   width: 20px;
 }
 
 .name-cell {
   width: 56%;
-}
-
-.folder-item-checkbox {
-  accent-color: #7071E8;
 }
 
 .empty-cell {
