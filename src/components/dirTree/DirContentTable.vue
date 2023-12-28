@@ -1,16 +1,20 @@
 <script>
 import storesMixin from "@/mixins/storesMixin.js";
 import ContentTableRow from "@/components/dirTree/components/ContentTableRow.vue";
+import ContentTableMenu from "@/components/_baseComponents/ContentTableMenu.vue";
 
 export default {
   name: "DirContentTable",
-  components: {ContentTableRow},
+  components: {ContentTableRow, ContentTableMenu},
   mixins: [storesMixin],
   data() {
     return {
       dirItems: [],
       selectedDir: null,
-      selectedDisk: null
+      selectedDisk: null,
+      selectedItem: null,
+      searchedItem: null,
+      showRowVariant: true
     }
   },
   created() {
@@ -35,11 +39,33 @@ export default {
         this.dirItems = dir.dirItems;
       }
     });
+  },
+  methods: {
+    setSelectedItem(item) {
+      this.selectedItem = item;
+    },
+    setVariant() {
+      this.showRowVariant = !this.showRowVariant;
+    }
+  },
+  computed: {
+    filteredItems() {
+      let displayedItems = this.dirItems;
+      if (this.searchedItem) {
+        const searchTerm = this.searchedItem.trim().toLowerCase();
+        displayedItems = displayedItems.filter(item => {
+          return item.name.toLowerCase().includes(searchTerm);
+        });
+      }
+
+      return displayedItems;
+    }
   }
 }
 </script>
 
 <template>
+  <ContentTableMenu :item="selectedItem" v-model="searchedItem" @change-variant="setVariant"/>
   <table class="folder-content__table">
     <thead>
     <tr>
@@ -51,8 +77,13 @@ export default {
     </tr>
     </thead>
     <tbody>
-    <template v-if="dirItems.length > 0">
-      <ContentTableRow v-for="(item, index) in dirItems" :key="index" :item="item"/>
+    <template v-if="filteredItems.length > 0">
+      <ContentTableRow v-for="(item, index) in filteredItems"
+                       :key="index"
+                       :item="item"
+                       :show-row-variant="showRowVariant"
+                       @show-selected-item-url="setSelectedItem"/>
+
     </template>
     <tr v-else>
       <td class="folder-item-name empty-cell" colspan="5">

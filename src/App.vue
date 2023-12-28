@@ -2,7 +2,6 @@
 import TopMenu from "@/components/_baseComponents/TopMenu.vue";
 import DiskList from "@/components/DiskList.vue";
 import ItemActionList from "@/components/_baseComponents/ItemActionList.vue";
-import ExplorerMenu from "@/components/_baseComponents/ExplorerMenu.vue";
 import DirTree from "@/components/dirTree/DirTree.vue";
 import TreeContainer from "@/components/dirTree/TreeContainer.vue";
 import DirContentTable from "@/components/dirTree/DirContentTable.vue";
@@ -21,7 +20,6 @@ export default {
     TopMenu,
     DiskList,
     ItemActionList,
-    ExplorerMenu,
     DirTree
   },
   data() {
@@ -89,7 +87,6 @@ export default {
         <div v-else class="nav-box">
           <DiskList/>
           <ItemActionList/>
-          <ExplorerMenu/>
         </div>
         <DirContentTable/>
       </div>

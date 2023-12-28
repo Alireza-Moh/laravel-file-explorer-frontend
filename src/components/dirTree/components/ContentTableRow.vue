@@ -2,13 +2,19 @@
 export default {
   name: "ContentTableRow",
   props: {
-    item: Object
+    item: Object,
+    showRowVariant: Boolean
   },
+  emits: ["showSelectedItemUrl"],
   data() {
     return {
       showRenameInput: false,
-      isChecked: false
+      isChecked: false,
+      isImage: false,
     }
+  },
+  created() {
+    this.checkImage();
   },
   mounted() {
     this.$emitter.on("uncheckInput", () => {
@@ -25,9 +31,25 @@ export default {
       this.showRenameInput = false;
     });
   },
+  methods: {
+    checkImage() {
+      if (this.item.type !== "dir") {
+        const image = new Image();
+        image.onload = () => { this.isImage = true; };
+        image.onerror = () => { this.isImage = false; };
+        image.src = this.item.url;
+      }
+    },
+  },
   watch: {
-    isChecked() {
+    isChecked(newValue) {
       this.$emitter.emit("showItemActionList", this.item);
+      this.$emit('showSelectedItemUrl', this.item)
+
+      if (newValue === false) {
+        this.$emit('showSelectedItemUrl', null)
+        this.showRenameInput = false;
+      }
     }
   }
 }
@@ -49,12 +71,35 @@ export default {
            class="folder__icon">
     </td>
     <td class="folder-item-name">
-      <input v-if="showRenameInput"
-             type="text"
-             class="rename-input"
-             v-model="item.name"
-             autofocus>
-      <span v-else>{{item.name}}</span>
+      <template v-if="showRowVariant">
+        <input v-if="showRenameInput"
+               type="text"
+               class="rename-input"
+               v-model="item.name"
+               autofocus>
+        <span v-else>{{item.name}}</span>
+      </template>
+
+      <template v-else>
+        <div v-if="isImage" class="thumbnail-box">
+          <img :src="item.url" alt="img" class="thumbnail">
+          <input v-if="showRenameInput"
+              type="text"
+              class="rename-input"
+              v-model="item.name"
+              autofocus>
+          <span v-if="!showRenameInput">{{item.name}}</span>
+        </div>
+
+        <template v-else>
+          <input v-if="showRenameInput"
+                 type="text"
+                 class="rename-input"
+                 v-model="item.name"
+                 autofocus>
+          <span v-else>{{item.name}}</span>
+        </template>
+      </template>
     </td>
     <td>
       {{item.lastModified}}
@@ -97,5 +142,14 @@ tr {
 
 .folder-item-checkbox {
   accent-color: #7071E8;
+}
+
+.thumbnail-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.thumbnail {
+  width: 100px;
 }
 </style>
