@@ -1,11 +1,10 @@
 <script>
 import TopMenu from "@/components/_baseComponents/TopMenu.vue";
 import DiskList from "@/components/DiskList.vue";
-import ItemActionList from "@/components/_baseComponents/ItemActionList.vue";
+import ItemActionList from "@/components/itemActions/ItemActionList.vue";
 import DirTree from "@/components/dirTree/DirTree.vue";
 import TreeContainer from "@/components/dirTree/TreeContainer.vue";
 import DirContentTable from "@/components/dirTree/DirContentTable.vue";
-import Loader from "@/components/_baseComponents/Loader.vue";
 import storesMixin from "@/mixins/storesMixin.js";
 import Alert from "@/components/_baseComponents/Alert.vue";
 
@@ -14,7 +13,6 @@ export default {
   mixins: [storesMixin],
   components: {
     Alert,
-    Loader,
     DirContentTable,
     TreeContainer,
     TopMenu,
@@ -80,11 +78,10 @@ export default {
   <div class="main-wrapper">
     <Alert/>
     <TopMenu/>
-    <main>
-      <TreeContainer v-if="!isLoading"/>
-      <div v-if="!isLoading" class="content-box">
-        <Loader v-if="isLoading"/>
-        <div v-else class="nav-box">
+    <main v-if="!isLoading">
+      <TreeContainer/>
+      <div class="content-box">
+        <div class="nav-box">
           <DiskList/>
           <ItemActionList/>
         </div>
@@ -103,6 +100,8 @@ export default {
 
 body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  background-color: #fff;
+  height: 100vh;
 }
 
 .content-box {

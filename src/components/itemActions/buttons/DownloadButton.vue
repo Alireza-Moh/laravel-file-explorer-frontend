@@ -9,7 +9,7 @@ export default {
 
 <template>
   <button type="button" class="action-btn">
-    <img src="../../../../assets/img/download.svg" alt="">
+    <img src="../../../assets/img/download.svg" alt="">
     <span class="action-btn__text">Download</span>
   </button>
 </template>

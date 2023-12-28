@@ -1,6 +1,6 @@
 <script>
 import ConfirmModal from "@/components/_baseComponents/ConfirmModal.vue";
-import itemActionMixin from "@/components/_baseComponents/itemActions/mixins/itemActionMixin.js";
+import itemActionMixin from "@/components/itemActions/mixins/itemActionMixin.js";
 import storesMixin from "@/mixins/storesMixin.js";
 
 export default {
@@ -72,7 +72,7 @@ export default {
 
 <template>
   <button type="button" class="action-btn" @click="confirmDelete">
-    <img src="../../../../assets/img/trash3.svg" alt="">
+    <img src="../../../assets/img/trash3.svg" alt="">
     <span class="action-btn__text">Delete</span>
   </button>
 
