@@ -7,7 +7,8 @@ export default {
   props: {
     left: Number,
     top: Number,
-    dir: {}
+    dir: {},
+    directoryIndex: {}
   },
   methods: {
     renameDir() {
@@ -23,9 +24,39 @@ export default {
 
       this.$http.delete(url, option).then((data) => {
         if (data.result) {
-          window.showAlert(data.result.status, data.result.message);
+          const status = data.result.status;
+
+          window.showAlert(status, data.result.message);
+          this.removeDirFromDiskDirsStore(status)
         }
       });
+    },
+    removeDirFromDiskDirsStore(status) {
+      if (status === "success") {
+        const targetDisk = this.diskDirsStore.getDiskDirs(this.dir.diskName);
+
+        if (targetDisk && targetDisk.dirs) {
+          this.findAndDeleteDirByName(targetDisk.dirs);
+        }
+      }
+    },
+    findAndDeleteDirByName(dirs) {
+      for (let i = 0; i < dirs.length; i++) {
+        const dir = dirs[i];
+        if (dir.label === this.dir.label) {
+          dirs.splice(i, 1);
+          return true;
+        } else if (dir.subDir && dir.subDir.length > 0) {
+          const directoryIndex = this.findAndDeleteDirByName(dir.subDir);
+          if (directoryIndex) {
+            if (dir.subDir.length === 0) {
+              delete dir.subDir;
+            }
+            return true;
+          }
+        }
+      }
+      return false;
     }
   }
 }

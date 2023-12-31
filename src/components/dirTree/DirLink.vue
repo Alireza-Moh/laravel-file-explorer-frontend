@@ -172,7 +172,6 @@ export default {
   height: 100%;
   background: transparent;
   z-index: 999;
-
 }
 
 .opened-sub-dir {
