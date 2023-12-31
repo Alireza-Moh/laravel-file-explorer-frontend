@@ -13,9 +13,6 @@ export const useDirItemsStore = defineStore("dirItems", {
     actions: {
         setDirItems(dirData) {
             this.data.push(dirData);
-        },
-        removeItemFromDir(diskName, dirName) {
-
         }
     }
 });
