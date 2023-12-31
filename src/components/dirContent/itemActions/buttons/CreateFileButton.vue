@@ -24,7 +24,8 @@ export default {
   <ItemActionModal v-if="showModal"
                    :function-on-cancel="closeModal"
                    :function-on-save="createFile"
-                   label="Enter file name:"/>
+                   label="Enter file name:"
+                   :errors="errors"/>
 </template>
 
 <style scoped>

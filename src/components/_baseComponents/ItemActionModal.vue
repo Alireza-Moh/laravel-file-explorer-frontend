@@ -1,10 +1,12 @@
 <script>
+
 export default {
   name: "ItemActionModal",
   props: {
     functionOnCancel: Function,
     functionOnSave: Function,
-    label: String
+    label: String,
+    errors: Object
   },
   data() {
     return {
@@ -24,6 +26,7 @@ export default {
     <div class="input-box">
       <label for="itemName">{{label}}</label>
       <input type="text" name="itemName" id="itemName" v-model="enteredName">
+      <span class="error" v-if="errors.path && errors.path[0]">{{ errors.path[0] }}</span>
     </div>
     <div class="button-box">
       <button type="button" id="save-btn" @click="invokeSaveFunction">Save</button>
@@ -34,6 +37,7 @@ export default {
 
 <style scoped>
 .modal {
+  z-index: 999999;
   background-color: #fff;
   border-top: 4px solid #7071E8;
   width: 500px;
@@ -91,5 +95,10 @@ export default {
 
 .modal .button-box #save-btn:hover  {
   background-color: #4d4dbf;
+}
+
+.error {
+  color: #c40606;
+  font-size: 14px;
 }
 </style>

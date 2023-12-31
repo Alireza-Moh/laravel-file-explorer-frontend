@@ -8,7 +8,8 @@ export default {
         return {
             showModal: false,
             diskName: null,
-            dirName: null
+            dirName: null,
+            errors: {}
         }
     },
     created() {
@@ -28,6 +29,7 @@ export default {
         },
         closeModal() {
             this.showModal = false;
+            this.errors = {};
         },
         updateDirItems(items) {
             if (items.length > 0) {
@@ -48,6 +50,10 @@ export default {
             };
 
             this.$http.post(url, options).then((data) => {
+                if (data.errors) {
+                    this.errors = data.errors;
+                    return;
+                }
                 if (data.result) {
                     this.showModal = false;
                     window.showAlert(data.result.status, data.result.message);
