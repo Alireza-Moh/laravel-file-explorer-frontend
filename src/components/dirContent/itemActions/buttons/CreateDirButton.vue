@@ -1,5 +1,5 @@
 <script>
-import creationMixin from "@/components/itemActions/mixins/creationMixin.js";
+import creationMixin from "@/components/dirContent/itemActions/mixins/creationMixin.js";
 
 export default {
   name: "CreateDirButton",
@@ -18,7 +18,7 @@ export default {
 
 <template>
   <button type="button" class="action-btn" id="addFileBtn" @click="openModal">
-    <img src="../../../assets/img/folder-plus.svg" alt="">
+    <img src="../../../../assets/img/folder-plus.svg" alt="">
     <span class="action-btn__text">Create directory</span>
   </button>
   <ItemActionModal

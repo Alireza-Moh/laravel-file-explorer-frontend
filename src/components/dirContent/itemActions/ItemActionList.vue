@@ -1,13 +1,13 @@
 <script>
 import storesMixin from "@/mixins/storesMixin.js";
 import ConfirmModal from "@/components/_baseComponents/ConfirmModal.vue";
-import RenameButton from "@/components/itemActions/buttons/RenameButton.vue";
-import SaveButton from "@/components/itemActions/buttons/SaveButton.vue";
-import DeleteButton from "@/components/itemActions/buttons/DeleteButton.vue";
-import DownloadButton from "@/components/itemActions/buttons/DownloadButton.vue";
-import CopyButton from "@/components/itemActions/buttons/CopyButton.vue";
-import CreateDirButton from "@/components/itemActions/buttons/CreateDirButton.vue";
-import CreateFileButton from "@/components/itemActions/buttons/CreateFileButton.vue";
+import RenameButton from "@/components/dirContent/itemActions/buttons/RenameButton.vue";
+import SaveButton from "@/components/dirContent/itemActions/buttons/SaveButton.vue";
+import DeleteButton from "@/components/dirContent/itemActions/buttons/DeleteButton.vue";
+import DownloadButton from "@/components/dirContent/itemActions/buttons/DownloadButton.vue";
+import CopyButton from "@/components/dirContent/itemActions/buttons/CopyButton.vue";
+import CreateDirButton from "@/components/dirContent/itemActions/buttons/CreateDirButton.vue";
+import CreateFileButton from "@/components/dirContent/itemActions/buttons/CreateFileButton.vue";
 
 export default {
   name: "ItemActionList",

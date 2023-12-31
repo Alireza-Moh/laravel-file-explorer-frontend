@@ -1,7 +1,7 @@
 <script>
 export default {
   name: "ExplorerMenu",
-  emits: ["update:modelValue", "changeVariant"],
+  emits: ["update:modelValue"],
   props: {
     item: Object
   },
@@ -22,7 +22,7 @@ export default {
     },
     changeContentVariant() {
       this.variantChanged = !this.variantChanged;
-      this.$emit('changeVariant');
+      this.$emitter.emit('changeVariant');
     }
   },
   watch: {

@@ -10,8 +10,10 @@
     "test:unit": "vitest"
   },
   "dependencies": {
+    "@videojs-player/vue": "^1.0.0",
     "mitt": "^3.0.1",
     "pinia": "^2.1.7",
+    "video.js": "^8.6.1",
     "vue": "^3.3.11"
   },
   "devDependencies": {

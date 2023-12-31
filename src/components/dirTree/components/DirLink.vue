@@ -119,14 +119,14 @@ export default {
        @contextmenu="showContextMenu">
 
     <div class="nav__link-wrapper" @click="getItems">
-      <img v-if="showFolderIcon" src="../../assets/img/folder-fill.svg" alt="folder icon"/>
+      <img v-if="showFolderIcon" src="../../../assets/img/folder-fill.svg" alt="folder icon"/>
 
       <RenameInput v-if="showRenameInput" :dir="dir" @hide-rename-input="hideRenameInput"/>
       <span v-else class="nav__name">{{ dir.label }}</span>
 
     </div>
     <img v-if="showCartIcon"
-         src="../../assets/img/chevron-right.svg"
+         src="../../../assets/img/chevron-right.svg"
          alt=""
          class="cheven_link"
          :class="{ 'opened-sub-dir': isSubNavOpen}"

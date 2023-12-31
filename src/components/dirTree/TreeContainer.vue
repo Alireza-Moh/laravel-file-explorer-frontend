@@ -1,5 +1,5 @@
 <script>
-import DirTree from "@/components/dirTree/DirTree.vue";
+import DirTree from "@/components/dirTree/components/DirTree.vue";
 import storesMixin from "@/mixins/storesMixin.js";
 
 export default {

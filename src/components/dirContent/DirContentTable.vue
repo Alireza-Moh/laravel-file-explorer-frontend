@@ -1,6 +1,6 @@
 <script>
 import storesMixin from "@/mixins/storesMixin.js";
-import ContentTableRow from "@/components/dirTree/components/ContentTableRow.vue";
+import ContentTableRow from "@/components/dirContent/components/ContentTableRow.vue";
 import ContentTableMenu from "@/components/_baseComponents/ContentTableMenu.vue";
 
 export default {
@@ -9,7 +9,6 @@ export default {
   mixins: [storesMixin],
   data() {
     return {
-      showRowVariant: true,
       selectedDir: null,
       selectedDisk: null,
       selectedItem: null,
@@ -17,7 +16,7 @@ export default {
       items: [],
       visibleItems: [],
       itemHeight: 80,
-      scrollTop: 0,
+      scrollTop: 0
     };
   },
   computed: {
@@ -35,7 +34,7 @@ export default {
       }
 
       return displayedItems;
-    }
+    },
   },
   created() {
     const defaultData = this.settingsStore.defaultFileExplorerViewData;
@@ -66,9 +65,6 @@ export default {
     setSelectedItem(item) {
       this.selectedItem = item;
     },
-    setVariant() {
-      this.showRowVariant = !this.showRowVariant;
-    },
     onScroll() {
       this.scrollTop = this.$refs.viewport.scrollTop;
       this.updateVisibleItems();
@@ -85,7 +81,7 @@ export default {
 </script>
 
 <template>
-  <ContentTableMenu :item="selectedItem" v-model="searchedItem" @change-variant="setVariant"/>
+  <ContentTableMenu :item="selectedItem" v-model="searchedItem"/>
   <div class="content-header">
     <div class="headline check-box-cell"></div>
     <div class="headline name-cell">Name</div>
@@ -101,7 +97,6 @@ export default {
           <ContentTableRow v-for="(item, index) in filteredItems"
                            :key="index"
                            :item="item"
-                           :show-row-variant="showRowVariant"
                            @show-selected-item-url="setSelectedItem"/>
 
         </template>
@@ -141,32 +136,5 @@ export default {
   padding: 15px 20px;
   font-size: 14px;
   font-weight: bold;
-}
-
-.check-box-cell {
-  width: 5%;
-  padding-left: 20px;
-  display: flex;
-  align-items: center;
-}
-
-.date-cell {
-  width: 20%;
-  text-align: left;
-}
-
-.size-cell {
-  width: 15%;
-  padding-right: 20px;
-  text-align: right;
-}
-
-.name-cell {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  width: 60%;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 </style>

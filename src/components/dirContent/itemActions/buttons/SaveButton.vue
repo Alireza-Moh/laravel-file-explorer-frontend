@@ -1,6 +1,6 @@
 <script>
 import storesMixin from "@/mixins/storesMixin.js";
-import itemActionMixin from "@/components/itemActions/mixins/itemActionMixin.js";
+import itemActionMixin from "@/components/dirContent/itemActions/mixins/itemActionMixin.js";
 
 export default {
   name: "SaveButton",
@@ -57,7 +57,7 @@ export default {
 
 <template>
   <button type="button" class="action-btn" @click="saveNewFileName">
-    <img src="../../../assets/img/floppy.svg" alt="">
+    <img src="../../../../assets/img/floppy.svg" alt="">
     <span class="action-btn__text">Save</span>
   </button>
 </template>

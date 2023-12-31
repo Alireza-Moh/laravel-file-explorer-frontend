@@ -10,4 +10,5 @@ app.config.globalProperties.$http = http;
 app.config.globalProperties.$emitter = mitt();
 
 app.use(createPinia());
+
 app.mount('#app');

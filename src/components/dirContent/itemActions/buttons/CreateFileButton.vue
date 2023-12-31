@@ -1,5 +1,5 @@
 <script>
-import creationMixin from "@/components/itemActions/mixins/creationMixin.js";
+import creationMixin from "@/components/dirContent/itemActions/mixins/creationMixin.js";
 
 export default {
   name: "CreateFileButton",
@@ -18,7 +18,7 @@ export default {
 
 <template>
   <button type="button" class="action-btn" @click="openModal">
-    <img src="../../../assets/img/file-earmark-plus.svg" alt="">
+    <img src="../../../../assets/img/file-earmark-plus.svg" alt="">
     <span class="action-btn__text">Create file</span>
   </button>
   <ItemActionModal v-if="showModal"

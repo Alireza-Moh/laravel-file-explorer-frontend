@@ -1,18 +1,20 @@
 <script>
 import TopMenu from "@/components/_baseComponents/TopMenu.vue";
 import DiskList from "@/components/DiskList.vue";
-import ItemActionList from "@/components/itemActions/ItemActionList.vue";
-import DirTree from "@/components/dirTree/DirTree.vue";
+import ItemActionList from "@/components/dirContent/itemActions/ItemActionList.vue";
+import DirTree from "@/components/dirTree/components/DirTree.vue";
 import TreeContainer from "@/components/dirTree/TreeContainer.vue";
-import DirContentTable from "@/components/dirTree/DirContentTable.vue";
+import DirContentTable from "@/components/dirContent/DirContentTable.vue";
 import storesMixin from "@/mixins/storesMixin.js";
 import Alert from "@/components/_baseComponents/Alert.vue";
-import ImageViewer from "@/components/dirTree/components/ImageViewer.vue";
+import ImageViewer from "@/components/dirContent/components/ImageViewer.vue";
+import VideoPlayerViewer from "@/components/dirContent/components/VideoPlayerViewer.vue";
 
 export default {
   name: "App",
   mixins: [storesMixin],
   components: {
+    VideoPlayerViewer,
     ImageViewer,
     Alert,
     DirContentTable,
@@ -90,6 +92,7 @@ export default {
         <DirContentTable/>
       </div>
       <ImageViewer/>
+      <VideoPlayerViewer/>
     </main>
   </div>
 </template>
@@ -111,7 +114,7 @@ body {
   border-left: 1px solid #e8ebef;
 }
 
-//================== these styles define global CSS styling across the application ================
+/*================== these styles define global CSS styling across the application ================*/
 .selected {
   background-color: #F2F2F3 !important;
 }
@@ -122,5 +125,33 @@ body {
   border-radius: 4px;
   outline-color: #7071E8;
   width: 100%;
+}
+
+.check-box-cell {
+  width: 3%;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.date-cell {
+  width: 15%;
+  text-align: left;
+}
+
+.size-cell {
+  width: 15%;
+  padding-right: 20px;
+  text-align: right;
+}
+
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 68%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
 }
 </style>

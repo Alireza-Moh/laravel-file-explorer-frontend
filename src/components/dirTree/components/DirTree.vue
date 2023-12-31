@@ -1,5 +1,5 @@
 <script>
-import DirLink from "@/components/dirTree/DirLink.vue";
+import DirLink from "@/components/dirTree/components/DirLink.vue";
 import storesMixin from "@/mixins/storesMixin.js";
 
 export default {
