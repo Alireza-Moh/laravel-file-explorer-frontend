@@ -7,11 +7,13 @@ import TreeContainer from "@/components/dirTree/TreeContainer.vue";
 import DirContentTable from "@/components/dirTree/DirContentTable.vue";
 import storesMixin from "@/mixins/storesMixin.js";
 import Alert from "@/components/_baseComponents/Alert.vue";
+import ImageViewer from "@/components/dirTree/components/ImageViewer.vue";
 
 export default {
   name: "App",
   mixins: [storesMixin],
   components: {
+    ImageViewer,
     Alert,
     DirContentTable,
     TreeContainer,
@@ -87,6 +89,7 @@ export default {
         </div>
         <DirContentTable/>
       </div>
+      <ImageViewer/>
     </main>
   </div>
 </template>
@@ -101,7 +104,6 @@ export default {
 body {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   background-color: #fff;
-  height: 100vh;
 }
 
 .content-box {

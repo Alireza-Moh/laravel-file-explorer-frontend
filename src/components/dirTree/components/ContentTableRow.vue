@@ -10,7 +10,7 @@ export default {
     return {
       showRenameInput: false,
       isChecked: false,
-      isImage: false,
+      isImage: false
     }
   },
   created() {
@@ -40,6 +40,11 @@ export default {
         image.src = this.item.url;
       }
     },
+    showImage() {
+      if (this.isImage) {
+        this.$emitter.emit("showImageViewer", this.item.url);
+      }
+    }
   },
   watch: {
     isChecked(newValue) {
@@ -56,11 +61,16 @@ export default {
 </script>
 
 <template>
-  <tr>
-    <td>
-      <input type="checkbox" name="folder-item" class="folder-item-checkbox" v-model="isChecked">
-    </td>
-    <td>
+  <div class="item" @dblclick="showImage">
+
+    <div class="check-box-cell">
+      <input type="checkbox"
+             name="folder-item"
+             class="folder-item-checkbox"
+             v-model="isChecked">
+    </div>
+
+    <div class="name-cell">
       <img v-if="item.type === 'dir'"
            src="../../../assets/img/folder-fill.svg"
            alt="folder icon"
@@ -69,8 +79,6 @@ export default {
            src="../../../assets/img/file-earmark-fill.svg"
            alt="file icon"
            class="folder__icon">
-    </td>
-    <td class="folder-item-name">
       <template v-if="showRowVariant">
         <input v-if="showRenameInput"
                type="text"
@@ -82,12 +90,14 @@ export default {
 
       <template v-else>
         <div v-if="isImage" class="thumbnail-box">
-          <img :src="item.url" alt="img" class="thumbnail">
+          <div class="thumbnail-image-box">
+            <img :src="item.url" alt="img" class="thumbnail">
+          </div>
           <input v-if="showRenameInput"
-              type="text"
-              class="rename-input"
-              v-model="item.name"
-              autofocus>
+                 type="text"
+                 class="rename-input"
+                 v-model="item.name"
+                 autofocus>
           <span v-if="!showRenameInput">{{item.name}}</span>
         </div>
 
@@ -100,44 +110,58 @@ export default {
           <span v-else>{{item.name}}</span>
         </template>
       </template>
-    </td>
-    <td>
+    </div>
+
+    <div class="date-cell">
       {{item.lastModified}}
-    </td>
-    <td class="td-size">
+    </div>
+
+    <div class="size-cell">
       {{item.size}}
-    </td>
-  </tr>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-tr {
-  transition: all 0.3s linear;
+.item {
+  height: 80px; /* must match itemHeight */
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid #e8ebef;
+  font-size: 14px;
+  text-align: right;
+  transition: all 0.2s ease-in-out;
 }
 
-tr:hover {
+.item:hover {
   background-color: #F8F9FA;
 }
 
-td, th {
-  padding: 15px 20px;
+.check-box-cell {
+  width: 5%;
+  padding-left: 20px;
+  display: flex;
+  align-items: center;
 }
 
-td {
-  font-size: 14px;
+.date-cell {
+  width: 20%;
+  text-align: left;
 }
 
-th {
-  font-size: 14px;
-  font-weight: bold;
-}
-
-tr {
-  border-bottom: 1px solid #e8ebef;
-}
-
-.td-size {
+.size-cell {
+  width: 15%;
+  padding-right: 20px;
   text-align: right;
+}
+
+.name-cell {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 60%;
+  text-align: left;
 }
 
 .folder-item-checkbox {
@@ -149,7 +173,22 @@ tr {
   align-items: center;
   gap: 10px;
 }
+
+.thumbnail-image-box {
+  width: 70px;
+  height: 70px;
+}
+
 .thumbnail {
-  width: 100px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 1000px) {
+  .name-cell {
+    font-size: 12px;
+  }
 }
 </style>
+
