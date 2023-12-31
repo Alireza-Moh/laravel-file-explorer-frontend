@@ -111,6 +111,7 @@ body {
   border-left: 1px solid #e8ebef;
 }
 
+//================== these styles define global CSS styling across the application ================
 .selected {
   background-color: #F2F2F3 !important;
 }
