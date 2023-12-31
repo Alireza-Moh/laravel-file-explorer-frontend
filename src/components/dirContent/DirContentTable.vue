@@ -1,7 +1,7 @@
 <script>
 import storesMixin from "@/mixins/storesMixin.js";
 import ContentTableRow from "@/components/dirContent/components/ContentTableRow.vue";
-import ContentTableMenu from "@/components/_baseComponents/ContentTableMenu.vue";
+import ContentTableMenu from "@/components/dirContent/components/ContentTableMenu.vue";
 
 export default {
   name: "DirContentTable",

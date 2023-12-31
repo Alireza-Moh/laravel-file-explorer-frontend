@@ -1,6 +1,6 @@
 <script>
 import storesMixin from "@/mixins/storesMixin.js";
-import RightClickContextMenu from "@/components/_baseComponents/RightClickContextMenu.vue";
+import RightClickContextMenu from "@/components/dirTree/components/RightClickContextMenu.vue";
 import RenameInput from "@/components/dirTree/components/RenameInput.vue";
 
 export default {

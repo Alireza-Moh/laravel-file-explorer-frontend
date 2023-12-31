@@ -41,18 +41,18 @@ export default {
   <div class="sub-nav">
     <div class="path-box">
       <div class="path">
-        <img src="../../assets/img/folder-check.svg" alt="">
+        <img src="../../../assets/img/folder-check.svg" alt="">
         <span v-if="item">{{item.url}}</span>
         <span v-else>Select checkbox to get path</span>
       </div>
       <img v-if="item && !urlCopied"
-           src="../../assets/img/copy.svg"
+           src="../../../assets/img/copy.svg"
            alt=""
            width="16"
            height="16"
            class="copy-icon"
            @click="copyUrl">
-      <img v-if="urlCopied" src="../../assets/img/done.svg"
+      <img v-if="urlCopied" src="../../../assets/img/done.svg"
            alt=""
            width="16"
            height="16"
@@ -66,7 +66,7 @@ export default {
     <button class="action-btn"
             :class="{'selected': variantChanged}"
             @click="changeContentVariant">
-      <img src="../../assets/img/list-ul.svg" alt="">
+      <img src="../../../assets/img/list-ul.svg" alt="">
     </button>
   </div>
 </template>

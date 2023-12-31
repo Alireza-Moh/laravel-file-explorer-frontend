@@ -66,11 +66,11 @@ export default {
   <div class="content" :style="{ top: top + 'px', left: left + 'px' }">
     <ul class="menu">
       <li class="item" @click="renameDir">
-        <img src="../../assets/img/pen.svg" alt="rename">
+        <img src="../../../assets/img/pen.svg" alt="rename">
         <span>Rename</span>
       </li>
       <li class="item" @click="deleteDir">
-        <img src="../../assets/img/trash3.svg" alt="">
+        <img src="../../../assets/img/trash3.svg" alt="">
         <span>Delete</span>
       </li>
     </ul>
