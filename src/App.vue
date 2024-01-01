@@ -154,4 +154,14 @@ body {
   text-overflow: ellipsis;
   text-align: left;
 }
+
+.delete-icon {
+  color: #FE0000;
+  cursor: pointer;
+}
+
+.error {
+  color: #c40606;
+  font-size: 14px;
+}
 </style>

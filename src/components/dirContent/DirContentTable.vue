@@ -52,6 +52,8 @@ export default {
       this.items = defaultData.selectedDirItems;
       this.selectedDir = defaultData.selectedDir;
       this.selectedDisk = defaultData.selectedDisk;
+
+      this.updateVisibleItems();
     });
 
     this.dirItemsStore.$subscribe((mutation, state) => {
