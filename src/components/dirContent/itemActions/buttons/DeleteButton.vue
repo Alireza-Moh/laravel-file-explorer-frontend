@@ -1,5 +1,5 @@
 <script>
-import ConfirmModal from "@/components/_baseComponents/ConfirmModal.vue";
+import ConfirmModal from "@/components/modals/ConfirmModal.vue";
 import itemActionMixin from "@/components/dirContent/itemActions/mixins/itemActionMixin.js";
 import storesMixin from "@/mixins/storesMixin.js";
 

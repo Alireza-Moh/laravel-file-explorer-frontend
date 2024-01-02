@@ -1,6 +1,5 @@
 <script>
 import storesMixin from "@/mixins/storesMixin.js";
-import ConfirmModal from "@/components/_baseComponents/ConfirmModal.vue";
 import RenameButton from "@/components/dirContent/itemActions/buttons/RenameButton.vue";
 import SaveButton from "@/components/dirContent/itemActions/buttons/SaveButton.vue";
 import DeleteButton from "@/components/dirContent/itemActions/buttons/DeleteButton.vue";
@@ -14,7 +13,7 @@ export default {
   name: "ItemActionList",
   components: {
     UploadFilesButton,
-    CreateDirButton, CopyButton, DownloadButton, DeleteButton, SaveButton, RenameButton, CreateFileButton, ConfirmModal},
+    CreateDirButton, CopyButton, DownloadButton, DeleteButton, SaveButton, RenameButton, CreateFileButton},
   mixins: [storesMixin],
   data() {
     return {
