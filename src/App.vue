@@ -6,7 +6,7 @@ import DirTree from "@/components/dirTree/components/DirTree.vue";
 import TreeContainer from "@/components/dirTree/TreeContainer.vue";
 import DirContentTable from "@/components/dirContent/DirContentTable.vue";
 import storesMixin from "@/mixins/storesMixin.js";
-import Alert from "@/components/_baseComponents/Alert.vue";
+import Notify from "@/components/_baseComponents/Notify.vue";
 import ImageViewer from "@/components/dirContent/components/ImageViewer.vue";
 import VideoPlayerViewer from "@/components/dirContent/components/VideoPlayerViewer.vue";
 
@@ -16,7 +16,7 @@ export default {
   components: {
     VideoPlayerViewer,
     ImageViewer,
-    Alert,
+    Notify,
     DirContentTable,
     TreeContainer,
     TopMenu,
@@ -43,7 +43,7 @@ export default {
 
           this.storeDisks(receivedData.disks);
           this.storeDirsForDisk(receivedData.dirsForSelectedDisk, receivedData.selectedDir);
-          this.storeDirItems(receivedData.selectedDirItems, receivedData.selectedDisk, receivedData.selectedDir);
+          this.storeDirItems(receivedData.selectedDirItems, receivedData.selectedDisk, receivedData.selectedDir, receivedData.selectedDirPath);
           this.storeDefaultFileExplorerViewData(receivedData)
           this.isLoading = false;
         }
@@ -56,11 +56,12 @@ export default {
       dirs.selectedDir = selectedDir;
       this.diskDirsStore.setDiskDirs(dirs);
     },
-    storeDirItems(items, diskName, dirName) {
+    storeDirItems(items, diskName, dirName, selectedDirPath) {
       const dirItems = {
         diskName: diskName,
         dirName: dirName,
-        dirItems: items
+        dirItems: items,
+        selectedDirPath: selectedDirPath
       }
       this.dirItemsStore.setDirItems(dirItems);
     },
@@ -68,6 +69,7 @@ export default {
       const defaultData = {
         selectedDisk: receivedData.selectedDisk,
         selectedDir: receivedData.selectedDir,
+        selectedDirPath: receivedData.selectedDirPath,
         dirsForSelectedDisk: receivedData.dirsForSelectedDisk.dirs,
         selectedDirItems: receivedData.selectedDirItems,
       };
@@ -80,7 +82,7 @@ export default {
 
 <template>
   <div class="main-wrapper">
-    <Alert/>
+    <Notify/>
     <TopMenu/>
     <main v-if="!isLoading">
       <TreeContainer/>

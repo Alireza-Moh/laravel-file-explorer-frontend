@@ -60,6 +60,7 @@ export default {
       const dir = state.data.find((dir) => (dir.diskName === this.selectedDisk) && (dir.dirName === this.selectedDir));
       if (dir && dir.dirItems) {
         this.items = dir.dirItems;
+        this.updateVisibleItems();
       }
     });
   },
@@ -102,7 +103,7 @@ export default {
                            @show-selected-item-url="setSelectedItem"/>
 
         </template>
-        <div v-else class="item">
+        <div v-else class="item empty">
           <div>
             No data found
           </div>
@@ -138,5 +139,22 @@ export default {
   padding: 15px 20px;
   font-size: 14px;
   font-weight: bold;
+}
+
+.item {
+  height: 80px; /* must match itemHeight */
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid #e8ebef;
+  font-size: 14px;
+  text-align: right;
+  transition: all 0.2s ease-in-out;
+}
+
+.item.empty {
+  justify-content: center;
+  font-size: 17px;
+  font-weight: bolder;
 }
 </style>

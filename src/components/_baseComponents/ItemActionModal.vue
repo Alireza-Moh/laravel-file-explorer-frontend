@@ -96,9 +96,4 @@ export default {
 .modal .button-box #save-btn:hover  {
   background-color: #4d4dbf;
 }
-
-.error {
-  color: #c40606;
-  font-size: 14px;
-}
 </style>

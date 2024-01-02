@@ -1,9 +1,15 @@
 class Http {
-    post(url, options) {
-        return fetch(url, this.#getOptions("POST", options)).then((response) => {
+    post(url, options, newHeaders = {}) {
+        const requestOptions = this.#getOptions("POST", options);
+
+        if (Object.keys(newHeaders).length > 1) {
+            requestOptions.headers = newHeaders;
+        }
+
+        return fetch(url, requestOptions).then((response) => {
             return response.json();
         }).catch((error) => {
-            window.showAlert("failed", "Something went wrong. Please try it again");
+            this.#showErrorMessage();
         });
     }
 
@@ -11,7 +17,7 @@ class Http {
         return fetch(url, this.#getOptions("GET", options)).then((response) => {
             return response.json();
         }).catch((error) => {
-            window.showAlert("failed", "Something went wrong. Please try it again");
+            this.#showErrorMessage();
         });
     }
 
@@ -19,7 +25,7 @@ class Http {
         return fetch(url, this.#getOptions("PUT", options)).then((response) => {
             return response.json();
         }).catch((error) => {
-            window.showAlert("failed", "Something went wrong. Please try it again");
+            this.#showErrorMessage();
         });
     }
 
@@ -27,7 +33,7 @@ class Http {
         return fetch(url, this.#getOptions("DELETE", options)).then((response) => {
             return response.json();
         }).catch((error) => {
-            window.showAlert("failed", "Something went wrong. Please try it again");
+            this.#showErrorMessage();
         });
     }
 
@@ -41,6 +47,10 @@ class Http {
         };
 
         return Object.assign({}, baseOptions, otherOptions);
+    }
+
+    #showErrorMessage() {
+        window.showAlert("failed", "Something went wrong. Please try it again");
     }
 }
 

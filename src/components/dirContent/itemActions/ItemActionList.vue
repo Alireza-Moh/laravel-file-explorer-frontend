@@ -8,10 +8,13 @@ import DownloadButton from "@/components/dirContent/itemActions/buttons/Download
 import CopyButton from "@/components/dirContent/itemActions/buttons/CopyButton.vue";
 import CreateDirButton from "@/components/dirContent/itemActions/buttons/CreateDirButton.vue";
 import CreateFileButton from "@/components/dirContent/itemActions/buttons/CreateFileButton.vue";
+import UploadFilesButton from "@/components/dirContent/itemActions/buttons/UploadFilesButton.vue";
 
 export default {
   name: "ItemActionList",
-  components: {CreateDirButton, CopyButton, DownloadButton, DeleteButton, SaveButton, RenameButton, CreateFileButton, ConfirmModal},
+  components: {
+    UploadFilesButton,
+    CreateDirButton, CopyButton, DownloadButton, DeleteButton, SaveButton, RenameButton, CreateFileButton, ConfirmModal},
   mixins: [storesMixin],
   data() {
     return {
@@ -32,6 +35,7 @@ export default {
   <div class="global-nav">
     <CreateFileButton/>
     <CreateDirButton/>
+    <UploadFilesButton/>
     <div v-if="showItemActions" class="related-item-action-wrapper">
       <CopyButton :item="item"/>
       <DownloadButton :item="item"/>

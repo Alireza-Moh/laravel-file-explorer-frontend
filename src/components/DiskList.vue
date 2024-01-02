@@ -29,14 +29,14 @@ export default {
     handleExistingDiskDirs(diskName, diskDirs) {
       this.selectedDisk = diskName;
       const dirItems = this.dirItemsStore.getDirItems(diskName, diskDirs.selectedDir);
-      this.updateExplorerViewData(diskName, diskDirs.selectedDir, diskDirs.dirs, dirItems.dirItems);
+      this.updateExplorerViewData(diskName, diskDirs.selectedDir, diskDirs.selectedDirPath, diskDirs.dirs, dirItems.dirItems);
     },
     fetchDiskDirs(diskName) {
       this.$http.get(this.settingsStore.baseUrl + "disks/" + diskName)
           .then((data) => {
             this.updateDiskDirsStore(data, diskName);
             this.updateDirItemsStore(data, diskName);
-            this.updateExplorerViewData(diskName, data.selectedDir, data.dirs, data.selectedDirItems);
+            this.updateExplorerViewData(diskName, data.selectedDir, data.selectedDirPath, data.dirs, data.selectedDirItems);
             this.selectedDisk = diskName;
           });
     },
@@ -53,17 +53,19 @@ export default {
         diskName: diskName,
         dirName: data.selectedDir,
         dirItems: data.selectedDirItems,
+        selectedDirPath: data.selectedDirPath
       };
       this.dirItemsStore.setDirItems(dirItems);
     },
-    updateExplorerViewData(diskName, selectedDir, dirs, dirItems) {
+    updateExplorerViewData(diskName, selectedDir, selectedDirPath, dirs, dirItems) {
       this.selectedDisk = diskName;
-      this.changeDefaultFileExplorerViewData(diskName, selectedDir, dirs, dirItems);
+      this.changeDefaultFileExplorerViewData(diskName, selectedDir, selectedDirPath, dirs, dirItems);
     },
-    changeDefaultFileExplorerViewData(diskName, selectedDir, diskDirs, dirItems) {
+    changeDefaultFileExplorerViewData(diskName, selectedDir, selectedDirPath,  diskDirs, dirItems) {
       const defaultData = {
         selectedDisk: diskName,
         selectedDir: selectedDir,
+        selectedDirPath: selectedDirPath,
         dirsForSelectedDisk: diskDirs,
         selectedDirItems: dirItems,
       };

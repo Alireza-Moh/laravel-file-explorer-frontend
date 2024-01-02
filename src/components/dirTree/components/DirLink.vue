@@ -67,7 +67,7 @@ export default {
       const dirItems = this.dirItemsStore.getDirItems(this.settingsStore.defaultFileExplorerViewData.selectedDisk, dirName);
 
       if (dirItems) {
-        this.updateSettingDefaultStore(dirItems.dirItems);
+        this.updateSettingDefaultStore(dirItems.dirItems, dirItems.selectedDirPath);
       }
       else {
         this.fetchDirItems();
@@ -79,26 +79,34 @@ export default {
 
       const url = this.settingsStore.baseUrl + "disks/" + diskName + "/dirs/" + dirName
 
-      this.$http.get(url).then((data) => {
+      const options = {
+        body: JSON.stringify({
+          path: this.dir.path
+        })
+      };
+
+      this.$http.post(url, options).then((data) => {
         const items = data.items;
 
-        this.addsNewDirWithItemsToStore(diskName, items)
-        this.updateSettingDefaultStore(items);
+        this.addsNewDirWithItemsToStore(diskName, items, data.selectedDirPath)
+        this.updateSettingDefaultStore(items, data.selectedDirPath);
       });
     },
-    addsNewDirWithItemsToStore(selectedDisk, items) {
+    addsNewDirWithItemsToStore(selectedDisk, items, selectedDirPath) {
       const dirItems = {
         diskName: selectedDisk,
         dirName: this.dir.label,
-        dirItems: items
+        dirItems: items,
+        selectedDirPath: selectedDirPath
       }
       this.dirItemsStore.setDirItems(dirItems);
     },
-    updateSettingDefaultStore(items) {
+    updateSettingDefaultStore(items, selectedDirPath) {
       const defaultData = {
         ...this.settingsStore.defaultFileExplorerViewData,
         selectedDir: this.dir.label,
         selectedDirItems: items,
+        selectedDirPath: selectedDirPath
       };
       this.settingsStore.setDefaultFileExplorerViewData(defaultData);
     },
