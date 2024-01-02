@@ -110,10 +110,23 @@ export default {
   padding: 8px 12px;
   border-radius: 4px;
   cursor: pointer;
+  color: #000000;
   transition: all 0.2s linear;
 }
 
 .action-btn:hover {
   background-color: #F2F2F3;
+}
+
+body.dark-mode .global-nav {
+  border-bottom: 1px solid #303134;
+}
+
+body.dark-mode .action-btn {
+  color: #f1f3f4;
+}
+
+body.dark-mode .action-btn:hover {
+  background-color: #303134;
 }
 </style>

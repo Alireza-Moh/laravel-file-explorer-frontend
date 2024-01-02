@@ -147,5 +147,14 @@ export default {
     font-size: 12px;
   }
 }
+
+body.dark-mode .item {
+  border-bottom: 1px solid #303134;
+  color: #bdc1c6;
+}
+
+body.dark-mode .item:hover {
+  background-color: #303134;
+}
 </style>
 

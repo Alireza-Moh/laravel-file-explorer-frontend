@@ -59,6 +59,11 @@ export default {
   gap: 5px;
 }
 
+#itemName,
+label {
+  color: #000000;
+}
+
 .modal .input-box input {
   border: 1px solid #e8ebef;
   height: 38px;
@@ -95,5 +100,25 @@ export default {
 
 .modal .button-box #save-btn:hover  {
   background-color: #4d4dbf;
+}
+
+body.dark-mode .modal .input-box input {
+  border: 1px solid #303134;
+}
+
+body.dark-mode .modal {
+  background-color: #202124;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+body.dark-mode #itemName,
+body.dark-mode label {
+  color: #f1f3f4;
+}
+
+body.dark-mode .modal .input-box input {
+  background-color: #303134;
+  border: 1px solid #202124;
+  color: #f1f3f4;
 }
 </style>

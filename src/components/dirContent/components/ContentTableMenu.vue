@@ -86,20 +86,18 @@ export default {
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  border: 1px solid #e8ebef;
+  padding: 5px 12px;
+  border-radius: 4px;
+  flex-grow: 3;
 }
 
 .path {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.path-box {
-  border: 1px solid #e8ebef;
-  padding: 5px 12px;
-  border-radius: 4px;
   font-size: 12px;
-  flex-grow: 3;
+  color: #000000;
 }
 
 .copy-icon {
@@ -112,5 +110,25 @@ export default {
   border-radius: 4px;
   outline-color: #7071E8;
   width: 300px;
+  background-color: transparent;
+  color: #000000;
+}
+
+body.dark-mode .path-box {
+  border: 1px solid #303134;
+}
+
+body.dark-mode #itemSearch {
+  border: 1px solid #303134;
+  background-color: #303134;
+  color: #f1f3f4;
+}
+
+body.dark-mode .sub-nav {
+  border-bottom: 1px solid #303134;
+}
+
+body.dark-mode .path {
+  color: #f1f3f4;
 }
 </style>

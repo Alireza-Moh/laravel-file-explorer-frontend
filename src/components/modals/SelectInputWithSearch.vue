@@ -164,4 +164,16 @@ ul {
 .option:hover {
   background-color: #F8F9FA;
 }
+
+body.dark-mode .select-menu {
+  border: 1px solid #303134;
+}
+
+body.dark-mode .option {
+  border-bottom: 1px solid #303134;
+}
+
+body.dark-mode .sl-search input[type="text"] {
+  border: 1px solid #303134;
+}
 </style>

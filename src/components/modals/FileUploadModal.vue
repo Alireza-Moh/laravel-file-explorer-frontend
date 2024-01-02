@@ -304,6 +304,7 @@ button {
   align-items: center;
   gap: 5px;
   accent-color: #7071E8;
+  color: #000000;
 }
 
 .error {
@@ -314,5 +315,29 @@ button {
 .selected {
   color: #000000;
   cursor: default;
+}
+
+body.dark-mode .upload-box {
+  background-color: #202124;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+body.dark-mode .drop-box {
+  border: 1px dashed #202124;
+}
+
+body.dark-mode .modal .input-box input {
+  background-color: #303134;
+  border: 1px solid #202124;
+  color: #f1f3f4;
+}
+
+body.dark-mode .radio-box {
+  color: #f1f3f4;
+}
+
+body.dark-mode .file {
+  background-color: #303134;
+  color: #bdc1c6;
 }
 </style>

@@ -111,7 +111,7 @@ body {
   border-left: 1px solid #e8ebef;
 }
 
-/*================== these styles define global CSS styling across the application ================*/
+/*================== these styles define global CSS styling across the application border: 1px solid #3c4043;================*/
 .selected {
   background-color: #F2F2F3 !important;
 }
@@ -160,5 +160,21 @@ body {
 .error {
   color: #c40606;
   font-size: 14px;
+}
+
+body.dark-mode {
+  background-color: #202124;
+}
+
+body.dark-mode .content-box {
+  border-left: 1px solid #303134;
+}
+
+body.dark-mode .rename-input {
+  border: 1px solid #303134;
+}
+
+body.dark-mode .selected {
+  background-color: #303134 !important;
 }
 </style>

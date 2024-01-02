@@ -169,6 +169,7 @@ export default {
   font-size: .75rem;
   font-weight: 500;
   white-space: nowrap;
+  color: #000000;
 }
 
 .nav__link:hover {
@@ -187,5 +188,17 @@ export default {
 
 .opened-sub-dir {
   transform: rotate(90deg);;
+}
+
+body.dark-mode .nav__name {
+  color: #f1f3f4;
+}
+
+.nav__link.selected {
+  background-color: #F2F2F3 !important;
+}
+
+body.dark-mode .nav__link.selected {
+  background-color: #515152 !important;
 }
 </style>

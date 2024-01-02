@@ -139,6 +139,7 @@ export default {
   padding: 15px 20px;
   font-size: 14px;
   font-weight: bold;
+  color: #fff;
 }
 
 .item {
@@ -156,5 +157,15 @@ export default {
   justify-content: center;
   font-size: 17px;
   font-weight: bolder;
+}
+
+body.dark-mode .item {
+  border-bottom: 1px solid #303134;
+  color: #bdc1c6;
+}
+
+body.dark-mode .content-header {
+  background-color: #303134;
+  color: #f1f3f4;
 }
 </style>

@@ -86,4 +86,8 @@ export default {
 .opened-sub-dir {
   max-height: 100rem;
 }
+
+body.dark-mode .nav__dropdown-collapse {
+  background-color: #303134;
+}
 </style>

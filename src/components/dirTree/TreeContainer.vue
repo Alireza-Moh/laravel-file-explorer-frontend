@@ -46,7 +46,6 @@ export default {
   position: fixed;
   height: 100%;
   padding-top: 2em;
-  border-right: 1px solid #e8ebef;
 }
 
 .nav__items {

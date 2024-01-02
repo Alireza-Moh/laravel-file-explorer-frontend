@@ -67,4 +67,8 @@ export default {
 .confirm-action-box button.no:hover {
   background-color: #e2e2e7;
 }
+
+body.dark-mode .confirm-wrapper {
+  background-color: #303134;
+}
 </style>
