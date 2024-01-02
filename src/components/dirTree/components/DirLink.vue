@@ -64,7 +64,10 @@ export default {
     },
     getItems() {
       const dirName = this.dir.label;
-      const dirItems = this.dirItemsStore.getDirItems(this.settingsStore.defaultFileExplorerViewData.selectedDisk, dirName);
+      const dirItems = this.dirItemsStore.getDirItems(
+          this.settingsStore.defaultFileExplorerViewData.selectedDisk,
+          dirName
+      );
 
       if (dirItems) {
         this.updateSettingDefaultStore(dirItems.dirItems, dirItems.selectedDirPath);
@@ -93,22 +96,22 @@ export default {
       });
     },
     addsNewDirWithItemsToStore(selectedDisk, items, selectedDirPath) {
-      const dirItems = {
-        diskName: selectedDisk,
-        dirName: this.dir.label,
-        dirItems: items,
-        selectedDirPath: selectedDirPath
-      }
-      this.dirItemsStore.setDirItems(dirItems);
+      this.dirItemsStore.addNewDirWithItems(
+          selectedDisk,
+          this.dir.label,
+          selectedDirPath,
+          items
+      );
     },
     updateSettingDefaultStore(items, selectedDirPath) {
-      const defaultData = {
-        ...this.settingsStore.defaultFileExplorerViewData,
-        selectedDir: this.dir.label,
-        selectedDirItems: items,
-        selectedDirPath: selectedDirPath
-      };
-      this.settingsStore.setDefaultFileExplorerViewData(defaultData);
+      const defaultData = this.settingsStore.defaultFileExplorerViewData;
+      this.settingsStore.setDefaultFileExplorerViewData(
+          defaultData.selectedDisk,
+          this.dir.label,
+          selectedDirPath,
+          defaultData.dirsForSelectedDisk,
+          items
+      );
     },
     hideRenameInput(status, newDirName, newPath) {
       this.showRenameInput = false;

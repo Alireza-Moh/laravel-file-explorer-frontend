@@ -9,10 +9,19 @@ export const useSettingsStore = defineStore("settings", {
         setBaseUrl(baseUrl) {
             this.baseUrl = baseUrl;
         },
-        setDefaultFileExplorerViewData(defaultFileExplorerViewData) {
-            Object.keys(defaultFileExplorerViewData).forEach(key => {
-                this.defaultFileExplorerViewData[key] = defaultFileExplorerViewData[key];
+        setDefaultFileExplorerViewData(diskName, dirName, dirPath, diskDirs, dirItems) {
+            const defaultData = {
+                selectedDisk: diskName,
+                selectedDir: dirName,
+                selectedDirPath: dirPath,
+                dirsForSelectedDisk: diskDirs,
+                selectedDirItems: dirItems,
+            };
+
+            Object.keys(defaultData).forEach(key => {
+                this.defaultFileExplorerViewData[key] = defaultData[key];
             });
-        }
+
+        },
     }
 });

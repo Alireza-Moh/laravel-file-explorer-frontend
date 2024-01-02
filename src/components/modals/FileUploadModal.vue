@@ -52,7 +52,7 @@ export default {
           }
           if (data.result) {
             window.showAlert(data.result.status, data.result.message);
-            this.updateDirItems(data.result.items, selectedDisk, selectedDir);
+            this.dirItemsStore.updateDir(data.result.items, selectedDisk, selectedDir);
             this.cancel();
           }
         });
@@ -70,16 +70,6 @@ export default {
       return {
         body: formData,
       };
-    },
-    updateDirItems(items, selectedDisk, selectedDir) {
-      if (items.length > 0) {
-        this.dirItemsStore.$patch((state) => {
-          const targetDirItems = state.data.find((dirItems) => {
-            return (dirItems.diskName === selectedDisk) && (dirItems.dirName === selectedDir);
-          });
-          targetDirItems.dirItems = items;
-        });
-      }
     },
     cancel() {
       this.$emit("closeModal");

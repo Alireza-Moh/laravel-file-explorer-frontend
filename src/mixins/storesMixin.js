@@ -11,15 +11,5 @@ export default {
             diskDirsStore: useDiskDirsStore(),
             dirItemsStore: useDirItemsStore(),
         }
-    },
-    methods: {
-        addItemsForDir(diskName, dirName, items) {
-            const dirItems = {
-                diskName: diskName,
-                dirName: dirName,
-                dirItems: items
-            }
-            this.dirItemsStore.setDirItems(dirItems);
-        }
     }
 }

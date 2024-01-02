@@ -11,8 +11,23 @@ export const useDirItemsStore = defineStore("dirItems", {
         }
     },
     actions: {
-        setDirItems(dirData) {
-            this.data.push(dirData);
-        }
+        addNewDirWithItems(diskName, dirName, dirPath, items) {
+            const dirWithItems = {
+                diskName: diskName,
+                dirName: dirName,
+                dirItems: items,
+                selectedDirPath: dirPath
+            };
+
+            this.data.push(dirWithItems);
+        },
+        updateDir(items, diskName, dirName) {
+            if (items.length > 0) {
+                const targetDir = this.data.find((dir) => {
+                    return (dir.diskName === diskName) && (dir.dirName === dirName);
+                });
+                targetDir.dirItems = items;
+            }
+        },
     }
 });

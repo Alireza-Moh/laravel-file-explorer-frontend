@@ -1,4 +1,4 @@
-import ItemActionModal from "@/components/_baseComponents/ItemActionModal.vue";
+import ItemActionModal from "@/components/modals/ItemActionModal.vue";
 import storesMixin from "@/mixins/storesMixin.js";
 
 export default {
@@ -31,16 +31,6 @@ export default {
             this.showModal = false;
             this.errors = {};
         },
-        updateDirItems(items) {
-            if (items.length > 0) {
-                this.dirItemsStore.$patch((state) => {
-                    const targetDirItems = state.data.find((dirItems) => {
-                        return (dirItems.diskName === this.diskName) && (dirItems.dirName === this.dirName);
-                    });
-                    targetDirItems.dirItems = items;
-                });
-            }
-        },
         createItem(url, path, type) {
             const options = {
                 body: JSON.stringify({
@@ -57,7 +47,7 @@ export default {
                 if (data.result) {
                     this.showModal = false;
                     window.showAlert(data.result.status, data.result.message);
-                    this.updateDirItems(data.result.items);
+                    this.dirItemsStore.updateDir(data.result.items, this.diskName, this.dirName);
                 }
             });
         }

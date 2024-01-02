@@ -13,7 +13,7 @@ export const useDiskDirsStore = defineStore("diskDirs", {
         }
     },
     actions: {
-        setDiskDirs(diskData) {
+        addDiskDirs(diskData) {
             this.dirs.push(diskData);
         }
     }

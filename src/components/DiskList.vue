@@ -29,14 +29,21 @@ export default {
     handleExistingDiskDirs(diskName, diskDirs) {
       this.selectedDisk = diskName;
       const dirItems = this.dirItemsStore.getDirItems(diskName, diskDirs.selectedDir);
-      this.updateExplorerViewData(diskName, diskDirs.selectedDir, diskDirs.selectedDirPath, diskDirs.dirs, dirItems.dirItems);
+      this.settingsStore.setDefaultFileExplorerViewData(
+          diskName,
+          diskDirs.selectedDir,
+          diskDirs.selectedDirPath,
+          diskDirs.dirs,
+          dirItems.dirItems
+      );
     },
     fetchDiskDirs(diskName) {
       this.$http.get(this.settingsStore.baseUrl + "disks/" + diskName)
           .then((data) => {
             this.updateDiskDirsStore(data, diskName);
-            this.updateDirItemsStore(data, diskName);
-            this.updateExplorerViewData(diskName, data.selectedDir, data.selectedDirPath, data.dirs, data.selectedDirItems);
+            this.updateDirItemsStore(diskName, data);
+            this.updateDefaultFileExplorerViewData(diskName, data);
+
             this.selectedDisk = diskName;
           });
     },
@@ -46,31 +53,25 @@ export default {
         diskName: diskName,
         dirs: data.dirs,
       };
-      this.diskDirsStore.setDiskDirs(diskDirs);
+      this.diskDirsStore.addDiskDirs(diskDirs);
     },
-    updateDirItemsStore(data, diskName) {
-      const dirItems = {
-        diskName: diskName,
-        dirName: data.selectedDir,
-        dirItems: data.selectedDirItems,
-        selectedDirPath: data.selectedDirPath
-      };
-      this.dirItemsStore.setDirItems(dirItems);
+    updateDirItemsStore(diskName, data) {
+      this.dirItemsStore.addNewDirWithItems(
+          diskName,
+          data.selectedDir,
+          data.selectedDirPath,
+          data.selectedDirItems
+      );
     },
-    updateExplorerViewData(diskName, selectedDir, selectedDirPath, dirs, dirItems) {
-      this.selectedDisk = diskName;
-      this.changeDefaultFileExplorerViewData(diskName, selectedDir, selectedDirPath, dirs, dirItems);
-    },
-    changeDefaultFileExplorerViewData(diskName, selectedDir, selectedDirPath,  diskDirs, dirItems) {
-      const defaultData = {
-        selectedDisk: diskName,
-        selectedDir: selectedDir,
-        selectedDirPath: selectedDirPath,
-        dirsForSelectedDisk: diskDirs,
-        selectedDirItems: dirItems,
-      };
+    updateDefaultFileExplorerViewData(diskName, data) {
+      this.settingsStore.setDefaultFileExplorerViewData(
+          diskName,
+          data.selectedDir,
+          data.selectedDirPath,
+          data.dirs,
+          data.selectedDirItems
+      );
 
-      this.settingsStore.setDefaultFileExplorerViewData(defaultData);
     }
   }
 }
