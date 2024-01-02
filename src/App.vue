@@ -77,8 +77,8 @@ export default {
 
 <template>
   <div class="main-wrapper">
-    <Notify/>
-    <TopMenu/>
+    <Notify v-once/>
+    <TopMenu v-once/>
     <main v-if="!isLoading">
       <TreeContainer/>
       <div class="content-box">
@@ -88,8 +88,8 @@ export default {
         </div>
         <DirContentTable/>
       </div>
-      <ImageViewer/>
-      <VideoPlayerViewer/>
+      <ImageViewer v-once/>
+      <VideoPlayerViewer v-once/>
     </main>
   </div>
 </template>

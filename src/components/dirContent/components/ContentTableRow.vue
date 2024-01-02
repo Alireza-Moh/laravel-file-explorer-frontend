@@ -96,7 +96,7 @@ export default {
       <input type="checkbox"
              name="folder-item"
              class="folder-item-checkbox"
-             v-model="isChecked">
+             v-model="isChecked" aria-label="check box">
     </div>
 
     <div class="name-cell">

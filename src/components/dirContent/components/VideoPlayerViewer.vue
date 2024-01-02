@@ -1,28 +1,15 @@
 <script>
-import { VideoPlayer } from '@videojs-player/vue'
-import 'video.js/dist/video-js.css'
-
 export default {
   name: "VideoPlayerViewer",
-  components: {
-    VideoPlayer
-  },
   data() {
     return {
       showPlayer: false,
-      options: {}
+      item: null
     }
   },
   mounted() {
     this.$emitter.on("showVideoPlayer", (item) => {
-      this.options = {
-        autoplay: false,
-        controls: true,
-        sources: [{
-          type: item.videoType,
-          src: item.url
-        }]
-      };
+      this.item = item;
       this.showPlayer = true;
     });
   }
@@ -33,7 +20,9 @@ export default {
   <div v-if="showPlayer" class="modal">
     <span class="close" @click="showPlayer = false">&times;</span>
     <div class="modal-content">
-      <video-player :options="options"/>
+      <video controls class="video">
+        <source :src="item.url" :type="item.videoType">
+      </video>
     </div>
   </div>
 </template>
@@ -65,5 +54,10 @@ export default {
   top: 20px;
   right: 30px;
   cursor: pointer;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
 }
 </style>

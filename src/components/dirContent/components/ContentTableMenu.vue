@@ -66,7 +66,7 @@ export default {
     <button class="action-btn"
             :class="{'selected': variantChanged}"
             @click="changeContentVariant">
-      <img src="../../../assets/img/list-ul.svg" alt="">
+      <img src="../../../assets/img/list-ul.svg" alt="change list view">
     </button>
   </div>
 </template>
