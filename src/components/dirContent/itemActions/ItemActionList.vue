@@ -38,7 +38,7 @@ export default {
     <UploadFilesButton/>
     <div v-if="showItemActions" class="related-item-action-wrapper">
       <CopyButton :item="item"/>
-      <DownloadButton :item="item"/>
+      <DownloadButton v-if="item.type === 'file'" :item="item"/>
       <DeleteButton :item="item"/>
       <RenameButton :item="item"/>
       <SaveButton :item="item"/>

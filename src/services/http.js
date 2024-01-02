@@ -37,6 +37,23 @@ class Http {
         });
     }
 
+    postBlob(url, options) {
+        return fetch(url, this.#getOptions("POST", options)).then((response) => {
+            if (response.status === 404) {
+                return response.json();
+            }
+            else if (response.status === 403) {
+                return response.json();
+            }
+            else {
+                return response.blob();
+            }
+        }).catch((error) => {
+            console.log(error)
+            this.#showErrorMessage();
+        });
+    }
+
     #getOptions(method, otherOptions) {
         const baseOptions = {
             method: method,
