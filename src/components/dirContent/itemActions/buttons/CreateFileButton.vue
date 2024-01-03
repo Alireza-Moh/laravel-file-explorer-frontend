@@ -18,7 +18,7 @@ export default {
 
 <template>
   <button type="button" class="action-btn" @click="openModal">
-    <img src="../../../../assets/img/file-earmark-plus.svg" alt="">
+    <img src="../../../../assets/img/file-earmark-plus.svg" alt="" class="svg-img">
     <span class="action-btn__text">Create file</span>
   </button>
   <ItemActionModal v-if="showModal"

@@ -41,7 +41,7 @@ export default {
   <div class="sub-nav">
     <div class="path-box">
       <div class="path">
-        <img src="../../../assets/img/folder-check.svg" alt="">
+        <img src="../../../assets/img/folder-check.svg" alt="" class="svg-img">
         <span v-if="item">{{item.url}}</span>
         <span v-else>Select checkbox to get path</span>
       </div>
@@ -66,7 +66,7 @@ export default {
     <button class="action-btn"
             :class="{'selected': variantChanged}"
             @click="changeContentVariant">
-      <img src="../../../assets/img/list-ul.svg" alt="change list view">
+      <img src="../../../assets/img/list-ul.svg" alt="change list view" class="svg-img">
     </button>
   </div>
 </template>
@@ -108,7 +108,7 @@ export default {
   padding: 5px 12px;
   border: 1px solid #e8ebef;
   border-radius: 4px;
-  outline-color: #7071E8;
+  outline: none;
   width: 300px;
   background-color: transparent;
   color: #000000;
@@ -119,7 +119,7 @@ body.dark-mode .path-box {
 }
 
 body.dark-mode #itemSearch {
-  border: 1px solid #303134;
+  border: none;
   background-color: #303134;
   color: #f1f3f4;
 }

@@ -18,7 +18,7 @@ export default {
 
 <template>
   <button type="button" class="action-btn" id="addFileBtn" @click="openModal">
-    <img src="../../../../assets/img/folder-plus.svg" alt="">
+    <img src="../../../../assets/img/folder-plus.svg" alt="create icon" class="svg-img">
     <span class="action-btn__text">Create directory</span>
   </button>
   <ItemActionModal

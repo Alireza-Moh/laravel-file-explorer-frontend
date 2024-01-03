@@ -72,7 +72,7 @@ export default {
 
 <template>
   <button type="button" class="action-btn" @click="confirmDelete">
-    <img src="../../../../assets/img/trash3.svg" alt="">
+    <img src="../../../../assets/img/trash3.svg" alt="" class="svg-img">
     <span class="action-btn__text">Delete</span>
   </button>
 

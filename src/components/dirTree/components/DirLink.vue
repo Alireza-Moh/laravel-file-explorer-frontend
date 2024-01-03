@@ -139,7 +139,7 @@ export default {
     <img v-if="showCartIcon"
          src="../../../assets/img/chevron-right.svg"
          alt=""
-         class="cheven_link"
+         class="cheven_link svg-img"
          :class="{ 'opened-sub-dir': isSubNavOpen}"
          @click="openSubNav"/>
   </div>

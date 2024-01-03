@@ -85,7 +85,7 @@ export default {
             :class="{selected: isSelectedDisk(diskName)}"
             :disabled="isSelectedDisk(diskName)"
             @click="getDiskDirs(diskName)">
-      <img src="../assets/img/hdd.svg" alt="hdd">
+      <img src="../assets/img/hdd.svg" alt="hdd" class="svg-img">
       <span class="action-btn__text">{{diskName}}</span>
     </button>
   </div>

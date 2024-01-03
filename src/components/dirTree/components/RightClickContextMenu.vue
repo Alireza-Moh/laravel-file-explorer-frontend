@@ -66,11 +66,11 @@ export default {
   <div class="content" :style="{ top: top + 'px', left: left + 'px' }">
     <ul class="menu">
       <li class="item" @click="renameDir">
-        <img src="../../../assets/img/pen.svg" alt="rename">
+        <img src="../../../assets/img/pen.svg" alt="rename" class="svg-img">
         <span>Rename</span>
       </li>
       <li class="item" @click="deleteDir">
-        <img src="../../../assets/img/trash3.svg" alt="">
+        <img src="../../../assets/img/trash3.svg" alt="" class="svg-img">
         <span>Delete</span>
       </li>
     </ul>
@@ -84,6 +84,7 @@ export default {
   border-radius: 10px;
   background-color: #fff;
   box-shadow: 0 12px 35px rgba(0,0,0,0.1);
+  z-index: 9999;
 }
 
 .menu {
@@ -99,6 +100,7 @@ export default {
   border-radius: 4px;
   padding: 7px 10px 7px 15px;
   margin-bottom: 10px;
+  color: #000000;
 }
 
 .item:last-child {
@@ -118,4 +120,18 @@ export default {
   margin-left: 8px;
   font-size: 12px;
 }
+
+body.dark-mode .content {
+  background-color: #202124;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+}
+
+body.dark-mode .item {
+  color: #f1f3f4;
+}
+
+body.dark-mode .item:hover {
+  background-color: #303134;
+}
+
 </style>

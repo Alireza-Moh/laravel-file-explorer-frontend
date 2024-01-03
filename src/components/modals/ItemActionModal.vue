@@ -70,7 +70,7 @@ label {
   width: 100%;
   border-radius: 4px;
   padding-left: 10px;
-  outline-color: #7071E8;
+  outline: none;
 }
 
 .modal .button-box button {
@@ -118,7 +118,7 @@ body.dark-mode label {
 
 body.dark-mode .modal .input-box input {
   background-color: #303134;
-  border: 1px solid #202124;
+  border: none;
   color: #f1f3f4;
 }
 </style>

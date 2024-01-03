@@ -323,7 +323,7 @@ body.dark-mode .upload-box {
 }
 
 body.dark-mode .drop-box {
-  border: 1px dashed #202124;
+  border: 1px dashed #303134;
 }
 
 body.dark-mode .modal .input-box input {

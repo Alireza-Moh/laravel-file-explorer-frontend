@@ -177,4 +177,8 @@ body.dark-mode .rename-input {
 body.dark-mode .selected {
   background-color: #303134 !important;
 }
+
+body.dark-mode .svg-img {
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(175deg);
+}
 </style>

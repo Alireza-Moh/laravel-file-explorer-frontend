@@ -14,7 +14,7 @@ export default {
 
 <template>
   <button type="button" class="action-btn" @click="renameItem">
-    <img src="../../../../assets/img/pen.svg" alt="">
+    <img src="../../../../assets/img/pen.svg" alt="rename button" class="svg-img">
     <span class="action-btn__text">Rename</span>
   </button>
 </template>

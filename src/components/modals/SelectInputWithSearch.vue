@@ -57,7 +57,7 @@ export default {
     <section class="select-menu" :class="{ active: isActive }">
       <div class="select-btn" @click="toggleActive">
         <span>{{ selectedFolder?.label || 'Select Folder' }}</span>
-        <img src="../../assets/img/chevron-right.svg" alt="icon" class="cart">
+        <img src="../../assets/img/chevron-right.svg" alt="icon" class="cart svg-img">
       </div>
       <div class="select-content">
         <div class="sl-search">
