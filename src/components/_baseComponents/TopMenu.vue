@@ -7,17 +7,9 @@ export default {
     };
   },
   mounted() {
-    this.checkDarkModePreference();
     this.checkDarkMode();
   },
   methods: {
-    checkDarkModePreference() {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-      if (prefersDark.matches) {
-        this.isDarkMode = true;
-        document.body.classList.add("dark-mode")
-      }
-    },
     toggleDarkMode() {
       this.isDarkMode = !this.isDarkMode;
       if (!this.isDarkMode) {
@@ -29,9 +21,11 @@ export default {
       }
     },
     checkDarkMode() {
-      let getMode = localStorage.getItem("dark-mode");
-      if (getMode && getMode === "dark-mode") {
+      let getMode = localStorage.getItem("mode");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+      if (getMode && getMode === "dark-mode" && prefersDark.matches) {
         this.isDarkMode = true;
+        document.body.classList.add("dark-mode")
       }
     }
   }
