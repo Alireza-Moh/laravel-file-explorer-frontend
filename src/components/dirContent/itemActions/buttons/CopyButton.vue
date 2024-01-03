@@ -10,7 +10,7 @@ export default {
 <template>
   <button type="button" class="action-btn">
     <img src="../../../../assets/img/copy.svg" alt="" class="svg-img">
-    <span class="action-btn__text">Copy</span>
+    <span class="action-btn__text item-action-btn__text">Copy</span>
   </button>
 </template>
 

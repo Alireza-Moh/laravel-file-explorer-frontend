@@ -52,7 +52,7 @@ export default {
 <template>
   <button type="button" class="action-btn" @click="download">
     <img src="../../../../assets/img/download.svg" alt="download icon" class="svg-img">
-    <span class="action-btn__text">Download</span>
+    <span class="action-btn__text item-action-btn__text">Download</span>
   </button>
 </template>
 

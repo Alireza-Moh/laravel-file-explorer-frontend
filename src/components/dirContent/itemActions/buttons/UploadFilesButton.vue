@@ -15,7 +15,7 @@ export default {
 <template>
   <button type="button" class="action-btn" @click="showModal = true">
     <img src="../../../../assets/img/cloud-arrow-up.svg" alt="upload button" class="svg-img">
-    <span class="action-btn__text">Upload Files</span>
+    <span class="action-btn__text item-action-btn__text">Upload Files</span>
   </button>
   <FileUploadModal v-if="showModal" @close-modal="showModal = false"/>
 </template>

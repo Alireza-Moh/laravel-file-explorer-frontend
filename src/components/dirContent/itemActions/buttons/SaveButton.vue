@@ -58,7 +58,7 @@ export default {
 <template>
   <button type="button" class="action-btn" @click="saveNewFileName">
     <img src="../../../../assets/img/floppy.svg" alt="save icon" class="svg-img">
-    <span class="action-btn__text">Save</span>
+    <span class="action-btn__text item-action-btn__text">Save</span>
   </button>
 </template>
 

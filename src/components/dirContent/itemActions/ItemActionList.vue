@@ -45,10 +45,16 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style>
 .related-item-action-wrapper {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+@media screen and (max-width: 1200px){
+  .item-action-btn__text {
+    display: none;
+  }
 }
 </style>
