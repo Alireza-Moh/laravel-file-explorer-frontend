@@ -12,7 +12,8 @@ export default {
   data() {
     return {
       isSubNavOpen: false,
-      selectedDir: null
+      selectedDir: null,
+      selectedSubNavToShow: null
     }
   },
   created() {
@@ -24,7 +25,8 @@ export default {
     });
   },
   methods: {
-    openSubNav(key) {
+    openSubNav(label) {
+      this.selectedSubNavToShow = label;
       this.isSubNavOpen = !this.isSubNavOpen;
     },
     isSelectedDir(dirName) {
@@ -47,7 +49,7 @@ export default {
 
     <div v-else
          class="nav__dropdown nav__link-with-dropdown nav__dropdown_nested"
-         :class="{ selected: isSelectedDir(dir.label), 'opened-sub-dir': isSubNavOpen }"
+         :class="{ selected: isSelectedDir(dir.label), 'opened-sub-dir': isSubNavOpen && selectedSubNavToShow === dir.label }"
          :key="dir.label">
 
       <DirLink :dir="dir"
