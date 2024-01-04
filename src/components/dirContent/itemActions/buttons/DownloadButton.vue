@@ -5,34 +5,47 @@ export default {
   name: "DownloadButton",
   mixins: [storesMixin],
   props: {
-    item: Object
+    items: Object
+  },
+  data() {
+    return {
+      diskName: null
+    }
+  },
+  created() {
+    this.diskName = this.settingsStore.defaultFileExplorerViewData.selectedDisk
   },
   methods: {
     download() {
-      if (this.item.type === "file") {
-        const url = this.settingsStore.baseUrl
-            + "disks/" + this.item.diskName
-            + "/dirs/" + this.item.dirName
-            + "/files/" + this.item.name.replace("." + this.item.extension.toLowerCase(), "")
-            + "/download";
+      const url = this.settingsStore.baseUrl + "disks/" + this.diskName + "/files/download";
+      const options = {
+        body: JSON.stringify({
+          files: this.getFormData()
+        })
+      };
 
-        const options = {
-          body: JSON.stringify({
-            path: this.item.path,
-            type: this.item.type
-          })
-        };
+      this.$http.postBlob(url, options).then((blob) => {
+        if (blob.result) {
+          window.showAlert(blob.result.status, blob.result.message);
+        }
+        else {
+         this.createDownloadLink(blob);
+        }
+        this.$emitter.emit("uncheckInput");
+        this.checkedItemsStore.items = [];
+      });
+    },
+    getFormData() {
+      let filesToDownload = [];
 
-        this.$http.postBlob(url, options).then((blob) => {
-          if (blob.result) {
-            window.showAlert(blob.result.status, blob.result.message);
-          }
-          else {
-            this.createDownloadLink(blob);
-          }
-          this.$emitter.emit("uncheckInput");
-        });
-      }
+      this.items.forEach(item => {
+        filesToDownload.push({
+          path: item.path,
+          type: item.type
+        })
+      });
+
+      return filesToDownload;
     },
     createDownloadLink(blob) {
       const url = window.URL.createObjectURL(blob);
@@ -40,10 +53,22 @@ export default {
       const link = document.createElement('a');
       link.href = url;
 
-      link.setAttribute('download', this.item.name);
+      link.setAttribute('download', this.getDownloadFileName());
       document.body.appendChild(link);
       link.click();
       link.remove();
+    },
+    getDownloadFileName() {
+      let downloadFileName = "";
+
+      if (this.items.length === 1) {
+        downloadFileName = this.items[0].name
+      }
+      else {
+        downloadFileName = this.diskName + "_files";
+      }
+
+      return downloadFileName;
     }
   }
 }

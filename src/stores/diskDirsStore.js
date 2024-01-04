@@ -10,11 +10,20 @@ export const useDiskDirsStore = defineStore("diskDirs", {
             return state.dirs.find((d) => {
                 return d.diskName === diskName
             });
-        }
+        },
     },
     actions: {
         addDiskDirs(diskData) {
             this.dirs.push(diskData);
+        },
+        replaceDirsForDiskWithFreshData(diskName, dirs) {
+            const targetDisk = this.dirs.find((disk) => {
+                return (disk.diskName === diskName);
+            });
+
+            if (targetDisk && targetDisk.dirs) {
+                this.dirs = targetDisk.dirs;
+            }
         }
     }
 });

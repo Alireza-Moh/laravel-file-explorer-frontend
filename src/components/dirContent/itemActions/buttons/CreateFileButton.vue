@@ -8,8 +8,9 @@ export default {
     createFile(fileName) {
       this.createItem(
           this.settingsStore.baseUrl + "disks/" + this.diskName + "/dirs/" + this.dirName + "/new-file",
-          this.dirName + "/" + fileName,
-          "file"
+          this.selectedDirPath + "/" + fileName,
+          "file",
+          this.selectedDirPath
       );
     }
   }

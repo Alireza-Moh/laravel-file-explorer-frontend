@@ -2,11 +2,19 @@
 export default {
   name: "RenameButton",
   props: {
-    item: Object
+    items: Object
   },
   methods: {
     renameItem() {
-      this.$emitter.emit("showRenameInputForItem", this.item.name);
+      if (this.items.length > 1) {
+        window.showAlert("warning", "Multiple item renaming is not supported")
+      }
+      else {
+        const item = this.items[0];
+
+        this.$emitter.emit("showRenameInputForItem", item.name);
+        this.$emitter.emit("sendItemToSave", item);
+      }
     },
   }
 }

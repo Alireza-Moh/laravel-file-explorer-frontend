@@ -145,7 +145,11 @@ export default {
   </div>
 
   <div v-if="showRightContext" class="context-overlay" @click="closeContextMenu">
-    <RightClickContextMenu v-if="showRightContext" :left="left" :top="top" :dir="dir" @rename-dir="renameDir"/>
+    <RightClickContextMenu v-if="showRightContext"
+                           :left="left"
+                           :top="top"
+                           :dir="dir"
+                           @rename-dir="renameDir"/>
   </div>
 </template>
 
@@ -172,7 +176,7 @@ export default {
   color: #000000;
 }
 
-.nav__link:hover {
+.nav__name:hover {
   color: #7071E8;
 }
 
@@ -201,4 +205,9 @@ body.dark-mode .nav__name {
 body.dark-mode .nav__link.selected {
   background-color: #515152 !important;
 }
+
+body.dark-mode .nav__name:hover {
+  color: #7071E8;
+}
+
 </style>

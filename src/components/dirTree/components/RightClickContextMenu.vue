@@ -15,10 +15,13 @@ export default {
       this.$emit("renameDir");
     },
     deleteDir() {
-      const url = this.settingsStore.baseUrl + "disks/" + this.dir.diskName + "/dirs/" + this.dir.label
+      const url = this.settingsStore.baseUrl + "disks/" + this.dir.diskName + "/dirs/delete"
       const option = {
         body: JSON.stringify({
-          path: this.dir.path
+          items: [{
+            name: this.dir.label,
+            path: this.dir.path
+          }]
         })
       };
 

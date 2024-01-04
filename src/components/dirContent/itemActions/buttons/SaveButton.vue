@@ -1,23 +1,27 @@
 <script>
 import storesMixin from "@/mixins/storesMixin.js";
-import itemActionMixin from "@/components/dirContent/itemActions/mixins/itemActionMixin.js";
 
 export default {
   name: "SaveButton",
-  mixins: [storesMixin, itemActionMixin],
-  props: {
-    item: Object
-  },
+  mixins: [storesMixin],
   data() {
     return {
-      oldFileName: this.item?.name,
+      item: null,
+      oldFileName: null
     }
+  },
+  mounted() {
+    this.$emitter.on("sendItemToSave", (item) => {
+      this.item = item;
+      this.oldFileName = item.name;
+    });
   },
   methods: {
     saveNewFileName() {
-      const url = this.settingsStore.baseUrl + "disks/" + this.item.diskName + "/dirs/" + this.getFileNameWithoutExtension(this.oldFileName);
+      const url = this.settingsStore.baseUrl + "disks/" + this.item.diskName + "/dirs/" + this.getFileNameWithoutExtension();
 
       this.$http.put(url, this.getRequestOption()).then((data) => {
+        this.$emitter.emit("uncheckInput");
         if (data.result) {
           const status = data.result.status;
 
@@ -50,6 +54,15 @@ export default {
       }
 
       return newPath;
+    },
+    getFileNameWithoutExtension() {
+      const lastDotIndex = this.oldFileName.lastIndexOf('.');
+
+      if (lastDotIndex === -1) {
+        return this.oldFileName;
+      } else {
+        return this.oldFileName.substring(0, lastDotIndex);
+      }
     }
   }
 }

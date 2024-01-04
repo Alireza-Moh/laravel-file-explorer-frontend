@@ -120,7 +120,7 @@ body {
   padding: 5px 12px;
   border: 1px solid #e8ebef;
   border-radius: 4px;
-  outline-color: #7071E8;
+  outline: none;
   width: 100%;
 }
 
@@ -178,7 +178,12 @@ body.dark-mode .selected {
   background-color: #303134 !important;
 }
 
-body.dark-mode .svg-img {
+/*body.dark-mode .svg-img {
   filter: invert(0.5) sepia(1) saturate(5) hue-rotate(175deg);
+}*/
+
+body.dark-mode .rename-input {
+  background-color: #303134;
+  color: #f1f3f4;
 }
 </style>

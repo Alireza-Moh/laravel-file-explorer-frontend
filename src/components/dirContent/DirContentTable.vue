@@ -139,7 +139,7 @@ export default {
   padding: 15px 20px;
   font-size: 14px;
   font-weight: bold;
-  color: #fff;
+  color: #000000;
 }
 
 .item {

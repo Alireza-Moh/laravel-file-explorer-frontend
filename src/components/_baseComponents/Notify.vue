@@ -66,4 +66,9 @@ export default {
   background-color: #f8d7da;
   color: #58151c;
 }
+
+.message-box.warning {
+  color: #856404;
+  background-color: #fff3cd;
+}
 </style>

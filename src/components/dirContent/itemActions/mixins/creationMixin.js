@@ -9,18 +9,21 @@ export default {
             showModal: false,
             diskName: null,
             dirName: null,
+            selectedDirPath: null,
             errors: {}
         }
     },
     created() {
         this.diskName = this.settingsStore.defaultFileExplorerViewData.selectedDisk;
         this.dirName = this.settingsStore.defaultFileExplorerViewData.selectedDir;
+        this.selectedDirPath = this.settingsStore.defaultFileExplorerViewData.selectedDirPath;
     },
     mounted() {
         this.settingsStore.$subscribe((mutation, state) => {
             const defaultData = state.defaultFileExplorerViewData;
             this.dirName = defaultData.selectedDir;
             this.diskName = defaultData.selectedDisk;
+            this.selectedDirPath = defaultData.selectedDirPath;
         });
     },
     methods: {
@@ -31,11 +34,12 @@ export default {
             this.showModal = false;
             this.errors = {};
         },
-        createItem(url, path, type) {
+        createItem(url, path, type, dirPath) {
             const options = {
                 body: JSON.stringify({
                     path: path,
-                    type: type
+                    type: type,
+                    dirPath: dirPath
                 })
             };
 
@@ -46,8 +50,15 @@ export default {
                 }
                 if (data.result) {
                     this.showModal = false;
+                    const items = data.result.items;
+
                     window.showAlert(data.result.status, data.result.message);
-                    this.dirItemsStore.updateDir(data.result.items, this.diskName, this.dirName);
+
+                    this.dirItemsStore.updateDir(items, this.diskName, this.dirName);
+                    this.diskDirsStore.replaceDirsForDiskWithFreshData(this.diskName, items);
+
+                    this.settingsStore.replaceDirsForSelectedDisk(this.diskName, this.dirName, data.result.dirs);
+                    this.settingsStore.replaceItemsForSelectedDir(this.diskName, this.dirName, items);
                 }
             });
         }

@@ -23,5 +23,15 @@ export const useSettingsStore = defineStore("settings", {
             });
 
         },
+        replaceItemsForSelectedDir(diskName, dirName, items) {
+            if (this.defaultFileExplorerViewData.selectedDisk === diskName  && this.defaultFileExplorerViewData.selectedDir === dirName) {
+                this.defaultFileExplorerViewData.selectedDirItems = items;
+            }
+        },
+        replaceDirsForSelectedDisk(diskName, dirName, dirs) {
+            if (this.defaultFileExplorerViewData.selectedDisk === diskName  && this.defaultFileExplorerViewData.selectedDir === dirName) {
+                this.defaultFileExplorerViewData.dirsForSelectedDisk = dirs;
+            }
+        }
     }
 });

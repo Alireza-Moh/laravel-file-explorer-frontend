@@ -4,7 +4,6 @@ import RenameButton from "@/components/dirContent/itemActions/buttons/RenameButt
 import SaveButton from "@/components/dirContent/itemActions/buttons/SaveButton.vue";
 import DeleteButton from "@/components/dirContent/itemActions/buttons/DeleteButton.vue";
 import DownloadButton from "@/components/dirContent/itemActions/buttons/DownloadButton.vue";
-import CopyButton from "@/components/dirContent/itemActions/buttons/CopyButton.vue";
 import CreateDirButton from "@/components/dirContent/itemActions/buttons/CreateDirButton.vue";
 import CreateFileButton from "@/components/dirContent/itemActions/buttons/CreateFileButton.vue";
 import UploadFilesButton from "@/components/dirContent/itemActions/buttons/UploadFilesButton.vue";
@@ -13,18 +12,23 @@ export default {
   name: "ItemActionList",
   components: {
     UploadFilesButton,
-    CreateDirButton, CopyButton, DownloadButton, DeleteButton, SaveButton, RenameButton, CreateFileButton},
+    CreateDirButton, DownloadButton, DeleteButton, SaveButton, RenameButton, CreateFileButton},
   mixins: [storesMixin],
   data() {
     return {
       showItemActions: false,
+      items: [],
       item: null
     }
   },
   mounted() {
-    this.$emitter.on("showItemActionList", (item) => {
-      this.item = item;
-      this.showItemActions = !this.showItemActions;
+    this.checkedItemsStore.$subscribe((mutation, state) => {
+      this.items = state.items;
+      const length = state.items.length;
+      this.showItemActions = length > 0;
+      if (length === 0) {
+        this.$emitter.emit("hideRenameInput");
+      }
     });
   }
 }
@@ -36,11 +40,10 @@ export default {
     <CreateDirButton/>
     <UploadFilesButton/>
     <div v-if="showItemActions" class="related-item-action-wrapper">
-      <CopyButton :item="item"/>
-      <DownloadButton v-if="item.type === 'file'" :item="item"/>
-      <DeleteButton :item="item"/>
-      <RenameButton :item="item"/>
-      <SaveButton :item="item"/>
+      <DownloadButton :items="items"/>
+      <DeleteButton :items="items"/>
+      <RenameButton :items="items"/>
+      <SaveButton/>
     </div>
   </div>
 </template>

@@ -6,6 +6,7 @@ import ItemRenameInput from "@/components/dirContent/components/ItemRenameInput.
 import ItemImageCell from "@/components/dirContent/components/ItemImageCell.vue";
 import ItemVideoCell from "@/components/dirContent/components/ItemVideoCell.vue";
 import ItemNormalCell from "@/components/dirContent/components/ItemNormalCell.vue";
+import storesMixin from "@/mixins/storesMixin.js";
 
 export default {
   name: "ContentTableRow",
@@ -14,6 +15,7 @@ export default {
     item: Object,
     detector: Object
   },
+  mixins: [storesMixin],
   emits: ["showSelectedItemUrl"],
   data() {
     return {
@@ -71,12 +73,13 @@ export default {
   },
   watch: {
     isChecked(newValue) {
-      this.$emitter.emit("showItemActionList", this.item);
-      this.$emit('showSelectedItemUrl', this.item)
-
       if (newValue === false) {
-        this.$emit('showSelectedItemUrl', null)
-        this.showRenameInput = false;
+        this.$emit('showSelectedItemUrl', null);
+        this.checkedItemsStore.removeItemFromList(this.item);
+      }
+      if (newValue === true) {
+        this.$emit('showSelectedItemUrl', this.item);
+        this.checkedItemsStore.addItem(this.item);
       }
     },
     item: {
@@ -96,7 +99,8 @@ export default {
       <input type="checkbox"
              name="folder-item"
              class="folder-item-checkbox"
-             v-model="isChecked" aria-label="check box">
+             aria-label="check box"
+             v-model="isChecked">
     </div>
 
     <div class="name-cell">
@@ -154,7 +158,7 @@ body.dark-mode .item {
 }
 
 body.dark-mode .item:hover {
-  background-color: #303134;
+  background-color: #515152;
 }
 </style>
 

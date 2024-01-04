@@ -19,15 +19,7 @@ export default {
       this.dirs = state.defaultFileExplorerViewData.dirsForSelectedDisk;
     });
 
-    this.diskDirsStore.$subscribe((mutation, state) => {
-      const targetDisk = state.dirs.find((disk) => {
-        return (disk.diskName === this.settingsStore.defaultFileExplorerViewData.selectedDisk);
-      });
 
-      if (targetDisk && targetDisk.dirs) {
-        this.dirs = targetDisk.dirs;
-      }
-    });
   }
 }
 </script>

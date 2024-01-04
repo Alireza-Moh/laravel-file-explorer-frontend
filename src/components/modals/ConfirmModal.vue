@@ -32,6 +32,7 @@ export default {
   min-width: 500px;
   border-radius: 4px;
   z-index: 999;
+  color: #000000;
 }
 
 .confirm-message-box {
@@ -69,6 +70,12 @@ export default {
 }
 
 body.dark-mode .confirm-wrapper {
+  background-color: #202124;
+  color: #f1f3f4;
+}
+
+body.dark-mode .confirm-action-box button.no {
   background-color: #303134;
+  color: #f1f3f4;
 }
 </style>
