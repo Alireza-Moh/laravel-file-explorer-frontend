@@ -57,6 +57,9 @@ export default {
       else if (this.isVideo) {
         this.$emitter.emit("showVideoPlayer", this.item);
       }
+      else if (this.item.type === "dir") {
+
+      }
     },
     checkItemMediaType() {
       if (this.item.type !== "dir") {
@@ -93,7 +96,7 @@ export default {
 </script>
 
 <template>
-  <div class="item" @dblclick="showImage">
+  <div class="item">
 
     <div class="check-box-cell">
       <input type="checkbox"
@@ -122,6 +125,11 @@ export default {
 
     <div class="size-cell">
       {{item.size}}
+    </div>
+    <div class="show-cell" @click="showImage">
+      <img v-if="isImage" src="../../../assets/img/eye.svg" alt="show image or video">
+      <img v-else-if="isVideo" src="../../../assets/img/play-circle.svg" alt="show image or video">
+      <div v-else></div>
     </div>
   </div>
 </template>

@@ -137,8 +137,7 @@ body {
 }
 
 .size-cell {
-  width: 15%;
-  padding-right: 20px;
+  width: 12%;
   text-align: right;
 }
 
@@ -150,6 +149,12 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
+}
+
+.show-cell {
+  width: 3%;
+  padding-right: 20px;
+  cursor: pointer;
 }
 
 .delete-icon {

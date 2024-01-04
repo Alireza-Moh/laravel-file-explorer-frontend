@@ -90,6 +90,7 @@ export default {
     <div class="headline name-cell">Name</div>
     <div class="headline date-cell">Modified</div>
     <div class="headline size-cell">Size</div>
+    <div class="headline show-cell"></div>
   </div>
   <div ref="viewport" class="viewport" @scroll="onScroll">
 
