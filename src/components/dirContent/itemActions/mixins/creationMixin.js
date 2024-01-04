@@ -55,7 +55,7 @@ export default {
                     window.showAlert(data.result.status, data.result.message);
 
                     this.dirItemsStore.updateDir(items, this.diskName, this.dirName);
-                    this.diskDirsStore.replaceDirsForDiskWithFreshData(this.diskName, items);
+                    this.diskDirsStore.replaceDirsForDisk(this.diskName, data.result.dirs);
 
                     this.settingsStore.replaceDirsForSelectedDisk(this.diskName, this.dirName, data.result.dirs);
                     this.settingsStore.replaceItemsForSelectedDir(this.diskName, this.dirName, items);

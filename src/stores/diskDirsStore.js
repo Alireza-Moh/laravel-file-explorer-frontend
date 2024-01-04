@@ -16,13 +16,13 @@ export const useDiskDirsStore = defineStore("diskDirs", {
         addDiskDirs(diskData) {
             this.dirs.push(diskData);
         },
-        replaceDirsForDiskWithFreshData(diskName, dirs) {
+        replaceDirsForDisk(diskName, dirs) {
             const targetDisk = this.dirs.find((disk) => {
                 return (disk.diskName === diskName);
             });
 
             if (targetDisk && targetDisk.dirs) {
-                this.dirs = targetDisk.dirs;
+                targetDisk.dirs = dirs;
             }
         }
     }
