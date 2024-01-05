@@ -3,9 +3,9 @@ export default {
   name: "Notify",
   data() {
     return {
-      type: String,
-      message: String,
-      showTime: Number,
+      type: "",
+      message: "",
+      showTime: 0,
       timeout: null,
       showAlert: false
     }
