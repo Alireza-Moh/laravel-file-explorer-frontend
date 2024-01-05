@@ -124,7 +124,7 @@ export default {
     </div>
 
     <div class="size-cell">
-      {{item.size}}
+      {{item.size}} KB
     </div>
     <div class="show-cell" @click="showImage">
       <img v-if="isImage" src="../../../assets/img/eye.svg" alt="show image or video">
