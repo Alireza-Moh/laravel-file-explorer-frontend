@@ -9,7 +9,7 @@ describe("FileUploadModal component", () => {
         $http = {
             post: vi.fn().mockImplementation(() => {
                 return Promise.resolve({
-                    "result": {
+                   /* "result": {
                         "status": "success",
                         "message": "File uploaded successfully",
                         "items": [
@@ -58,7 +58,8 @@ describe("FileUploadModal component", () => {
                                 "extension": "txt"
                             },
                         ]
-                    }
+                    }*/
+                    result: {}
                 })
             })
         }
