@@ -61,6 +61,7 @@ export default {
     getOptions() {
       const formData = new FormData();
 
+      console.log(this.settingsStore.defaultFileExplorerViewData.selectedDirPath)
       formData.append("ifFileExist", this.ifFileExist);
       formData.append("destination", this.settingsStore.defaultFileExplorerViewData.selectedDirPath)
       for (let i = 0; i < this.files.length; i++) {

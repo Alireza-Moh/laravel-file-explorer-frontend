@@ -82,10 +82,11 @@ describe.concurrent("DiskList component", () => {
     });
 
     test("should make an API request upon clicking the web disk button if the images-disk data already exist", async () => {
+        const targetDisk = "images";
         const buySpy = vi.spyOn($http, 'get')
-        const webDiskButton = wrapper.findAll('.action-btn').filter(button => button.text() === 'images')[0];
+        const webDiskButton = wrapper.findAll('.action-btn').filter(button => button.text() === targetDisk)[0];
 
         webDiskButton.trigger('click');
-        expect(buySpy).toHaveBeenCalled();
+        expect(buySpy).toHaveBeenCalledWith("http://localhost:8080/my-project/api/laravel-file-explorer/disks/" + targetDisk);
     });
 });

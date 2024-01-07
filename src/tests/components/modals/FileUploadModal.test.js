@@ -20,7 +20,9 @@ describe("FileUploadModal component", () => {
                 },
                 plugins: [
                     createTestingPinia({
-                        settings: settingsStoreTestData,
+                        initialState: {
+                            settings: settingsStoreTestData,
+                        }
                     })
                 ]
             }
@@ -108,7 +110,7 @@ describe("FileUploadModal component", () => {
     });
 
     test("should send the files to the backend when the save button is clicked", async () => {
-        const buySpy = vi.spyOn($http, 'post');
+        const postSpy = vi.spyOn($http, 'post');
         const showAlert = vi.fn();
         Object.defineProperty(window, 'showAlert', {
             writable: true,
@@ -132,6 +134,67 @@ describe("FileUploadModal component", () => {
         await fileInput.trigger("change");
         await saveButton.trigger("click");
 
-        expect(buySpy).toHaveBeenCalled();
+        expect(postSpy).toHaveBeenCalled();
     });
+
+
+    test("should set the value of radio buttons by name", async () => {
+        const fileExist = wrapper.findAll('input[name="fileExist"]');
+
+        await fileExist[1].setChecked();
+
+        expect(wrapper.vm.ifFileExist).toBe("1");
+    });
+
+    test("should send form data to backend", async () => {
+        const postSpy = vi.spyOn($http, 'post');
+        const showAlert = vi.fn();
+        Object.defineProperty(window, 'showAlert', {
+            writable: true,
+            configurable: true,
+            value: showAlert
+        });
+        const files = [
+            new File(["file1 contents"], "file1.txt", { type: "text/plain" }),
+            new File(["file2 contents"], "file2.txt", { type: "text/plain" }),
+        ];
+        const fileList = {
+            length: files.length,
+            item: (index) => files[index],
+            ...files,
+        };
+        Object.defineProperty(fileInput.element, "files", {
+            value: fileList,
+        });
+        const saveButton = wrapper.find("#save-btn");
+        await fileInput.trigger("change");
+
+        const fileExist = wrapper.findAll('input[name="fileExist"]');
+        await fileExist[1].setChecked();
+
+        console.log(wrapper.vm.ifFileExist)
+
+        const formData = new FormData();
+        formData.append("ifFileExist", 1); // Replace with your ifFileExist value
+        formData.append("destination", "android");
+        for (let i = 0; i < files.length; i++) {
+            formData.append("files[]", files[i]);
+        }
+
+        await saveButton.trigger("click");
+
+        expect(postSpy).toHaveBeenCalledWith(
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/files/upload",
+            {
+                body: formData
+            },
+            {
+                method: "POST",
+                headers: {
+                    Accept: 'application/json'
+                }
+            }
+        );
+    });
+
 });

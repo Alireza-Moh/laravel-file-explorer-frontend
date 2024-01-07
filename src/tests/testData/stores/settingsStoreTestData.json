@@ -1,5 +1,5 @@
 {
-  "baseUrl": "http://localhost:8080/api/laravel-file-explorer/",
+  "baseUrl": "http://localhost:8080/my-project/api/laravel-file-explorer/",
   "defaultFileExplorerViewData": {
     "selectedDisk": "tests",
     "selectedDir": "android",
