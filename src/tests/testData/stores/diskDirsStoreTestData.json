@@ -1,0 +1,50 @@
+{
+  "dirs": [
+    {
+      "dirs": [
+        {
+          "diskName": "web",
+          "label": "android",
+          "path": "android",
+          "subDir": [
+            {
+              "diskName": "web",
+              "label": "forTesting",
+              "path": "android/forTesting",
+              "subDir": []
+            }
+          ]
+        },
+        {
+          "diskName": "web",
+          "label": "ios",
+          "path": "ios",
+          "subDir": [
+            {
+              "diskName": "web",
+              "label": "forRealse",
+              "path": "ios/forRealse",
+              "subDir": [
+                {
+                  "diskName": "web",
+                  "label": "DB IMAGES",
+                  "path": "ios/forRealse/DB IMAGES",
+                  "subDir": [
+                    {
+                      "diskName": "web",
+                      "label": "svgs",
+                      "path": "ios/forRealse/DB IMAGES/svgs",
+                      "subDir": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "diskName": "web",
+      "selectedDir": "ios"
+    }
+  ]
+}
