@@ -39,7 +39,6 @@ export default {
 <template>
   <DirLink v-if="dirs && dirs.length === 0"
            :dir="{ label: 'No sub folder found', subDirs: []}"
-           :show-folder-icon="false"
            :key="0"/>
 
   <template v-else v-for="dir in dirs">

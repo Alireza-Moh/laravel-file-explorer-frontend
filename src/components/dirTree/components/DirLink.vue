@@ -13,10 +13,6 @@ export default {
       type: Object,
       default: {}
     },
-    showFolderIcon: {
-      type: Boolean,
-      default: true
-    },
     showCartIcon: {
       type: Boolean,
       default: false
@@ -130,7 +126,7 @@ export default {
        @contextmenu="showContextMenu">
 
     <div class="nav__link-wrapper" @click="getItems">
-      <img v-if="showFolderIcon" src="../../../assets/img/folder-fill.svg" alt="folder icon"/>
+      <img src="../../../assets/img/folder-fill.svg" alt="folder icon" class="dir-folder-icon"/>
 
       <RenameInput v-if="showRenameInput" :dir="dir" @hide-rename-input="hideRenameInput"/>
       <span v-else class="nav__name">{{ dir.label }}</span>

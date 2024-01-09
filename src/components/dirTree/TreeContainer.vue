@@ -18,8 +18,6 @@ export default {
     this.settingsStore.$subscribe((mutation, state) => {
       this.dirs = state.defaultFileExplorerViewData.dirsForSelectedDisk;
     });
-
-
   }
 }
 </script>
