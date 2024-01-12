@@ -1,4 +1,4 @@
-import {flushPromises, mount} from '@vue/test-utils';
+import {mount} from '@vue/test-utils';
 import DirLink from "@/components/dirTree/components/DirLink.vue";
 import {createTestingPinia} from "@pinia/testing";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
