@@ -3,12 +3,12 @@
     {
       "dirs": [
         {
-          "diskName": "web",
+          "diskName": "tests",
           "label": "android",
           "path": "android",
           "subDir": [
             {
-              "diskName": "web",
+              "diskName": "tests",
               "label": "forTesting",
               "path": "android/forTesting",
               "subDir": []
@@ -16,22 +16,22 @@
           ]
         },
         {
-          "diskName": "web",
+          "diskName": "tests",
           "label": "ios",
           "path": "ios",
           "subDir": [
             {
-              "diskName": "web",
+              "diskName": "tests",
               "label": "forRealse",
               "path": "ios/forRealse",
               "subDir": [
                 {
-                  "diskName": "web",
+                  "diskName": "tests",
                   "label": "DB IMAGES",
                   "path": "ios/forRealse/DB IMAGES",
                   "subDir": [
                     {
-                      "diskName": "web",
+                      "diskName": "tests",
                       "label": "svgs",
                       "path": "ios/forRealse/DB IMAGES/svgs",
                       "subDir": []
@@ -43,8 +43,8 @@
           ]
         }
       ],
-      "diskName": "web",
-      "selectedDir": "ios"
+      "diskName": "tests",
+      "selectedDir": "android"
     }
   ]
 }

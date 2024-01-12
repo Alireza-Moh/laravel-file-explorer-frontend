@@ -49,7 +49,6 @@ class Http {
                 return response.blob();
             }
         }).catch((error) => {
-            console.log(error)
             this.#showErrorMessage();
         });
     }

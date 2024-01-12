@@ -52,14 +52,14 @@ describe.concurrent("DiskList component", () => {
     test("should set 'tests' disk as the selected disk", () => {
         const selectedDiskButton = wrapper.find('.action-btn.selected');
 
-        expect(selectedDiskButton.exists()).toBeTruthy();
+        expect(selectedDiskButton.exists()).toBe(true);
         expect(selectedDiskButton.text()).toBe('tests');
     })
 
     test("should set 'tests' disk button to disabled", () => {
         const selectedDiskButton = wrapper.find('.action-btn.selected');
 
-        expect(selectedDiskButton.isDisabled()).toBeTruthy();
+        expect(selectedDiskButton.isDisabled()).toBe(true);
     });
 
     test("should set the 'web' disk as the selected disk upon clicking the web disk button", async () => {
@@ -69,12 +69,12 @@ describe.concurrent("DiskList component", () => {
         await flushPromises();
 
         expect(webDiskButton.element.classList).toContain('selected');
-        expect(webDiskButton.isDisabled()).toBeTruthy();
+        expect(webDiskButton.isDisabled()).toBe(true);
     });
 
     test("should not make an API request upon clicking the web disk button if the web-disk data already exist", async () => {
         const buySpy = vi.spyOn($http, 'get')
-        const webDiskButton = wrapper.findAll('.action-btn').filter(button => button.text() === 'web')[0];
+        const webDiskButton = wrapper.findAll('.action-btn').filter(button => button.text() === 'tests')[0];
 
         webDiskButton.trigger('click');
 

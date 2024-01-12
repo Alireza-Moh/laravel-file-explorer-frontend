@@ -32,6 +32,7 @@ describe("FileUploadModal component", () => {
         await selectButton.trigger("click");
         fileInput = wrapper.find(".file-input");
     });
+
     test("should render FileUploadModal component", () => {
         expect(FileUploadModal).toBeTruthy();
     });
@@ -86,7 +87,7 @@ describe("FileUploadModal component", () => {
         const alertComponent = wrapper.findComponent({ name: "Alert" });
         expect(alertComponent.exists()).toBe(true);
         expect(alertComponent.text()).toContain("Limit: Maximum of 10 files per upload");
-        expect(wrapper.vm.maxUploadFilesReached).toBeTruthy();
+        expect(wrapper.vm.maxUploadFilesReached).toBe(true);
     });
 
     test("should remove a file when the delete icon is clicked", async () => {
@@ -172,10 +173,8 @@ describe("FileUploadModal component", () => {
         const fileExist = wrapper.findAll('input[name="fileExist"]');
         await fileExist[1].setChecked();
 
-        console.log(wrapper.vm.ifFileExist)
-
         const formData = new FormData();
-        formData.append("ifFileExist", 1); // Replace with your ifFileExist value
+        formData.append("ifFileExist", 1);
         formData.append("destination", "android");
         for (let i = 0; i < files.length; i++) {
             formData.append("files[]", files[i]);
@@ -196,5 +195,4 @@ describe("FileUploadModal component", () => {
             }
         );
     });
-
 });
