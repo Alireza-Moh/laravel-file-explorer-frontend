@@ -68,11 +68,11 @@ export default {
 <template>
   <div class="content" :style="{ top: top + 'px', left: left + 'px' }">
     <ul class="menu">
-      <li class="item" @click="renameDir">
+      <li class="item" @click="renameDir" id="rename-link">
         <img src="../../../assets/img/pen.svg" alt="rename" class="svg-img">
         <span>Rename</span>
       </li>
-      <li class="item" @click="deleteDir">
+      <li class="item" @click="deleteDir" id="delete-link">
         <img src="../../../assets/img/trash3.svg" alt="" class="svg-img">
         <span>Delete</span>
       </li>

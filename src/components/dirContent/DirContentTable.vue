@@ -23,16 +23,15 @@ export default {
     fullHeight() {
       return this.items.length * this.itemHeight;
     },
-
     filteredItems() {
       let displayedItems = this.visibleItems;
+
       if (this.searchedItem) {
         const searchTerm = this.searchedItem.trim().toLowerCase();
         displayedItems = this.items.filter(item => {
           return item.name.toLowerCase().includes(searchTerm);
         });
       }
-
       return displayedItems;
     },
   },

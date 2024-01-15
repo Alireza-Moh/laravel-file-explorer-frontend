@@ -19,8 +19,6 @@ export const useDirItemsStore = defineStore("dirItems", {
                 selectedDirPath: dirPath
             };
 
-            console.log(dirWithItems);
-
             this.data.push(dirWithItems);
         },
         updateDir(items, diskName, dirName) {
