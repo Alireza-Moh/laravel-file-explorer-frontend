@@ -1,6 +1,10 @@
 <script>
 export default {
-  name: "ItemNormalCell"
+  name: "ItemPreviewCellWithRenameInput",
+  props: {
+    item: Object,
+    showRenameInput: Boolean
+  }
 }
 </script>
 
@@ -10,7 +14,7 @@ export default {
          class="rename-input"
          v-model="item.name"
          autofocus>
-  <span v-else>{{item.name}}</span>
+  <span v-else class="item-name">{{item.name}}</span>
 </template>
 
 <style scoped>

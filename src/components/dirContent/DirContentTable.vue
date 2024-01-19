@@ -136,6 +136,7 @@ export default {
   justify-content: space-between;
   display: flex;
   align-items: center;
+  gap: 20px;
   padding: 15px 20px;
   font-size: 14px;
   font-weight: bold;

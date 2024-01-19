@@ -10,7 +10,7 @@ export default {
   },
   data() {
     return {
-      newDirName: this.dir.label,
+      newDirName: this.dir.name,
     }
   },
   methods: {
@@ -19,7 +19,7 @@ export default {
 
       let newPath = this.newDirName;
       if (splitPath.length > 1) {
-        newPath = this.dir.path.replace(this.dir.label, this.newDirName);
+        newPath = this.dir.path.replace(this.dir.name, this.newDirName);
       }
 
       const options = {
@@ -32,7 +32,7 @@ export default {
           + "disks/"
           + this.settingsStore.defaultFileExplorerViewData.selectedDisk
           + "/files/"
-          + this.dir.label;
+          + this.dir.name;
 
       this.$http.put(ulr, options).then((data) => {
         if (data.result) {

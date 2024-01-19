@@ -1,9 +1,9 @@
 <script>
-import ItemRenameInput from "@/components/dirContent/components/ItemRenameInput.vue";
+import ItemPreviewCellWithRenameInput from "@/components/dirContent/components/ItemPreviewCellWithRenameInput.vue";
 
 export default {
   name: "ItemImageCell",
-  components: {ItemRenameInput},
+  components: {ItemPreviewCellWithRenameInput},
   props: {
     item: Object,
     showRenameInput: Boolean
@@ -18,7 +18,7 @@ export default {
     </div>
   </div>
 
-  <ItemRenameInput :item="item" :show-rename-input="showRenameInput"/>
+  <ItemPreviewCellWithRenameInput :item="item" :show-rename-input="showRenameInput"/>
 </template>
 
 <style scoped>

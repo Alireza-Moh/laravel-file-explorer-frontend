@@ -79,72 +79,74 @@ export default {
 </script>
 
 <template>
-  <div class="upload-box">
-    <div class="header">
-      <h3>Upload Files</h3>
-    </div>
-    <Alert v-if="maxUploadFilesReached"
-           type="warning"
-           message="Limit: Maximum of 10 files per upload"/>
-    <div class="drop-box">
-      <div class="image-box">
-        <img src="../../assets/img/cloud.png" alt="cloud image">
+  <div class="modal-wrapper">
+    <div class="upload-box">
+      <div class="header">
+        <h3>Upload Files</h3>
       </div>
-      <button class="select-btn"
-              :class="{selected: maxUploadFilesReached}"
-              @click="$refs.fileInput.click()"
-              :disabled="maxUploadFilesReached">
-        Browse Files
-      </button>
-      <input type="file"
-             name="files"
-             id="files"
-             class="file-input"
-             multiple
-             ref="fileInput"
-             @change="selectFiles">
-    </div>
-    <div class="radio-wrapper">
-      <h5>If file exist:</h5>
-      <div class="inner-wrapper">
-        <div class="radio-box">
-          <label for="skip">Skip</label>
-          <input type="radio" name="fileExist" id="skip" value="0" v-model="ifFileExist">
+      <Alert v-if="maxUploadFilesReached"
+             type="warning"
+             message="Limit: Maximum of 10 files per upload"/>
+      <div class="drop-box">
+        <div class="image-box">
+          <img src="../../assets/img/cloud.png" alt="cloud image">
         </div>
-        <div class="radio-box">
-          <label for="overwrite">Overwrite</label>
-          <input type="radio" name="fileExist" id="overwrite" value="1" v-model="ifFileExist">
-        </div>
+        <button class="select-btn"
+                :class="{selected: maxUploadFilesReached}"
+                @click="$refs.fileInput.click()"
+                :disabled="maxUploadFilesReached">
+          Browse Files
+        </button>
+        <input type="file"
+               name="files"
+               id="files"
+               class="file-input"
+               multiple
+               ref="fileInput"
+               @change="selectFiles">
       </div>
-    </div>
-    <div v-if="files.length > 0" class="selected-files-box">
-      <div class="headline">
-        <p>Selected Files:</p>
-      </div>
-      <div class="files-box">
-        <div v-for="(file, index) in files"
-             :key="index">
-          <div class="file">
-            <span>{{file.name}}</span>
-            <span class="delete-icon" @click="removeFile(index)">X</span>
+      <div class="radio-wrapper">
+        <h5>If file exist:</h5>
+        <div class="inner-wrapper">
+          <div class="radio-box">
+            <label for="skip">Skip</label>
+            <input type="radio" name="fileExist" id="skip" value="0" v-model="ifFileExist">
           </div>
-          <template v-for="(error, index) in Object.keys(errors)" :key="index">
-            <div class="error" v-if="error === file.name">
-              {{errors[error][0]}}
-            </div>
-          </template>
+          <div class="radio-box">
+            <label for="overwrite">Overwrite</label>
+            <input type="radio" name="fileExist" id="overwrite" value="1" v-model="ifFileExist">
+          </div>
         </div>
       </div>
-    </div>
-    <div class="button-box">
-      <button type="button"
-              id="save-btn"
-              @click="uploadFiles"
-              :class="{selected: maxUploadFilesReached}"
-              :disabled="maxUploadFilesReached">
-        Save
-      </button>
-      <button type="button" id="cancel-btn" @click="cancel">Cancel</button>
+      <div v-if="files.length > 0" class="selected-files-box">
+        <div class="headline">
+          <p>Selected Files:</p>
+        </div>
+        <div class="files-box">
+          <div v-for="(file, index) in files"
+               :key="index">
+            <div class="file">
+              <span>{{file.name}}</span>
+              <span class="delete-icon" @click="removeFile(index)">X</span>
+            </div>
+            <template v-for="(error, index) in Object.keys(errors)" :key="index">
+              <div class="error" v-if="error === file.name">
+                {{errors[error][0]}}
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+      <div class="button-box">
+        <button type="button"
+                id="save-btn"
+                @click="uploadFiles"
+                :class="{selected: maxUploadFilesReached}"
+                :disabled="maxUploadFilesReached">
+          Save
+        </button>
+        <button type="button" id="cancel-btn" @click="cancel">Cancel</button>
+      </div>
     </div>
   </div>
 </template>

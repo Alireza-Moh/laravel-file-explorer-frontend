@@ -19,7 +19,7 @@ export default {
 <template>
   <div v-if="showModal" class="modal">
     <span class="close" @click="showModal = false">&times;</span>
-    <img :src="url" alt="Original" class="modal-content"/>
+    <img :src="url" alt="Original" class="modal-content modal-img"/>
   </div>
 </template>
 

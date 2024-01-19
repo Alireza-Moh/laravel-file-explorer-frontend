@@ -19,7 +19,7 @@ export default {
       const option = {
         body: JSON.stringify({
           items: [{
-            name: this.dir.label,
+            name: this.dir.name,
             path: this.dir.path
           }]
         })
@@ -46,7 +46,7 @@ export default {
     findAndDeleteDirByName(dirs) {
       for (let i = 0; i < dirs.length; i++) {
         const dir = dirs[i];
-        if (dir.label === this.dir.label) {
+        if (dir.name === this.dir.name) {
           dirs.splice(i, 1);
           return true;
         } else if (dir.subDir && dir.subDir.length > 0) {

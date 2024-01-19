@@ -25,8 +25,8 @@ export default {
     });
   },
   methods: {
-    openSubNav(label) {
-      this.selectedSubNavToShow = label;
+    openSubNav(dirName) {
+      this.selectedSubNavToShow = dirName;
       this.isSubNavOpen = !this.isSubNavOpen;
     },
     isSelectedDir(dirName) {
@@ -38,21 +38,21 @@ export default {
 
 <template>
   <DirLink v-if="dirs && dirs.length === 0"
-           :dir="{ label: 'No sub folder found', subDirs: []}"
+           :dir="{ name: 'No sub folder found', subDirs: []}"
            :key="0"/>
 
   <template v-else v-for="dir in dirs">
     <DirLink v-if="!dir.subDir || (dir.subDir && dir.subDir.length === 0)"
              :dir="dir"
-             :key="dir.label"/>
+             :key="dir.name"/>
 
     <div v-else
          class="nav__dropdown nav__link-with-dropdown nav__dropdown_nested"
-         :class="{ selected: isSelectedDir(dir.label), 'opened-sub-dir': isSubNavOpen && selectedSubNavToShow === dir.label }"
-         :key="dir.label">
+         :class="{ selected: isSelectedDir(dir.name), 'opened-sub-dir': isSubNavOpen && selectedSubNavToShow === dir.name }"
+         :key="dir.name">
 
       <DirLink :dir="dir"
-               :key="dir.label"
+               :key="dir.name"
                :show-cart-icon="true"
                @open-sub-nav="openSubNav"/>
 
@@ -60,7 +60,7 @@ export default {
 
         <DirTree v-if="dir.subDir"
                  :dirs="dir.subDir"
-                 :key="dir.label"/>
+                 :key="dir.name"/>
       </div>
     </div>
   </template>

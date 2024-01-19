@@ -12,7 +12,13 @@ export default {
   name: "ItemActionList",
   components: {
     UploadFilesButton,
-    CreateDirButton, DownloadButton, DeleteButton, SaveButton, RenameButton, CreateFileButton},
+    CreateDirButton,
+    DownloadButton,
+    DeleteButton,
+    SaveButton,
+    RenameButton,
+    CreateFileButton
+  },
   mixins: [storesMixin],
   data() {
     return {

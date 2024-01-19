@@ -1,12 +1,12 @@
 <script>
-import storesMixin from "@/mixins/storesMixin.js";
 import RightClickContextMenu from "@/components/dirTree/components/RightClickContextMenu.vue";
 import RenameInput from "@/components/dirTree/components/RenameInput.vue";
+import dirMixin from "@/components/_baseComponents/mixins/dirMixin.js";
 
 export default {
   name: "DirLink",
   components: {RenameInput, RightClickContextMenu},
-  mixins: [storesMixin],
+  mixins: [dirMixin],
   emits: ['openSubNav'],
   props: {
     dir: {
@@ -34,7 +34,7 @@ export default {
   mounted() {
     this.settingsStore.$subscribe((mutation, state) => {
       this.selectedDir = state.defaultFileExplorerViewData.selectedDir;
-    })
+    });
   },
   methods: {
     isSelectedDir(dirName) {
@@ -42,7 +42,7 @@ export default {
     },
     openSubNav() {
       this.isSubNavOpen = !this.isSubNavOpen;
-      this.$emit("openSubNav", this.dir.label);
+      this.$emit("openSubNav", this.dir.name);
     },
     showContextMenu(event) {
       event.preventDefault();
@@ -58,61 +58,10 @@ export default {
     renameDir() {
       this.showRenameInput = true;
     },
-    getItems() {
-      const dirName = this.dir.label;
-      const dirItems = this.dirItemsStore.getDirItems(
-          this.settingsStore.defaultFileExplorerViewData.selectedDisk,
-          dirName
-      );
-
-      if (dirItems) {
-        this.updateSettingDefaultStore(dirItems.dirItems, dirItems.selectedDirPath);
-      }
-      else {
-        this.fetchDirItems();
-      }
-    },
-    fetchDirItems() {
-      const diskName = this.settingsStore.defaultFileExplorerViewData.selectedDisk;
-      const dirName = this.dir.label;
-
-      const url = this.settingsStore.baseUrl + "disks/" + diskName + "/dirs/" + dirName
-
-      const options = {
-        body: JSON.stringify({
-          path: this.dir.path
-        })
-      };
-
-      this.$http.post(url, options).then((data) => {
-        const items = data.items;
-
-        this.addsNewDirWithItemsToStore(diskName, items, data.selectedDirPath)
-        this.updateSettingDefaultStore(items, data.selectedDirPath);
-      });
-    },
-    addsNewDirWithItemsToStore(selectedDisk, items, selectedDirPath) {
-      this.dirItemsStore.addNewDirWithItems(
-          selectedDisk,
-          this.dir.label,
-          selectedDirPath,
-          items
-      );
-    },
-    updateSettingDefaultStore(items, selectedDirPath) {
-      const defaultData = this.settingsStore.defaultFileExplorerViewData;
-      this.settingsStore.setDefaultFileExplorerViewData(
-          defaultData.selectedDisk,
-          this.dir.label,
-          selectedDirPath,
-          defaultData.dirsForSelectedDisk,
-          items
-      );
-    },
     hideRenameInput(status, newDirName, newPath) {
       this.showRenameInput = false;
       if (status === "success") {
-        this.dir.label = newDirName;
+        this.dir.name = newDirName;
         this.dir.path = newPath;
       }
     }
@@ -122,14 +71,14 @@ export default {
 
 <template>
   <div class="nav__link"
-       :class="{ 'selected': isSelectedDir(dir.label) }"
+       :class="{ 'selected': isSelectedDir(dir.name) }"
        @contextmenu="showContextMenu">
 
-    <div class="nav__link-wrapper" @click="getItems">
+    <div class="nav__link-wrapper" @click="openDir(dir)">
       <img src="../../../assets/img/folder-fill.svg" alt="folder icon" class="dir-folder-icon"/>
 
       <RenameInput v-if="showRenameInput" :dir="dir" @hide-rename-input="hideRenameInput"/>
-      <span v-else class="nav__name">{{ dir.label }}</span>
+      <span v-else class="nav__name">{{ dir.name }}</span>
 
     </div>
     <img v-if="showCartIcon"

@@ -1,37 +1,36 @@
 <script>
+import storesMixin from "@/mixins/storesMixin.js";
+
 export default {
-  name: "ExplorerMenu",
+  name: "ContentTableMenu",
   emits: ["update:modelValue"],
-  props: {
-    item: Object
-  },
+  mixins: [storesMixin],
   data() {
     return {
-      urlCopied: false,
-      variantChanged: false
+      currentDirPath: null,
+      showPreviewView: false
     }
+  },
+  created() {
+    this.setCurrentPath(this.settingsStore.defaultFileExplorerViewData);
   },
   mounted() {
+    this.settingsStore.$subscribe((mutation, state) => {
+      this.setCurrentPath(state.defaultFileExplorerViewData);
+    });
+
+    this.$emitter.on("disablePreviewView", () => {
+      this.showPreviewView = false;
+    });
   },
   methods: {
-    copyUrl() {
-      if (this.item) {
-        navigator.clipboard.writeText(this.item.url);
-        this.urlCopied = true;
-      }
+    setCurrentPath(defaultFileExplorerViewData) {
+      const selectedDisk = defaultFileExplorerViewData.selectedDisk
+      this.currentDirPath = selectedDisk + "/" + defaultFileExplorerViewData.selectedDirPath;
     },
     changeContentVariant() {
-      this.variantChanged = !this.variantChanged;
-      this.$emitter.emit('changeVariant');
-    }
-  },
-  watch: {
-    urlCopied(newValue) {
-      if (newValue === true) {
-        setInterval(() => {
-          this.urlCopied = false;
-        }, 2000);
-      }
+      this.showPreviewView = !this.showPreviewView;
+      this.$emitter.emit('showPreviewView');
     }
   }
 }
@@ -42,21 +41,9 @@ export default {
     <div class="path-box">
       <div class="path">
         <img src="../../../assets/img/folder-check.svg" alt="" class="svg-img">
-        <span v-if="item">{{item.url}}</span>
+        <span v-if="currentDirPath">{{currentDirPath}}</span>
         <span v-else>Select checkbox to get path</span>
       </div>
-      <img v-if="item && !urlCopied"
-           src="../../../assets/img/copy.svg"
-           alt=""
-           width="16"
-           height="16"
-           class="copy-icon"
-           @click="copyUrl">
-      <img v-if="urlCopied" src="../../../assets/img/done.svg"
-           alt=""
-           width="16"
-           height="16"
-           class="copy-icon">
     </div>
     <input type="search"
            name="itemSearch"
@@ -64,7 +51,7 @@ export default {
            placeholder="Type to search"
            @input="$emit('update:modelValue', $event.target.value)">
     <button class="action-btn"
-            :class="{'selected': variantChanged}"
+            :class="{'selected': showPreviewView}"
             @click="changeContentVariant">
       <img src="../../../assets/img/list-ul.svg" alt="change list view" class="svg-img">
     </button>

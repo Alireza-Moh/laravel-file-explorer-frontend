@@ -22,15 +22,17 @@ export default {
 </script>
 
 <template>
-  <div class="modal">
-    <div class="input-box">
-      <label for="itemName">{{label}}</label>
-      <input type="text" name="itemName" id="itemName" v-model="enteredName">
-      <span class="error" v-if="errors && errors.path && errors.path[0]">{{ errors.path[0] }}</span>
-    </div>
-    <div class="button-box">
-      <button type="button" id="save-btn" @click="invokeSaveFunction">Save</button>
-      <button type="button" id="cancel-btn" @click="functionOnCancel">Cancel</button>
+  <div class="modal-wrapper">
+    <div class="modal">
+      <div class="input-box">
+        <label for="itemName">{{label}}</label>
+        <input type="text" name="itemName" id="itemName" v-model="enteredName">
+        <span class="error" v-if="errors && errors.path && errors.path[0]">{{ errors.path[0] }}</span>
+      </div>
+      <div class="button-box">
+        <button type="button" id="save-btn" @click="invokeSaveFunction">Save</button>
+        <button type="button" id="cancel-btn" @click="functionOnCancel">Cancel</button>
+      </div>
     </div>
   </div>
 </template>

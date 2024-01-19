@@ -2,20 +2,18 @@
 import videoTypes from "@/services/videoTypes.js";
 import imageTypes from "@/services/imageTypes.js";
 import ItemIcon from "@/components/dirContent/components/ItemIcon.vue";
-import ItemRenameInput from "@/components/dirContent/components/ItemRenameInput.vue";
+import ItemPreviewCellWithRenameInput from "@/components/dirContent/components/ItemPreviewCellWithRenameInput.vue";
 import ItemImageCell from "@/components/dirContent/components/ItemImageCell.vue";
 import ItemVideoCell from "@/components/dirContent/components/ItemVideoCell.vue";
-import ItemNormalCell from "@/components/dirContent/components/ItemNormalCell.vue";
-import storesMixin from "@/mixins/storesMixin.js";
+import dirMixin from "@/components/_baseComponents/mixins/dirMixin.js";
 
 export default {
   name: "ContentTableRow",
-  components: {ItemNormalCell, ItemVideoCell, ItemImageCell, ItemRenameInput, ItemIcon},
+  components: {ItemVideoCell, ItemImageCell, ItemPreviewCellWithRenameInput, ItemIcon},
   props: {
-    item: Object,
-    detector: Object
+    item: Object
   },
-  mixins: [storesMixin],
+  mixins: [dirMixin],
   emits: ["showSelectedItemUrl"],
   data() {
     return {
@@ -24,7 +22,7 @@ export default {
       isImage: false,
       isVideo: false,
       videoType: "",
-      showRowVariant: true
+      showPreviewView: false
     }
   },
   created() {
@@ -45,20 +43,21 @@ export default {
       this.showRenameInput = false;
     });
 
-    this.$emitter.on("changeVariant", () => {
-      this.showRowVariant = !this.showRowVariant;
+    this.$emitter.on("showPreviewView", () => {
+      this.showPreviewView = !this.showPreviewView;
+    });
+
+    this.$emitter.on("disablePreviewView", () => {
+      this.showPreviewView = false;
     });
   },
   methods: {
-    showImage() {
+    showItem() {
       if (this.isImage) {
         this.$emitter.emit("showImageViewer", this.item.url);
       }
       else if (this.isVideo) {
         this.$emitter.emit("showVideoPlayer", this.item);
-      }
-      else if (this.item.type === "dir") {
-
       }
     },
     checkItemMediaType() {
@@ -67,12 +66,13 @@ export default {
 
         this.isImage = imageTypes.includes(extension);
         this.isVideo = videoTypes.includes(extension);
+
         if (this.isVideo) {
           this.videoType = "video/" + extension;
           this.item.videoType = this.videoType;
         }
       }
-    }
+    },
   },
   watch: {
     isChecked(newValue) {
@@ -96,7 +96,7 @@ export default {
 </script>
 
 <template>
-  <div class="item">
+  <div class="item" @dblclick="openDir(item)">
 
     <div class="check-box-cell">
       <input type="checkbox"
@@ -108,14 +108,14 @@ export default {
 
     <div class="name-cell">
       <ItemIcon :type="item.type"/>
-      <ItemRenameInput v-if="showRowVariant" :item="item" :show-rename-input="showRenameInput"/>
+      <ItemPreviewCellWithRenameInput v-if="!showPreviewView" :item="item" :show-rename-input="showRenameInput"/>
 
       <template v-else>
         <ItemImageCell v-if="isImage" :item="item" :show-rename-input="showRenameInput"/>
 
         <ItemVideoCell v-if="isVideo" :item="item" :show-rename-input="showRenameInput" :video-type="videoType"/>
 
-        <ItemRenameInput v-if="!isVideo && !isImage" :item="item" :show-rename-input="showRenameInput"/>
+        <ItemPreviewCellWithRenameInput v-if="!isVideo && !isImage" :item="item" :show-rename-input="showRenameInput"/>
       </template>
     </div>
 
@@ -126,9 +126,9 @@ export default {
     <div class="size-cell">
       {{item.size}} KB
     </div>
-    <div class="show-cell" @click="showImage">
-      <img v-if="isImage" src="../../../assets/img/eye.svg" alt="show image or video">
-      <img v-else-if="isVideo" src="../../../assets/img/play-circle.svg" alt="show image or video">
+    <div class="show-cell" @click="showItem">
+      <img v-if="isImage" src="../../../assets/img/eye.svg" alt="show image">
+      <img v-else-if="isVideo" src="../../../assets/img/play-circle.svg" alt="show video">
       <div v-else></div>
     </div>
   </div>

@@ -43,6 +43,7 @@ export default {
                 })
             };
 
+
             this.$http.post(url, options).then((data) => {
                 if (data.errors) {
                     this.errors = data.errors;

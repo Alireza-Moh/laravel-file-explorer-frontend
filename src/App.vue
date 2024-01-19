@@ -111,7 +111,28 @@ body {
   border-left: 1px solid #e8ebef;
 }
 
-/*================== these styles define global CSS styling across the application border: 1px solid #3c4043;================*/
+body.dark-mode {
+  background-color: #202124;
+}
+
+body.dark-mode .content-box {
+  border-left: 1px solid #303134;
+}
+
+body.dark-mode .rename-input {
+  border: 1px solid #303134;
+}
+
+body.dark-mode .selected {
+  background-color: #303134 !important;
+}
+
+body.dark-mode .rename-input {
+  background-color: #303134;
+  color: #f1f3f4;
+}
+
+/*================== these styles define global CSS styling across the application ================*/
 .selected {
   background-color: #F2F2F3 !important;
 }
@@ -167,28 +188,13 @@ body {
   font-size: 14px;
 }
 
-body.dark-mode {
-  background-color: #202124;
-}
-
-body.dark-mode .content-box {
-  border-left: 1px solid #303134;
-}
-
-body.dark-mode .rename-input {
-  border: 1px solid #303134;
-}
-
-body.dark-mode .selected {
-  background-color: #303134 !important;
-}
-
-/*body.dark-mode .svg-img {
-  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(175deg);
-}*/
-
-body.dark-mode .rename-input {
-  background-color: #303134;
-  color: #f1f3f4;
+.modal-wrapper {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 </style>
