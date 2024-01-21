@@ -3,8 +3,6 @@ import {mount} from "@vue/test-utils";
 import {createTestingPinia} from "@pinia/testing";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import RightClickContextMenu from "@/components/dirTree/components/RightClickContextMenu.vue";
-import disksStoreTestData from "@/tests/testData/stores/disksStoreTestData.json";
-import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
 import diskDirsStoreTestData from "@/tests/testData/stores/diskDirsStoreTestData.json";
 
 describe('RightClickContextMenu', () => {

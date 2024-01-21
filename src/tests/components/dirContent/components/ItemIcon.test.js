@@ -3,7 +3,7 @@ import ItemIcon from "@/components/dirContent/components/ItemIcon.vue";
 
 describe('ItemIcon', () => {
     test('should render ItemIcon component', () => {
-        const wrapper = mount(ItemIcon, {
+        mount(ItemIcon, {
             props: {
                 type: "dir"
             }
