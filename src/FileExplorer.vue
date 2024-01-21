@@ -222,4 +222,13 @@ body.dark-mode .rename-input {
   }
 }
 
+body.dark-mode .shimmer::before {
+  content: "";
+  position: absolute;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  animation: shimmer 1s infinite;
+}
 </style>
