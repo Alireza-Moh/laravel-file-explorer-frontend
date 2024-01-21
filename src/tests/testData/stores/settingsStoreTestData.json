@@ -7,36 +7,42 @@
     "dirsForSelectedDisk": [
       {
         "diskName": "tests",
-        "label": "android",
+        "name": "android",
         "path": "android",
+        "type": "dir",
         "subDir": [
           {
             "diskName": "tests",
-            "label": "forTesting",
+            "name": "forTesting",
             "path": "android/forTesting",
+            "type": "dir",
             "subDir": []
           }
         ]
       },
       {
         "diskName": "tests",
-        "label": "ios",
+        "name": "ios",
         "path": "ios",
+        "type": "dir",
         "subDir": [
           {
             "diskName": "tests",
-            "label": "forRealse",
+            "name": "forRealse",
             "path": "ios/forRealse",
+            "type": "dir",
             "subDir": [
               {
                 "diskName": "tests",
-                "label": "DB IMAGES",
+                "name": "DB IMAGES",
                 "path": "ios/forRealse/DB IMAGES",
+                "type": "dir",
                 "subDir": [
                   {
                     "diskName": "tests",
-                    "label": "svgs",
+                    "name": "svgs",
                     "path": "ios/forRealse/DB IMAGES/svgs",
+                    "type": "dir",
                     "subDir": []
                   }
                 ]

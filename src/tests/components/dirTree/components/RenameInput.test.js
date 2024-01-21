@@ -37,13 +37,15 @@ describe('RenameInput', () => {
             props: {
                 dir: {
                     "diskName": "tests",
-                    "label": "android",
+                    "name": "android",
                     "path": "android",
+                    "type": "dir",
                     "subDir": [
                         {
                             "diskName": "tests",
-                            "label": "forTesting",
+                            "name": "forTesting",
                             "path": "android/forTesting",
+                            "type": "dir",
                             "subDir": []
                         }
                     ]
@@ -56,7 +58,7 @@ describe('RenameInput', () => {
         wrapper.unmount();
     });
 
-    test('should render without errors', () => {
+    test('should render RenameInput component', () => {
         expect(RenameInput).toBeTruthy();
     });
 

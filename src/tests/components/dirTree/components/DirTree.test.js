@@ -7,14 +7,22 @@ import disksStoreTestData from "@/tests/testData/stores/disksStoreTestData.json"
 import diskDirsStoreTestData from "@/tests/testData/stores/diskDirsStoreTestData.json";
 import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData.json";
 import {useSettingsStore} from "@/stores/settingsStore.js";
+import mitt from "mitt";
 
 
 describe.concurrent("DirTree component", () => {
-    let wrapper, settingsStore;
+    let wrapper, settingsStore, $emitter;
 
     beforeEach(() => {
+        $emitter = mitt();
         const expectedDirs = settingsStoreTestData.defaultFileExplorerViewData.dirsForSelectedDisk;
+
         wrapper = mount(DirTree, {
+            global: {
+                mocks: {
+                    $emitter,
+                }
+            },
             plugins: [
                 createTestingPinia({
                     initialState: {
@@ -36,6 +44,11 @@ describe.concurrent("DirTree component", () => {
 
     afterEach(() => {
         wrapper.unmount();
+    });
+
+    test("should render DirTree component", () => {
+        expect(DirTree).toBeTruthy();
+
     });
 
     test("should render DirTree component", () => {

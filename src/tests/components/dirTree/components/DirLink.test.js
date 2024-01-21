@@ -7,18 +7,21 @@ import dirItemsApiResponseTestData from "@/tests/testData/dirItemsApiResponseTes
 import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData.json";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import RenameInput from "@/components/dirTree/components/RenameInput.vue";
+import mitt from "mitt";
 
 const getIosDirectoryItems = () => {
     return {
         dir: {
             "diskName": "tests",
-            "label": "ios",
+            "name": "ios",
             "path": "ios",
+            "type": "dir",
             "subDir": [
                 {
                     "diskName": "tests",
-                    "label": "forRealse",
+                    "name": "forRealse",
                     "path": "ios/forRealse",
+                    "type": "dir",
                     "subDir": []
                 }
             ]
@@ -27,7 +30,7 @@ const getIosDirectoryItems = () => {
 };
 
 describe('DirLink component', () => {
-    let wrapper, $http;
+    let wrapper, $http, $emitter;
 
     beforeEach(() => {
         $http = {
@@ -36,10 +39,13 @@ describe('DirLink component', () => {
             })
         }
 
+        $emitter = mitt();
+
         wrapper = mount(DirLink, {
             global: {
                 mocks: {
                     $http,
+                    $emitter
                 },
                 plugins: [
                     createTestingPinia({
@@ -53,13 +59,15 @@ describe('DirLink component', () => {
             props: {
                 dir: {
                     "diskName": "tests",
-                    "label": "android",
+                    "name": "android",
                     "path": "android",
+                    "type": "dir",
                     "subDir": [
                         {
                             "diskName": "tests",
-                            "label": "forTesting",
+                            "name": "forTesting",
                             "path": "android/forTesting",
+                            "type": "dir",
                             "subDir": []
                         }
                     ]
@@ -126,7 +134,7 @@ describe('DirLink component', () => {
         expect(wrapper.emitted()).toHaveProperty("openSubNav");
     });
 
-    test("should fetch items for 'ios' directory on nav__link-wrapper click with a POST request", async () => {
+    test("should fetch items for 'ios' directory on nav__link-wrapper click for opening directory with a POST request", async () => {
         const postRequestSpy = vi.spyOn($http, 'post')
         wrapper.setProps(getIosDirectoryItems());
         await wrapper.vm.$nextTick();
@@ -310,7 +318,7 @@ describe('DirLink component', () => {
         expect(wrapper.findComponent(RenameInput).exists()).toBe(false);
     });
 
-    test("should change directory label to 'changedDir' and the path to 'changedDir' when the status is 'success' on 'hide-rename-input' event emit", async () => {
+    test("should change directory name to 'changedDir' and the path to 'changedDir' when the status is 'success' on 'hide-rename-input' event emit", async () => {
         wrapper.find(".nav__link").trigger("contextmenu");
         await wrapper.vm.$nextTick();
         const rightClickContextMenu = wrapper.findComponent(RightClickContextMenu);
@@ -320,7 +328,7 @@ describe('DirLink component', () => {
         wrapper.findComponent(RenameInput).vm.$emit("hide-rename-input", "success", "changedDir", "changedDir");
         await wrapper.vm.$nextTick();
 
-        expect(wrapper.vm.dir.label).toBe("changedDir");
+        expect(wrapper.vm.dir.name).toBe("changedDir");
         expect(wrapper.vm.dir.path).toBe("changedDir");
     });
 });

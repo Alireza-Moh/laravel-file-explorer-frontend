@@ -4,17 +4,23 @@ import TreeContainer from "@/components/dirTree/TreeContainer.vue";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import DirTree from "@/components/dirTree/components/DirTree.vue";
 import {useSettingsStore} from "@/stores/settingsStore.js";
+import mitt from "mitt";
 
 describe.concurrent("TreeContainer component", () => {
-    let wrapper, settingsStore;
+    let wrapper, settingsStore, $emitter;
 
     beforeEach(() => {
+        $emitter = mitt();
+
         wrapper = mount(TreeContainer, {
             global: {
+                mocks: {
+                    $emitter
+                },
                 plugins: [
                     createTestingPinia({
                         initialState: {
-                            settings:settingsStoreTestData,
+                            settings: settingsStoreTestData,
                         }
                     })
                 ]
@@ -42,13 +48,13 @@ describe.concurrent("TreeContainer component", () => {
         const firstDir = wrapper.vm.dirs[0];
 
         expect(firstDir.diskName).toBe('tests');
-        expect(firstDir.label).toBe('android');
+        expect(firstDir.name).toBe('android');
         expect(firstDir.path).toBe('android');
         expect(firstDir.subDir.length).toBe(1);
 
         const subDir = firstDir.subDir[0];
         expect(subDir.diskName).toBe('tests');
-        expect(subDir.label).toBe('forTesting');
+        expect(subDir.name).toBe('forTesting');
         expect(subDir.path).toBe('android/forTesting');
         expect(subDir.subDir).toEqual([]);
     });
@@ -63,31 +69,36 @@ describe.concurrent("TreeContainer component", () => {
         const newDirsForSelectedDisk = [
             {
                 "diskName": "tests",
-                "label": "android",
+                "name": "android",
                 "path": "android",
+                "type": "dir",
                 "subDir": [
                     {
                         "diskName": "tests",
-                        "label": "all",
+                        "name": "all",
                         "path": "android/all",
+                        "type": "dir",
                         "subDir": []
                     }
                 ]
             },
             {
                 "diskName": "tests",
-                "label": "ios",
+                "name": "ios",
                 "path": "ios",
+                "type": "dir",
                 "subDir": [
                     {
                         "diskName": "tests",
-                        "label": "aaassss",
+                        "name": "aaassss",
                         "path": "ios/aaassss",
+                        "type": "dir",
                         "subDir": [
                             {
                                 "diskName": "tests",
-                                "label": "inOmB",
+                                "name": "inOmB",
                                 "path": "ios/aaassss/inOmB",
+                                "type": "dir",
                                 "subDir": []
                             }
                         ]
@@ -99,8 +110,6 @@ describe.concurrent("TreeContainer component", () => {
         settingsStore.$patch((state) => {
             state.defaultFileExplorerViewData.dirsForSelectedDisk = newDirsForSelectedDisk;
         })
-
-
         await wrapper.vm.$nextTick();
 
         expect(wrapper.vm.dirs).toEqual(newDirsForSelectedDisk);
