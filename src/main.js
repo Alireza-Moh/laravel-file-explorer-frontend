@@ -1,14 +1,14 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import FileExplorer from './FileExplorer.vue'
 import http from "@/services/http.js";
 import { createPinia } from 'pinia';
 import mitt from "mitt";
 
-const app = createApp(App);
+const fileExplorer = createApp(FileExplorer);
 
-app.config.globalProperties.$http = http;
-app.config.globalProperties.$emitter = mitt();
+fileExplorer.config.globalProperties.$http = http;
+fileExplorer.config.globalProperties.$emitter = mitt();
 
-app.use(createPinia());
+fileExplorer.use(createPinia());
 
-app.mount('#app');
+fileExplorer.mount('#fileExplorer-container');
