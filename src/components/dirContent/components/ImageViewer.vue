@@ -17,20 +17,14 @@ export default {
 </script>
 
 <template>
-  <div v-if="showModal" class="modal">
+  <div v-if="showModal" class="modal-wrapper">
     <span class="close" @click="showModal = false">&times;</span>
     <img :src="url" alt="Original" class="modal-content modal-img"/>
   </div>
 </template>
 
 <style scoped>
-.modal {
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
+.modal-wrapper {
   background-color: rgba(0, 0, 0, 0.9);
 }
 
