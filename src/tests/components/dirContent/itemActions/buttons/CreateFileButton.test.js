@@ -104,4 +104,22 @@ describe("CreateFileButton", () => {
         );
         expect(wrapper.vm.errors).toEqual({});
     });
+
+    test("should not make a request when disk or dir is empty", async () => {
+        Object.defineProperty(window, 'showAlert', {
+            writable: true,
+            configurable: true,
+            value: showAlert
+        });
+        const showAlertSpy = vi.spyOn(window, "showAlert");
+        wrapper.setData({diskName: "", dirName: null, showModal: true});
+        await wrapper.vm.$nextTick();
+
+        const modal = wrapper.findComponent(ItemActionModal);
+        modal.find("#itemName").setValue("test.txt");
+        const closeBtn = wrapper.find("#save-btn");
+        closeBtn.trigger("click");
+
+        expect(showAlertSpy).toHaveBeenCalledWith("failed", "Disk or directory not found");
+    });
 });

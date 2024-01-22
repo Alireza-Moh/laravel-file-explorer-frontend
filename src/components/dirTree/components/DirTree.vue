@@ -37,32 +37,30 @@ export default {
 </script>
 
 <template>
-  <DirLink v-if="dirs && dirs.length === 0"
-           :dir="{ name: 'No sub folder found', subDirs: []}"
-           :key="0"/>
+  <template v-if="dirs && dirs.length">
+    <template v-for="dir in dirs">
+      <DirLink v-if="!dir.subDir || (dir.subDir && dir.subDir.length === 0)"
+               :dir="dir"
+               :key="dir.name"/>
 
-  <template v-else v-for="dir in dirs">
-    <DirLink v-if="!dir.subDir || (dir.subDir && dir.subDir.length === 0)"
-             :dir="dir"
-             :key="dir.name"/>
+      <div v-else
+           class="nav__dropdown nav__link-with-dropdown nav__dropdown_nested"
+           :class="{ selected: isSelectedDir(dir.name), 'opened-sub-dir': isSubNavOpen && selectedSubNavToShow === dir.name }"
+           :key="dir.name">
 
-    <div v-else
-         class="nav__dropdown nav__link-with-dropdown nav__dropdown_nested"
-         :class="{ selected: isSelectedDir(dir.name), 'opened-sub-dir': isSubNavOpen && selectedSubNavToShow === dir.name }"
-         :key="dir.name">
+        <DirLink :dir="dir"
+                 :key="dir.name"
+                 :show-cart-icon="true"
+                 @open-sub-nav="openSubNav"/>
 
-      <DirLink :dir="dir"
-               :key="dir.name"
-               :show-cart-icon="true"
-               @open-sub-nav="openSubNav"/>
+        <div class="nav__dropdown-collapse">
 
-      <div class="nav__dropdown-collapse">
-
-        <DirTree v-if="dir.subDir"
-                 :dirs="dir.subDir"
-                 :key="dir.name"/>
+          <DirTree v-if="dir.subDir"
+                   :dirs="dir.subDir"
+                   :key="dir.name"/>
+        </div>
       </div>
-    </div>
+    </template>
   </template>
 </template>
 

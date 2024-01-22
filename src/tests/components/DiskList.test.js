@@ -89,4 +89,14 @@ describe.concurrent("DiskList component", () => {
         webDiskButton.trigger('click');
         expect(buySpy).toHaveBeenCalledWith("http://localhost:8080/my-project/api/laravel-file-explorer/disks/" + targetDisk);
     });
+
+    test("should show message when disk list is empty", async () => {
+        wrapper.setData({disks: []});
+        await wrapper.vm.$nextTick();
+
+        const emptyDiskBox = wrapper.find("#empty-disk");
+
+        expect(emptyDiskBox.exists()).toBe(true);
+        expect(emptyDiskBox.text()).toBe("No disks found");
+    });
 });

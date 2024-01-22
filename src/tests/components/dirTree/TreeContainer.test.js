@@ -5,6 +5,7 @@ import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData
 import DirTree from "@/components/dirTree/components/DirTree.vue";
 import {useSettingsStore} from "@/stores/settingsStore.js";
 import mitt from "mitt";
+import DirLink from "@/components/dirTree/components/DirLink.vue";
 
 describe.concurrent("TreeContainer component", () => {
     let wrapper, settingsStore, $emitter;
@@ -113,5 +114,15 @@ describe.concurrent("TreeContainer component", () => {
         await wrapper.vm.$nextTick();
 
         expect(wrapper.vm.dirs).toEqual(newDirsForSelectedDisk);
+    });
+
+    test("should show message when directory list is empty", async () => {
+        wrapper.setData({dirs: null});
+        await wrapper.vm.$nextTick();
+
+        const emptyDirLink = wrapper.findComponent(DirLink);
+
+        expect(emptyDirLink.exists()).toBe(true);
+        expect(emptyDirLink.text()).toContain("No directories found");
     });
 });

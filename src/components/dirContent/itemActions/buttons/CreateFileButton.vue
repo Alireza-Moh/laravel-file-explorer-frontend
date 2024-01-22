@@ -6,12 +6,17 @@ export default {
   mixins: [creationMixin],
   methods: {
     createFile(fileName) {
-      this.createItem(
-          this.settingsStore.baseUrl + "disks/" + this.diskName + "/dirs/" + this.dirName + "/new-file",
-          this.selectedDirPath + "/" + fileName,
-          "file",
-          this.selectedDirPath
-      );
+      if (this.diskName && this.dirName) {
+        this.createItem(
+            this.settingsStore.baseUrl + "disks/" + this.diskName + "/dirs/" + this.dirName + "/new-file",
+            this.selectedDirPath + "/" + fileName,
+            "file",
+            this.selectedDirPath
+        );
+      }
+      else {
+        window.showAlert("failed", "Disk or directory not found")
+      }
     }
   }
 }

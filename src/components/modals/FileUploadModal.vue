@@ -34,28 +34,34 @@ export default {
       if (this.files.length > 0 && this.files.length <= this.maxUploadFile) {
         const selectedDisk = this.settingsStore.defaultFileExplorerViewData.selectedDisk;
         const selectedDir = this.settingsStore.defaultFileExplorerViewData.selectedDir;
-        const url = this.settingsStore.baseUrl
-            + "disks/" + selectedDisk
-            + "/files/upload";
 
-        const headers = {
-          method: "POST",
-          headers: {
-            "Accept": "application/json"
-          },
-        };
+        if (selectedDisk && selectedDir) {
+          const url = this.settingsStore.baseUrl
+              + "disks/" + selectedDisk
+              + "/files/upload";
 
-        this.$http.post(url, this.getOptions(), headers).then((data) => {
-          if (data.errors) {
-            this.errors = data.errors;
-            return;
-          }
-          if (data.result) {
-            window.showAlert(data.result.status, data.result.message);
-            this.dirItemsStore.updateDir(data.result.items, selectedDisk, selectedDir);
-            this.cancel();
-          }
-        });
+          const headers = {
+            method: "POST",
+            headers: {
+              "Accept": "application/json"
+            },
+          };
+
+          this.$http.post(url, this.getOptions(), headers).then((data) => {
+            if (data.errors) {
+              this.errors = data.errors;
+              return;
+            }
+            if (data.result) {
+              window.showAlert(data.result.status, data.result.message);
+              this.dirItemsStore.updateDir(data.result.items, selectedDisk, selectedDir);
+              this.cancel();
+            }
+          });
+        }
+        else {
+          window.showAlert("failed", "Disk or directory not found")
+        }
       }
     },
     getOptions() {

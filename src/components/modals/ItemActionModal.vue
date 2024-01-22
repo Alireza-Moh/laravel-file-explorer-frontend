@@ -26,7 +26,7 @@ export default {
     <div class="modal">
       <div class="input-box">
         <label for="itemName">{{label}}</label>
-        <input type="text" name="itemName" id="itemName" v-model="enteredName">
+        <input type="text" name="itemName" id="itemName" v-model="enteredName" required>
         <span class="error" v-if="errors && errors.path && errors.path[0]">{{ errors.path[0] }}</span>
       </div>
       <div class="button-box">

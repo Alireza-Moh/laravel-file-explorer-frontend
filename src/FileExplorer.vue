@@ -9,11 +9,13 @@ import storesMixin from "@/mixins/storesMixin.js";
 import Notify from "@/components/_baseComponents/Notify.vue";
 import ImageViewer from "@/components/dirContent/components/ImageViewer.vue";
 import VideoPlayerViewer from "@/components/dirContent/components/VideoPlayerViewer.vue";
+import Loader from "@/components/_baseComponents/Loader.vue";
 
 export default {
   name: "FileExplorer",
   mixins: [storesMixin],
   components: {
+    Loader,
     VideoPlayerViewer,
     ImageViewer,
     Notify,
@@ -37,9 +39,9 @@ export default {
     initExplorer() {
       const endUrl = this.settingsStore.baseUrl + "load-file-explorer";
 
-      this.$http.get(endUrl, {}).then((data) => {
-        if (data.status === 200) {
-          const receivedData = data.data;
+      this.$http.get(endUrl, {}).then((response) => {
+        if (response.result && response.result.data) {
+          const receivedData = response.result.data;
 
           this.storeDisks(receivedData.disks);
           this.storeDirsForDisk(receivedData.dirsForSelectedDisk, receivedData.selectedDir);
@@ -49,9 +51,11 @@ export default {
               receivedData.selectedDirPath,
               receivedData.selectedDirItems
           );
-          this.storeDefaultFileExplorerViewData(receivedData)
-
+          this.storeDefaultFileExplorerViewData(receivedData);
           this.isLoading = false;
+        }
+        else {
+          window.showAlert("failed", "No data could be found", 5000);
         }
       });
     },
@@ -79,7 +83,8 @@ export default {
   <div class="main-wrapper">
     <Notify v-once/>
     <TopMenu v-once/>
-    <main v-if="!isLoading">
+    <Loader v-if="isLoading"/>
+    <main v-else>
       <TreeContainer/>
       <div class="content-box">
         <div class="nav-box">
