@@ -12,7 +12,7 @@ export const useCheckedItemsStore = defineStore("checkedItems", {
             for (let i = 0; i < this.items.length; i++) {
                 if (this.items[i].name === itemToDelete.name) {
                     this.items.splice(i, 1);
-                    break; // Remove this line if multiple items can have the same name
+                    break;
                 }
             }
         }

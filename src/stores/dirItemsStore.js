@@ -22,7 +22,7 @@ export const useDirItemsStore = defineStore("dirItems", {
             this.data.push(dirWithItems);
         },
         updateDir(items, diskName, dirName) {
-            if (items.length > 0) {
+            if (items.length) {
                 const targetDir = this.data.find((dir) => {
                     return (dir.diskName === diskName) && (dir.dirName === dirName);
                 });

@@ -20,6 +20,7 @@ export default {
   gap: 2em;
   height: calc(100vh - 48px);
 }
+
 .loader {
   position: relative;
   width: 64px;
