@@ -1,0 +1,78 @@
+{
+  "result": {
+    "dirs": [
+      {
+        "diskName": "tests",
+        "name": "android",
+        "path": "android",
+        "type": "dir",
+        "subDir": [
+          {
+            "diskName": "tests",
+            "name": "forTesting",
+            "path": "android/forTesting",
+            "type": "dir",
+            "subDir": []
+          }
+        ]
+      },
+      {
+        "diskName": "tests",
+        "name": "android",
+        "path": "android",
+        "type": "dir",
+        "subDir": [
+          {
+            "diskName": "tests",
+            "name": "forRealse",
+            "path": "android/forRealse",
+            "type": "dir",
+            "subDir": [
+              {
+                "diskName": "tests",
+                "name": "DB IMAGES",
+                "path": "android/forRealse/DB IMAGES",
+                "type": "dir",
+                "subDir": [
+                  {
+                    "diskName": "tests",
+                    "name": "svgs",
+                    "path": "android/forRealse/DB IMAGES/svgs",
+                    "type": "dir",
+                    "subDir": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "selectedDir": "android",
+    "selectedDirPath": "android",
+    "selectedDirItems": [
+      {
+        "diskName": "mobile",
+        "dirName": "android",
+        "name": "4576_001ss.jpg",
+        "size": 87.91,
+        "lastModified": "2018-11-27 21:19:34",
+        "type": "file",
+        "path": "android/4576_001 (2021_08_10 13_17_28 UTC).jpg",
+        "url": "http://localhost:8084/storage/mobile/android/4576_001ss.jpg",
+        "extension": "jpg"
+      },
+      {
+        "diskName": "mobile",
+        "dirName": "android",
+        "name": "45A13B56photo.jpg",
+        "size": 263.98,
+        "lastModified": "2020-10-30 23:54:32",
+        "type": "file",
+        "path": "android/45A13B56photo.jpg",
+        "url": "http://localhost:8084/storage/mobile/android/45A13B56photo.jpg",
+        "extension": "jpg"
+      }
+    ]
+  }
+}

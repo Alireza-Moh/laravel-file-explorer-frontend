@@ -1,0 +1,80 @@
+{
+  "baseUrl": "http://localhost:8080/my-project/api/laravel-file-explorer/",
+  "defaultFileExplorerViewData": {
+    "selectedDisk": "tests",
+    "selectedDir": "android",
+    "selectedDirPath": "android",
+    "dirsForSelectedDisk": [
+      {
+        "diskName": "tests",
+        "name": "android",
+        "path": "android",
+        "type": "dir",
+        "subDir": [
+          {
+            "diskName": "tests",
+            "name": "forTesting",
+            "path": "android/forTesting",
+            "type": "dir",
+            "subDir": []
+          }
+        ]
+      },
+      {
+        "diskName": "tests",
+        "name": "ios",
+        "path": "ios",
+        "type": "dir",
+        "subDir": [
+          {
+            "diskName": "tests",
+            "name": "forRealse",
+            "path": "ios/forRealse",
+            "type": "dir",
+            "subDir": [
+              {
+                "diskName": "tests",
+                "name": "DB IMAGES",
+                "path": "ios/forRealse/DB IMAGES",
+                "type": "dir",
+                "subDir": [
+                  {
+                    "diskName": "tests",
+                    "name": "svgs",
+                    "path": "ios/forRealse/DB IMAGES/svgs",
+                    "type": "dir",
+                    "subDir": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "selectedDirItems": [
+      {
+        "diskName": "tests",
+        "dirName": "android",
+        "name": "4576_001ss.jpg",
+        "size": 87.91,
+        "lastModified": "2018-11-27 21:19:34",
+        "type": "file",
+        "path": "android/4576_001 (2021_08_10 13_17_28 UTC).jpg",
+        "url": "http://localhost:8084/storage/mobile/android/4576_001ss.jpg",
+        "extension": "jpg"
+      },
+      {
+        "diskName": "tests",
+        "dirName": "android",
+        "name": "45A13B56photo.jpg",
+        "size": 263.98,
+        "lastModified": "2020-10-30 23:54:32",
+        "type": "file",
+        "path": "android/45A13B56photo.jpg",
+        "url": "http://localhost:8084/storage/mobile/android/45A13B56photo.jpg",
+        "extension": "jpg"
+      }
+    ]
+  }
+}
