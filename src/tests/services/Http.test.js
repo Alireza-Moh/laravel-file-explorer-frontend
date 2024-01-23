@@ -15,7 +15,7 @@ describe('Http', () => {
         });
     });
 
-    test('should get method returns data when fetch response is ok', async ({ is }) => {
+    test('should get method returns data when fetch response is ok', async () => {
         const responseData = {
             "result": {
                 "status": "success",
@@ -43,7 +43,7 @@ describe('Http', () => {
         );
     });
 
-    test('should get method throws error when fetch response is not ok', async ({ is }) => {
+    test('should get method throws error when fetch response is not ok', async () => {
         global.fetch = vi.fn(() => Promise.reject('API is down'));
         const windowSpy = vi.spyOn(window, 'showAlert');
 
@@ -53,7 +53,7 @@ describe('Http', () => {
         expect(windowSpy).toHaveBeenCalledWith("failed", "Something went wrong. Please try it again")
     });
 
-    test('should post method returns data when fetch response is ok', async ({ is }) => {
+    test('should post method returns data when fetch response is ok', async () => {
         const responseData = { result: 'success' };
         global.fetch = vi.fn(() =>
             Promise.resolve({
@@ -80,7 +80,7 @@ describe('Http', () => {
         );
     });
 
-    test('should put method returns data when fetch response is ok', async ({ is }) => {
+    test('should put method returns data when fetch response is ok', async () => {
         const responseData = { result: 'success' };
         global.fetch = vi.fn(() =>
             Promise.resolve({
@@ -132,7 +132,7 @@ describe('Http', () => {
         );
     });
 
-    test('should delete method returns data when fetch response is ok', async ({ is }) => {
+    test('should delete method returns data when fetch response is ok', async () => {
         const responseData = { result: 'success' };
         global.fetch = vi.fn(() =>
             Promise.resolve({

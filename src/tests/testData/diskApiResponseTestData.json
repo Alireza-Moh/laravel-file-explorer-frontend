@@ -2,13 +2,13 @@
   "result": {
     "dirs": [
       {
-        "diskName": "web",
+        "diskName": "tests",
         "name": "android",
         "path": "android",
         "type": "dir",
         "subDir": [
           {
-            "diskName": "web",
+            "diskName": "tests",
             "name": "forTesting",
             "path": "android/forTesting",
             "type": "dir",
@@ -17,27 +17,27 @@
         ]
       },
       {
-        "diskName": "web",
-        "name": "ios",
-        "path": "ios",
+        "diskName": "tests",
+        "name": "android",
+        "path": "android",
         "type": "dir",
         "subDir": [
           {
-            "diskName": "web",
+            "diskName": "tests",
             "name": "forRealse",
-            "path": "ios/forRealse",
+            "path": "android/forRealse",
             "type": "dir",
             "subDir": [
               {
-                "diskName": "web",
+                "diskName": "tests",
                 "name": "DB IMAGES",
-                "path": "ios/forRealse/DB IMAGES",
+                "path": "android/forRealse/DB IMAGES",
                 "type": "dir",
                 "subDir": [
                   {
-                    "diskName": "web",
+                    "diskName": "tests",
                     "name": "svgs",
-                    "path": "ios/forRealse/DB IMAGES/svgs",
+                    "path": "android/forRealse/DB IMAGES/svgs",
                     "type": "dir",
                     "subDir": []
                   }
