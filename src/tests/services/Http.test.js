@@ -47,7 +47,7 @@ describe('Http', () => {
         global.fetch = vi.fn(() => Promise.reject('API is down'));
         const windowSpy = vi.spyOn(window, 'showAlert');
 
-        const response = await Http.get('http://example.com');
+        await Http.get('http://example.com');
 
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(windowSpy).toHaveBeenCalledWith("failed", "Something went wrong. Please try it again")
