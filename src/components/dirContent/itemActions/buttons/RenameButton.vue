@@ -10,10 +10,12 @@ export default {
         window.showAlert("warning", "Multiple item renaming is not supported")
       }
       else {
-        const item = this.items[0];
+        if (this.items.length) {
+          const item = this.items[0];
 
-        this.$emitter.emit("showRenameInputForItem", item.name);
-        this.$emitter.emit("sendItemToSave", item);
+          this.$emitter.emit("showRenameInputForItem", item.name);
+          this.$emitter.emit("sendItemToSave", item);
+        }
       }
     },
   }
