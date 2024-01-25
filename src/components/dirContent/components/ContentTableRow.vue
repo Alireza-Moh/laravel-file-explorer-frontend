@@ -61,6 +61,9 @@ export default {
       }
     },
     checkItemMediaType() {
+      this.isImage = false;
+      this.isVideo = false;
+
       if (this.item.type !== "dir") {
         const extension = this.item.extension.toLowerCase();
 
