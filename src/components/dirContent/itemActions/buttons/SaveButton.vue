@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     saveNewFileName() {
-      const url = this.settingsStore.baseUrl + "disks/" + this.item.diskName + "/dirs/" + this.getFileNameWithoutExtension();
+      const url = this.settingsStore.baseUrl + "disks/" + this.item.diskName + "/files/" + this.getFileNameWithoutExtension();
 
       this.$http.put(url, this.getRequestOption()).then((data) => {
         this.$emitter.emit("uncheckInput");

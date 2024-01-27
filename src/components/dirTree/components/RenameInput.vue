@@ -31,7 +31,7 @@ export default {
       const ulr = this.settingsStore.baseUrl
           + "disks/"
           + this.settingsStore.defaultFileExplorerViewData.selectedDisk
-          + "/files/"
+          + "/dirs/"
           + this.dir.name;
 
       this.$http.put(ulr, options).then((data) => {
@@ -42,7 +42,7 @@ export default {
           this.$emit("hideRenameInput", status, this.newDirName, newPath);
         }
       });
-    },
+    }
   }
 }
 </script>
