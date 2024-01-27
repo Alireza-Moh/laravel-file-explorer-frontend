@@ -26,10 +26,12 @@ export default {
 <template>
   <div class="nav" id="navbar">
     <div class="nav__items">
-      <DirLink v-if="!dirs"
+      <DirTree v-if="dirs.length"
+               :dirs="dirs"/>
+
+      <DirLink v-else
                :dir="{ name: 'No directories found', subDirs: []}"
                :key="0"/>
-      <DirTree v-else :dirs="dirs"/>
     </div>
   </div>
 </template>
