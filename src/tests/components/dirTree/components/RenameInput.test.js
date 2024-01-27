@@ -69,7 +69,7 @@ describe('RenameInput', () => {
         await wrapper.find(".svg-img").trigger("click");
 
         expect(putRequestSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/files/android",
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/android",
             {
                 body: JSON.stringify({
                     oldPath: "android",
