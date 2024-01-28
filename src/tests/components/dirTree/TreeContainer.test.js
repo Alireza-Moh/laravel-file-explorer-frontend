@@ -117,7 +117,7 @@ describe.concurrent("TreeContainer component", () => {
     });
 
     test("should show message when directory list is empty", async () => {
-        wrapper.setData({dirs: null});
+        wrapper.setData({dirs: []});
         await wrapper.vm.$nextTick();
 
         const emptyDirLink = wrapper.findComponent(DirLink);
