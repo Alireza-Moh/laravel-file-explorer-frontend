@@ -10,7 +10,6 @@ export default {
         this.createItem(
             this.settingsStore.baseUrl + "disks/" + this.diskName + "/dirs/" + this.dirName + "/new-dir",
             this.selectedDirPath + "/" + dirName,
-            "dir",
             this.selectedDirPath
         );
       }

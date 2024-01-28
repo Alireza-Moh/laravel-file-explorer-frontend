@@ -34,12 +34,11 @@ export default {
             this.showModal = false;
             this.errors = {};
         },
-        createItem(url, path, type, dirPath) {
+        createItem(url, path, destination) {
             const options = {
                 body: JSON.stringify({
                     path: path,
-                    type: type,
-                    dirPath: dirPath
+                    destination: destination
                 })
             };
 
