@@ -66,24 +66,22 @@ export default {
       }
     },
     getFromData() {
-      let itemsToDelete = [];
+      let files = [];
+      let dirs = [];
 
       this.items.forEach(item => {
-        itemsToDelete.push({
+        const itemToDelete = {
           name: item.name,
-          path: item.path,
-          type: item.type
-        })
+          path: item.path
+        };
+        if (item.type === 'file') {
+          files.push(itemToDelete);
+        } else if (item.type === 'dir') {
+          dirs.push(itemToDelete);
+        }
       });
 
-      return itemsToDelete.reduce((acc, item) => {
-        if (item.type === 'file') {
-          acc.files.push(item);
-        } else if (item.type === 'dir') {
-          acc.dirs.push(item);
-        }
-        return acc;
-      }, {files: [], dirs: []});
+      return { files, dirs };
     },
     removeItemFromDirStore(status, filesToDelete) {
       if (status === "success") {
