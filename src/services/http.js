@@ -42,7 +42,7 @@ class Http {
             if (response.status === 404) {
                 return response.json();
             }
-            else if (response.status === 403) {
+            else if (response.status === 422) {
                 return response.json();
             }
             else {
