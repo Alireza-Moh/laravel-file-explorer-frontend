@@ -29,7 +29,28 @@ describe("DownloadButton", () => {
                 ]
             },
             props: {
-                items: randomItems
+                items: [
+                    {
+                        "diskName": "tests",
+                        "name": "4665_s001v.png",
+                        "size": 64.61,
+                        "lastModified": "2024-01-10 05:31:56",
+                        "type": "file",
+                        "path": "android/4665_s001v.png",
+                        "url": "http://localhost:8084/storage/tests/android/4665_s001v.png",
+                        "extension": "png"
+                    },
+                    {
+                        "diskName": "tests",
+                        "name": "4665_001v.png",
+                        "size": 26.16,
+                        "lastModified": "2024-01-13 15:55:19",
+                        "type": "file",
+                        "path": "android/4665_001v.png",
+                        "url": "http://localhost:8084/storage/tests/android/4665_001v.png",
+                        "extension": "png"
+                    },
+                ]
             }
         });
     });
@@ -65,56 +86,8 @@ describe("DownloadButton", () => {
             {
                 body: JSON.stringify({
                     files: [
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' },
-                        { path: 'android/4665_001v.png', type: 'file' }
+                        { name: "4665_s001v", path: 'android/4665_s001v.png', type: 'file' },
+                        { name: "4665_001v", path: 'android/4665_001v.png', type: 'file' },
                     ]
                 })
             }
