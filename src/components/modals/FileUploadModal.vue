@@ -11,13 +11,20 @@ export default {
     return {
       files: [],
       ifFileExist: 0,
-      errors: [],
       maxUploadFile: 10
     }
   },
   computed: {
     maxUploadFilesReached() {
       return this.files.length > this.maxUploadFile;
+    },
+    filesWithError() {
+      let fileNames = [];
+      this.files.forEach(file => {
+        fileNames.push({name: file.name, errors: []});
+      })
+
+      return fileNames;
     }
   },
   methods: {
@@ -49,7 +56,10 @@ export default {
 
           this.$http.post(url, this.getOptions(), headers).then((data) => {
             if (data.errors) {
-              this.errors = data.errors;
+              this.filesWithError.forEach(file => {
+                file.errors = data.errors[file.name] ?? []
+              });
+              this.$forceUpdate();
               return;
             }
             if (data.result) {
@@ -124,22 +134,19 @@ export default {
           </div>
         </div>
       </div>
-      <div v-if="files.length > 0" class="selected-files-box">
+      <div v-if="filesWithError.length" class="selected-files-box">
         <div class="headline">
           <p>Selected Files:</p>
         </div>
         <div class="files-box">
-          <div v-for="(file, index) in files"
-               :key="index">
+          <div v-for="(file, index) in filesWithError" :key="index">
             <div class="file">
               <span>{{file.name}}</span>
               <span class="delete-icon" @click="removeFile(index)">X</span>
             </div>
-            <template v-for="(error, index) in Object.keys(errors)" :key="index">
-              <div class="error" v-if="error === file.name">
-                {{errors[error][0]}}
-              </div>
-            </template>
+            <div v-for="(error, index) in file.errors" :key="index" class="error">
+              {{error}}
+            </div>
           </div>
         </div>
       </div>
@@ -316,7 +323,6 @@ button {
 }
 
 .error {
-  margin-bottom: 1em;
   padding-left: 3px;
 }
 
