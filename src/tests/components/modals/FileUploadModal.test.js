@@ -3,9 +3,10 @@ import FileUploadModal from "@/components/modals/FileUploadModal.vue";
 import {createTestingPinia} from "@pinia/testing";
 import uploadFileApiResponseTestData from "@/tests/testData/uploadFileApiResponseTestData.json";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
+import mitt from "mitt";
 
 describe("FileUploadModal component", () => {
-    let wrapper, fileInput, $http;
+    let wrapper, fileInput, $http, $emitter;
 
     beforeEach(async () => {
         $http = {
@@ -13,10 +14,12 @@ describe("FileUploadModal component", () => {
                 return Promise.resolve(uploadFileApiResponseTestData)
             })
         }
+        $emitter = mitt();
         wrapper = mount(FileUploadModal, {
             global: {
                 mocks: {
-                    $http
+                    $http,
+                    $emitter
                 },
                 plugins: [
                     createTestingPinia({
@@ -144,7 +147,7 @@ describe("FileUploadModal component", () => {
 
         await fileExist[1].setChecked();
 
-        expect(wrapper.vm.ifFileExist).toBe("1");
+        expect(wrapper.vm.ifFileExist).toBe(1);
     });
 
     test("should send form data to backend", async () => {
@@ -187,12 +190,7 @@ describe("FileUploadModal component", () => {
             {
                 body: formData
             },
-            {
-                method: "POST",
-                headers: {
-                    Accept: 'application/json'
-                }
-            }
+            false
         );
     });
 });
