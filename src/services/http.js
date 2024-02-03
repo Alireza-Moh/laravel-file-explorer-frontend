@@ -1,9 +1,8 @@
 class Http {
-    post(url, options, newHeaders = {}) {
+    post(url, options, contentType = true) {
         const requestOptions = this.#getOptions("POST", options);
-
-        if (Object.keys(newHeaders).length > 1) {
-            requestOptions.headers = newHeaders;
+        if (contentType) {
+            requestOptions.headers["Content-Type"] = "application/json";
         }
 
         return fetch(url, requestOptions).then((response) => {
@@ -30,6 +29,7 @@ class Http {
     }
 
     delete(url, options) {
+        console.log(this.#getOptions("DELETE", options))
         return fetch(url, this.#getOptions("DELETE", options)).then((response) => {
             return response.json();
         }).catch((error) => {
@@ -53,14 +53,17 @@ class Http {
         });
     }
 
-    #getOptions(method, otherOptions) {
+    #getOptions(method, otherOptions, contentType = true) {
         const baseOptions = {
             method: method,
             headers: {
-                "Content-Type": "application/json",
                 "Accept": "application/json"
             },
         };
+
+        if (contentType) {
+            baseOptions.headers["Content-Type"] = "application/json";
+        }
 
         return Object.assign({}, baseOptions, otherOptions);
     }
