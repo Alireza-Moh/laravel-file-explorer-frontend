@@ -1,13 +1,13 @@
 <script>
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
 
 export default {
   name: "SaveButton",
-  mixins: [storesMixin],
   data() {
     return {
       item: null,
-      oldFileName: null
+      oldFileName: null,
+      settingsStore: useSettingsStore(),
     }
   },
   mounted() {

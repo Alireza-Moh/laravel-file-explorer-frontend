@@ -5,7 +5,7 @@ import ItemIcon from "@/components/dirContent/components/ItemIcon.vue";
 import ItemPreviewCellWithRenameInput from "@/components/dirContent/components/ItemPreviewCellWithRenameInput.vue";
 import ItemImageCell from "@/components/dirContent/components/ItemImageCell.vue";
 import ItemVideoCell from "@/components/dirContent/components/ItemVideoCell.vue";
-import dirMixin from "@/components/_baseComponents/mixins/dirMixin.js";
+import dirMixin from "@/components/dirContent/mixins/dirMixin.js";
 
 export default {
   name: "ContentTableRow",

@@ -1,5 +1,4 @@
 <script>
-import storesMixin from "@/mixins/storesMixin.js";
 import Alert from "@/components/_baseComponents/Alert.vue";
 import UploadedFilesList from "@/components/modals/components/UploadedFilesList.vue";
 import UploadedFilesDropBox from "@/components/modals/components/UploadedFilesDropBox.vue";
@@ -9,7 +8,6 @@ import UploadedFilesActionButtons from "@/components/modals/components/UploadedF
 export default {
   name: "FileUploadModal",
   components: {UploadedFilesActionButtons, UploadedFilesSetting, UploadedFilesDropBox, UploadedFilesList, Alert},
-  mixins: [storesMixin],
   data() {
     return {
       files: [],

@@ -1,15 +1,15 @@
 <script>
 import DirTree from "@/components/dirTree/components/DirTree.vue";
-import storesMixin from "@/mixins/storesMixin.js";
 import DirLink from "@/components/dirTree/components/DirLink.vue";
+import {useSettingsStore} from "@/stores/settingsStore.js";
 
 export default {
   name: "TreeContainer",
   components: {DirLink, DirTree},
-  mixins: [storesMixin],
   data() {
     return {
-      dirs: []
+      dirs: [],
+      settingsStore: useSettingsStore(),
     }
   },
   created() {

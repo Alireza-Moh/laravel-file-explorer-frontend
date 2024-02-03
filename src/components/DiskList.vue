@@ -1,13 +1,19 @@
 <script>
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
+import {useDisksStore} from "@/stores/disksStore.js";
+import {useDirItemsStore} from "@/stores/dirItemsStore.js";
+import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
 
 export default {
   name: "DiskList",
-  mixins: [storesMixin],
   data() {
     return {
       selectedDisk: null,
-      disks: []
+      disks: [],
+      settingsStore: useSettingsStore(),
+      disksStore: useDisksStore(),
+      dirItemsStore: useDirItemsStore(),
+      diskDirsStore: useDiskDirsStore()
     }
   },
   created() {

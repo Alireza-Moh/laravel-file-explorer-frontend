@@ -1,11 +1,12 @@
 <script>
 import ConfirmModal from "@/components/modals/ConfirmModal.vue";
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
+import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 
 export default {
   name: "DeleteButton",
   components: {ConfirmModal},
-  mixins: [storesMixin],
   props: {
     items: Array
   },
@@ -13,7 +14,10 @@ export default {
     return {
       showConfirmModal: false,
       diskName: null,
-      dirName: null
+      dirName: null,
+      settingsStore: useSettingsStore(),
+      checkedItemsStore: useCheckedItemsStore(),
+      dirItemsStore: useDirItemsStore()
     }
   },
   created() {

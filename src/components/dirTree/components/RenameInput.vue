@@ -1,9 +1,8 @@
 <script>
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
 
 export default {
   name: "RenameInput",
-  mixins: [storesMixin],
   emits: ["hideRenameInput"],
   props: {
     dir: Object
@@ -11,6 +10,7 @@ export default {
   data() {
     return {
       newDirName: this.dir.name,
+      settingsStore: useSettingsStore(),
     }
   },
   methods: {

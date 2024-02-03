@@ -1,9 +1,9 @@
 <script>
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
+import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 
 export default {
   name: "UploadedFilesActionButtons",
-  mixins: [storesMixin],
   emits: ["updateFilesListComp"],
   props: {
     maxUploadFile: {
@@ -17,6 +17,12 @@ export default {
     },
     files: {
       type: Array
+    }
+  },
+  data() {
+    return {
+      settingsStore: useSettingsStore(),
+      dirItemsStore: useDirItemsStore()
     }
   },
   methods: {   uploadFiles() {

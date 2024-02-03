@@ -1,11 +1,11 @@
 <script>
-import storesMixin from "@/mixins/storesMixin.js";
 import MultipleErrorModal from "@/components/modals/MultipleErrorModal.vue";
+import {useSettingsStore} from "@/stores/settingsStore.js";
+import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
 
 export default {
   name: "DownloadButton",
   components: {MultipleErrorModal},
-  mixins: [storesMixin],
   props: {
     items: Object
   },
@@ -13,7 +13,9 @@ export default {
     return {
       diskName: null,
       errors: {},
-      showErrorModal: false
+      showErrorModal: false,
+      settingsStore: useSettingsStore(),
+      checkedItemsStore: useCheckedItemsStore(),
     }
   },
   created() {

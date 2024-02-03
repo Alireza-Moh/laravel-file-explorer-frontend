@@ -5,15 +5,18 @@ import ItemActionList from "@/components/dirContent/itemActions/ItemActionList.v
 import DirTree from "@/components/dirTree/components/DirTree.vue";
 import TreeContainer from "@/components/dirTree/TreeContainer.vue";
 import DirContentTable from "@/components/dirContent/DirContentTable.vue";
-import storesMixin from "@/mixins/storesMixin.js";
 import Notify from "@/components/_baseComponents/Notify.vue";
 import ImageViewer from "@/components/dirContent/components/ImageViewer.vue";
 import VideoPlayerViewer from "@/components/dirContent/components/VideoPlayerViewer.vue";
 import Loader from "@/components/_baseComponents/Loader.vue";
+import {useSettingsStore} from "@/stores/settingsStore.js";
+import {useDisksStore} from "@/stores/disksStore.js";
+import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
+import {useDirItemsStore} from "@/stores/dirItemsStore.js";
+import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
 
 export default {
   name: "FileExplorer",
-  mixins: [storesMixin],
   components: {
     Loader,
     VideoPlayerViewer,
@@ -28,7 +31,12 @@ export default {
   },
   data() {
     return {
-      isLoading: true
+      isLoading: true,
+      settingsStore: useSettingsStore(),
+      disksStore: useDisksStore(),
+      diskDirsStore: useDiskDirsStore(),
+      dirItemsStore: useDirItemsStore(),
+      checkedItemsStore: useCheckedItemsStore()
     }
   },
   created() {

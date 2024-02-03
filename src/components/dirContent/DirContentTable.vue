@@ -1,12 +1,12 @@
 <script>
-import storesMixin from "@/mixins/storesMixin.js";
 import ContentTableRow from "@/components/dirContent/components/ContentTableRow.vue";
 import ContentTableMenu from "@/components/dirContent/components/ContentTableMenu.vue";
+import {useSettingsStore} from "@/stores/settingsStore.js";
+import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 
 export default {
   name: "DirContentTable",
   components: {ContentTableRow, ContentTableMenu},
-  mixins: [storesMixin],
   data() {
     return {
       selectedDir: null,
@@ -16,7 +16,9 @@ export default {
       items: [],
       visibleItems: [],
       itemHeight: 80,
-      scrollTop: 0
+      scrollTop: 0,
+      settingsStore: useSettingsStore(),
+      dirItemsStore: useDirItemsStore()
     };
   },
   computed: {

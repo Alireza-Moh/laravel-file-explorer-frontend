@@ -6,7 +6,7 @@ export default {
   components: {FileUploadModal},
   data() {
     return {
-      showModal: false
+      showModal: false,
     }
   },
   mounted() {
