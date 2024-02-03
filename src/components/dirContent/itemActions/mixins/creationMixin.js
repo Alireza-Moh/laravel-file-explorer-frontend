@@ -1,6 +1,5 @@
 import ItemActionModal from "@/components/modals/ItemActionModal.vue";
 import {useSettingsStore} from "@/stores/settingsStore.js";
-import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
 

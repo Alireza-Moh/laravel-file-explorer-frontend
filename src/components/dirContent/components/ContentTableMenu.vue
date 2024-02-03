@@ -87,10 +87,6 @@ export default {
   color: #000000;
 }
 
-.copy-icon {
-  cursor: pointer;
-}
-
 #itemSearch {
   padding: 5px 12px;
   border: 1px solid #e8ebef;
