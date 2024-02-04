@@ -85,7 +85,7 @@ describe("DownloadButton", () => {
             "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/files/download",
             {
                 body: JSON.stringify({
-                    files: [
+                    items: [
                         { name: "4665_s001v", path: 'android/4665_s001v.png', type: 'file' },
                         { name: "4665_001v", path: 'android/4665_001v.png', type: 'file' },
                     ]

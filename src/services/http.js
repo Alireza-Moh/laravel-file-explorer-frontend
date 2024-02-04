@@ -1,9 +1,6 @@
 class Http {
     post(url, options, contentType = true) {
-        const requestOptions = this.#getOptions("POST", options);
-        if (contentType) {
-            requestOptions.headers["Content-Type"] = "application/json";
-        }
+        const requestOptions = this.#getOptions("POST", options, contentType);
 
         return fetch(url, requestOptions).then((response) => {
             return response.json();

@@ -75,7 +75,7 @@ describe("SaveButton", () => {
         expect(postHttpSpy).toHaveBeenCalledWith(
             "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/files/oldFilename",
             {
-                body: '{"oldPath":"android/4665_001v.png","newPath":"android/4665_001v.png"}'
+                body: '{"newName":"4665_001v.png","oldPath":"android/4665_001v.png","newPath":"android/4665_001v.png"}'
             }
         );
     });

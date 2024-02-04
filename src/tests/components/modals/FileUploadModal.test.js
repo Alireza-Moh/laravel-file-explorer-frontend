@@ -180,7 +180,7 @@ describe("FileUploadModal component", () => {
         formData.append("ifFileExist", 1);
         formData.append("destination", "android");
         for (let i = 0; i < files.length; i++) {
-            formData.append("files[]", files[i]);
+            formData.append("items[]", files[i]);
         }
 
         await saveButton.trigger("click");

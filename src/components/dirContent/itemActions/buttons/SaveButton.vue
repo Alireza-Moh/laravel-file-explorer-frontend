@@ -40,6 +40,7 @@ export default {
     getRequestOption() {
       return  {
         body: JSON.stringify({
+          newName: this.item.name,
           oldPath: this.item.path,
           newPath: this.getNewPath()
         })

@@ -49,7 +49,7 @@ export default {
       formData.append("ifFileExist", this.ifFileExist);
       formData.append("destination", this.settingsStore.defaultFileExplorerViewData.selectedDirPath)
       for (let i = 0; i < this.files.length; i++) {
-        formData.append("files[]", this.files[i]);
+        formData.append("items[]", this.files[i]);
       }
 
       return {

@@ -35,7 +35,7 @@ export default {
       const url = this.settingsStore.baseUrl + "disks/" + this.diskName + "/files/download";
       const options = {
         body: JSON.stringify({
-          files: this.getFormData()
+          items: this.getFormData()
         })
       };
 
@@ -54,7 +54,7 @@ export default {
       if (blob.result) {
         window.showAlert(blob.result.status, blob.result.message);
       }
-      else {
+      if (blob instanceof Blob) {
         this.createDownloadLink(blob);
       }
     },
@@ -77,7 +77,7 @@ export default {
       link.remove();
     },
     getDownloadFileName() {
-      return this.items.length === 1 ? this.items[0].name : this.diskName + "_files";
+      return this.items.length === 1 ? this.items[0].name : this.diskName + "_items";
     },
     hideErrorModal() {
       this.showErrorModal = false;
