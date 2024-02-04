@@ -13,11 +13,11 @@ export default {
     toggleDarkMode() {
       this.isDarkMode = !this.isDarkMode;
       if (!this.isDarkMode) {
-        this.setDarkModeInStorage("light-mode");
-        document.body.classList.remove("dark-mode");
+        localStorage.setItem("mode", "light-mode");
+        document.body.classList.remove("dark-mode")
       } else {
-        this.setDarkModeInStorage();
-        this.addDarkModeClassToBody();
+        localStorage.setItem("mode", "dark-mode");
+        document.body.classList.add("dark-mode")
       }
     },
     checkDarkMode() {
@@ -25,14 +25,8 @@ export default {
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
       if (getMode && getMode === "dark-mode" && prefersDark.matches) {
         this.isDarkMode = true;
-        this.addDarkModeClassToBody();
+        document.body.classList.add("dark-mode")
       }
-    },
-    setDarkModeInStorage(theme) {
-      localStorage.setItem("mode", theme);
-    },
-    addDarkModeClassToBody() {
-      document.body.classList.add("dark-mode");
     }
   }
 }
