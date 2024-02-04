@@ -40,7 +40,7 @@ export default {
   <div class="sub-nav">
     <div class="path-box">
       <div class="path">
-        <img src="../../../assets/img/folder-check.svg" alt="" class="svg-img">
+        <img src="@assets/folder-check.svg" alt="" class="svg-img">
         <span v-if="currentDirPath">{{currentDirPath}}</span>
         <span v-else>Select checkbox to get path</span>
       </div>
@@ -50,10 +50,13 @@ export default {
            id="itemSearch"
            placeholder="Type to search"
            @input="$emit('update:modelValue', $event.target.value)">
+
     <button class="action-btn"
             :class="{'selected': showPreviewView}"
             @click="changeContentVariant">
-      <img src="../../../assets/img/list-ul.svg" alt="change list view" class="svg-img">
+      <img src="@assets/list-ul.svg"
+           alt="change list view"
+           class="svg-img">
     </button>
   </div>
 </template>

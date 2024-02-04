@@ -21,7 +21,9 @@ export default {
     <span class="close" @click="showPlayer = false">&times;</span>
     <div class="modal-content">
       <video controls class="video">
-        <source :src="item.url" :type="item.videoType" class="video-src">
+        <source :src="item.url"
+                :type="item.videoType"
+                class="video-src">
       </video>
     </div>
   </div>

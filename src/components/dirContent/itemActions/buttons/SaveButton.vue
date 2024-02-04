@@ -18,7 +18,11 @@ export default {
   },
   methods: {
     saveNewFileName() {
-      const url = this.settingsStore.baseUrl + "disks/" + this.item.diskName + "/files/" + this.getFileNameWithoutExtension();
+      const url = this.settingsStore.baseUrl
+          + "disks/"
+          + this.item.diskName
+          + "/files/"
+          + this.getFileNameWithoutExtension();
 
       this.$http.put(url, this.getRequestOption()).then((data) => {
         this.$emitter.emit("uncheckInput");
@@ -71,7 +75,7 @@ export default {
 
 <template>
   <button v-if="item" type="button" class="action-btn" @click="saveNewFileName">
-    <img src="../../../../assets/img/floppy.svg" alt="save icon" class="svg-img">
+    <img src="@assets/floppy.svg" alt="save icon" class="svg-img">
     <span class="action-btn__text item-action-btn__text">Save</span>
   </button>
 </template>

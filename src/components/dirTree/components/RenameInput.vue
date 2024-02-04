@@ -49,8 +49,17 @@ export default {
 
 <template>
   <div class="rename-wrapper">
-    <input type="text" class="rename-input" v-model="newDirName" ref="renameInput" autofocus/>
-    <img src="../../../assets/img/floppy.svg" alt="rename button" width="12" height="12" @click="saveNewDirName" class="svg-img">
+    <input type="text"
+           class="rename-input"
+           v-model="newDirName"
+           ref="renameInput"
+           autofocus/>
+    <img src="@assets/floppy.svg"
+         alt="rename button"
+         width="12"
+         height="12"
+         @click="saveNewDirName"
+         class="svg-img">
   </div>
 </template>
 

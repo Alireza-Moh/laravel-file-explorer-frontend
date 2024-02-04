@@ -91,10 +91,14 @@ export default {
       if (status === "success") {
         this.dirItemsStore.$patch((state) => {
           filesToDelete.forEach(itemToDelete => {
-            const targetDirItems = state.data.find(dirItems => dirItems.diskName === this.diskName && dirItems.dirName === this.dirName);
+            const targetDirItems = state.data.find((dirItems) => {
+              return dirItems.diskName === this.diskName && dirItems.dirName === this.dirName;
+            });
 
             if (targetDirItems) {
-              targetDirItems.dirItems = targetDirItems.dirItems.filter(item => item.name !== itemToDelete.name);
+              targetDirItems.dirItems = targetDirItems.dirItems.filter((item) => {
+                return item.name !== itemToDelete.name;
+              });
             }
           });
         });
@@ -106,7 +110,7 @@ export default {
 
 <template>
   <button type="button" class="action-btn" @click="confirmDelete">
-    <img src="../../../../assets/img/trash3.svg" alt="" class="svg-img">
+    <img src="@assets/trash3.svg" alt="" class="svg-img">
     <span class="action-btn__text item-action-btn__text">Delete</span>
   </button>
 
@@ -115,7 +119,8 @@ export default {
                 :confirm-method-on-no="hideConfirmModal">
 
     <template v-slot:confirmQuestion>
-      You are about to delete "{{items.length}}" items<br> Do you want to delete it?
+      You are about to delete "{{items.length}}" items<br>
+      Do you want to delete it?
     </template>
   </ConfirmModal>
 </template>

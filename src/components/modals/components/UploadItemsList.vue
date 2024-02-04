@@ -1,9 +1,9 @@
 <script>
 export default {
-  name: "UploadedFilesList",
-  emits: ["removeFile"],
+  name: "UploadItemsList",
+  emits: ["removeItem"],
   props: {
-    files: {
+    items: {
       type: Array
     },
     errors: {
@@ -14,18 +14,23 @@ export default {
 </script>
 
 <template>
-  <div v-if="files.length" class="selected-files-box">
+  <div v-if="items.length" class="selected-files-box">
     <div class="headline">
       <p>Selected Files:</p>
     </div>
     <div class="files-box">
-      <div v-for="(file, index) in files" :key="index">
+      <div v-for="(item, index) in items" :key="index">
         <div class="file">
-          <span>{{file.name}}</span>
-          <span class="delete-icon" @click="$emit('removeFile', file.name)">X</span>
+          <span>{{item.name}}</span>
+          <span class="delete-icon"
+                @click="$emit('removeItem', item.name)">
+            X
+          </span>
         </div>
-        <div v-for="(fileName, index) in Object.keys(errors)" :key="index" class="errors">
-          <template v-if="fileName === file.name">
+        <div v-for="(fileName, index) in Object.keys(errors)"
+             :key="index"
+             class="errors">
+          <template v-if="fileName === item.name">
              <div v-for="error in errors[fileName]" class="error">
                 {{error}}
               </div>

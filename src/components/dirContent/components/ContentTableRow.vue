@@ -11,7 +11,13 @@ export default {
   name: "ContentTableRow",
   components: {ItemVideoCell, ItemImageCell, ItemPreviewCellWithRenameInput, ItemIcon},
   props: {
-    item: Object
+    item: {
+      type: Object
+    },
+    showPreviewView: {
+      type: Boolean,
+      default: false
+    }
   },
   mixins: [dirMixin],
   emits: ["showSelectedItemUrl"],
@@ -22,7 +28,6 @@ export default {
       isImage: false,
       isVideo: false,
       videoType: "",
-      showPreviewView: false
     }
   },
   created() {
@@ -41,14 +46,6 @@ export default {
 
     this.$emitter.on("hideRenameInput", () => {
       this.showRenameInput = false;
-    });
-
-    this.$emitter.on("showPreviewView", () => {
-      this.showPreviewView = !this.showPreviewView;
-    });
-
-    this.$emitter.on("disablePreviewView", () => {
-      this.showPreviewView = false;
     });
   },
   methods: {
@@ -111,15 +108,23 @@ export default {
 
     <div class="name-cell">
       <ItemIcon :type="item.type"/>
-      <ItemPreviewCellWithRenameInput v-if="!showPreviewView" :item="item" :show-rename-input="showRenameInput"/>
+      <template v-if="showPreviewView">
+        <ItemImageCell v-if="isImage"
+                       :item="item"
+                       :show-rename-input="showRenameInput"/>
 
-      <template v-else>
-        <ItemImageCell v-if="isImage" :item="item" :show-rename-input="showRenameInput"/>
+        <ItemVideoCell v-if="isVideo"
+                       :item="item"
+                       :show-rename-input="showRenameInput"
+                       :video-type="videoType"/>
 
-        <ItemVideoCell v-if="isVideo" :item="item" :show-rename-input="showRenameInput" :video-type="videoType"/>
-
-        <ItemPreviewCellWithRenameInput v-if="!isVideo && !isImage" :item="item" :show-rename-input="showRenameInput"/>
+        <ItemPreviewCellWithRenameInput v-if="!isVideo && !isImage"
+                                        :item="item"
+                                        :show-rename-input="showRenameInput"/>
       </template>
+      <ItemPreviewCellWithRenameInput v-else
+                                      :item="item"
+                                      :show-rename-input="showRenameInput"/>
     </div>
 
     <div class="date-cell">
@@ -130,8 +135,12 @@ export default {
       {{item.size}} KB
     </div>
     <div class="show-cell" @click="showItem">
-      <img v-if="isImage" src="../../../assets/img/eye.svg" alt="show image">
-      <img v-else-if="isVideo" src="../../../assets/img/play-circle.svg" alt="show video">
+      <img v-if="isImage"
+           src="@assets/eye.svg"
+           alt="show image">
+      <img v-else-if="isVideo"
+           src="@assets/play-circle.svg"
+           alt="show video">
       <div v-else></div>
     </div>
   </div>

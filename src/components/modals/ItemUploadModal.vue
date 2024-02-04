@@ -1,29 +1,29 @@
 <script>
 import Alert from "@/components/_baseComponents/Alert.vue";
-import UploadedFilesList from "@/components/modals/components/UploadedFilesList.vue";
-import UploadedFilesDropBox from "@/components/modals/components/UploadedFilesDropBox.vue";
-import UploadedFilesSetting from "@/components/modals/components/UploadedFilesSetting.vue";
-import UploadedFilesActionButtons from "@/components/modals/components/UploadedFilesActionButtons.vue";
+import UploadItemsList from "@/components/modals/components/UploadItemsList.vue";
+import UploadItemsDropBox from "@/components/modals/components/UploadItemsDropBox.vue";
+import UploadItemsSetting from "@/components/modals/components/UploadItemsSetting.vue";
+import UploadItemsActionButtons from "@/components/modals/components/UploadItemsActionButtons.vue";
 
 export default {
-  name: "FileUploadModal",
-  components: {UploadedFilesActionButtons, UploadedFilesSetting, UploadedFilesDropBox, UploadedFilesList, Alert},
+  name: "ItemUploadModal",
+  components: {UploadItemsActionButtons, UploadItemsSetting, UploadItemsDropBox, UploadItemsList, Alert},
   data() {
     return {
-      files: [],
-      ifFileExist: 0,
-      maxUploadFile: 10,
+      items: [],
+      ifItemExist: 0,
+      maxUploadItems: 10,
       errors: [],
     }
   },
   computed: {
-    maxUploadFilesReached() {
-      return this.files.length > this.maxUploadFile;
+    maxUploadItemsReached() {
+      return this.items.length > this.maxUploadItems;
     }
   },
   methods: {
-    removeFile(fileName) {
-      this.files = this.files.filter(file => file.name !== fileName);
+    removeItemFromList(itemName) {
+      this.items = this.items.filter(item => item.name !== itemName);
     },
     updateComp(errors) {
       this.errors = errors;
@@ -39,22 +39,22 @@ export default {
       <div class="header">
         <h3>Upload Files</h3>
       </div>
-      <Alert v-if="maxUploadFilesReached"
+      <Alert v-if="maxUploadItemsReached"
              type="warning"
              message="Limit: Maximum of 10 files per upload"/>
-      <UploadedFilesDropBox v-model="files"
-                            :max-upload-files-reached="maxUploadFilesReached"/>
-      <UploadedFilesSetting v-model="ifFileExist"/>
-      <UploadedFilesList :files="files"
+      <UploadItemsDropBox v-model="items"
+                            :max-upload-items-reached="maxUploadItemsReached"/>
+      <UploadItemsSetting v-model="ifItemExist"/>
+      <UploadItemsList :items="items"
                          :errors="errors"
-                         @remove-file="removeFile"
+                         @remove-item="removeItemFromList"
                          ref="fileListComp"/>
-      <UploadedFilesActionButtons
-          :max-upload-file="maxUploadFile"
-          :max-upload-files-reached="maxUploadFilesReached"
-          :files="files"
-          :if-file-exist="ifFileExist"
-          @update-files-list-comp="updateComp"/>
+      <UploadItemsActionButtons
+          :max-upload-items="maxUploadItems"
+          :max-upload-items-reached="maxUploadItemsReached"
+          :items="items"
+          :if-item-exist="ifItemExist"
+          @update-items-list-comp="updateComp"/>
     </div>
   </div>
 </template>

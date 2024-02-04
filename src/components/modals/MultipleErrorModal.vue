@@ -20,7 +20,11 @@ export default {
           </ul>
         </div>
       </div>
-      <button type="button" class="ok-btn" @click="$emit('hideErrorModal')">Ok</button>
+      <button type="button"
+              class="ok-btn"
+              @click="$emit('hideErrorModal')">
+        Ok
+      </button>
     </div>
   </div>
 </template>

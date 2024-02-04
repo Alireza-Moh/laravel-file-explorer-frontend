@@ -18,7 +18,8 @@ export default {
       itemHeight: 80,
       scrollTop: 0,
       settingsStore: useSettingsStore(),
-      dirItemsStore: useDirItemsStore()
+      dirItemsStore: useDirItemsStore(),
+      showPreviewView: false
     };
   },
   computed: {
@@ -58,12 +59,16 @@ export default {
     });
 
     this.dirItemsStore.$subscribe((mutation, state) => {
-      const dir = state.data.find((dir) => (dir.diskName === this.selectedDisk) && (dir.dirName === this.selectedDir));
+      const dir = state.data.find((dir) => {
+        return (dir.diskName === this.selectedDisk) && (dir.dirName === this.selectedDir);
+      });
       if (dir && dir.dirItems) {
         this.items = dir.dirItems;
         this.updateVisibleItems();
       }
     });
+
+    this.listenForItemPreviewAction();
   },
   methods: {
     setSelectedItem(item) {
@@ -80,6 +85,15 @@ export default {
       const endIdx = startIdx + visibleCount * 2; //to improve scrolling experience, retrieve twice the number of items
       this.visibleItems = this.items.slice(startIdx, endIdx);
     },
+    listenForItemPreviewAction() {
+      this.$emitter.on("showPreviewView", () => {
+        this.showPreviewView = !this.showPreviewView;
+      });
+
+      this.$emitter.on("disablePreviewView", () => {
+        this.showPreviewView = false;
+      });
+    }
   }
 };
 </script>
@@ -102,6 +116,7 @@ export default {
           <ContentTableRow v-for="(item, index) in filteredItems"
                            :key="index"
                            :item="item"
+                           :show-preview-view="showPreviewView"
                            @show-selected-item-url="setSelectedItem"/>
 
         </template>

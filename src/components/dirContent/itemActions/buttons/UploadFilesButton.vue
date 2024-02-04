@@ -1,9 +1,9 @@
 <script>
-import FileUploadModal from "@/components/modals/FileUploadModal.vue";
+import ItemUploadModal from "@/components/modals/ItemUploadModal.vue";
 
 export default {
   name: "UploadFilesButton",
-  components: {FileUploadModal},
+  components: {ItemUploadModal},
   data() {
     return {
       showModal: false,
@@ -19,10 +19,10 @@ export default {
 
 <template>
   <button type="button" class="action-btn" @click="showModal = true">
-    <img src="../../../../assets/img/cloud-arrow-up.svg" alt="upload button" class="svg-img">
+    <img src="@assets/cloud-arrow-up.svg" alt="upload button" class="svg-img">
     <span class="action-btn__text item-action-btn__text">Upload Files</span>
   </button>
-  <FileUploadModal v-if="showModal"/>
+  <ItemUploadModal v-if="showModal"/>
 </template>
 
 <style scoped>

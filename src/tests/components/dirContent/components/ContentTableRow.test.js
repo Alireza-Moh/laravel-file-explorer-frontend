@@ -38,7 +38,8 @@ describe('ContentTableRow', () => {
                 })
             ],
             props: {
-                item: targetItem
+                item: targetItem,
+                showPreviewView: false
             }
         });
 
@@ -70,7 +71,7 @@ describe('ContentTableRow', () => {
     });
 
     test('should render ItemImageCell component with the correct props when previewView is enabled', async () => {
-        wrapper.setData({ showPreviewView: true});
+        wrapper.setProps({ showPreviewView: true});
         await wrapper.vm.$nextTick();
 
         const itemImageCell = wrapper.findComponent(ItemImageCell);
@@ -82,8 +83,7 @@ describe('ContentTableRow', () => {
 
     test('should render ItemVideoCell component with the correct props when previewView is enabled and the passed item is a video', async () => {
         const testVideoItem = getTestVideo();
-        wrapper.setProps({item: testVideoItem});
-        wrapper.setData({ showPreviewView: true});
+        wrapper.setProps({item: testVideoItem, showPreviewView: true});
         await wrapper.vm.$nextTick();
 
         const itemVideoCell = wrapper.findComponent(ItemVideoCell);
@@ -100,7 +100,6 @@ describe('ContentTableRow', () => {
         expect(imageElement.exists()).toBe(true);
         expect(imageElement.attributes('src').endsWith("eye.svg")).toBe(true);
     });
-
 
     test('should render show-video icon when the passed item is a video', async () => {
         wrapper.setProps({item: getTestVideo()});

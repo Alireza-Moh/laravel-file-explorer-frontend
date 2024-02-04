@@ -35,8 +35,8 @@ export default {
 
 <template>
   <div v-if="showAlert" class="message-box" :class="type">
-    <img v-if="type === 'success'" src="../../assets/img/done.svg" alt="message icon">
-    <img v-if="type === 'failed'" src="../../assets/img/failed.svg" alt="message icon">
+    <img v-if="type === 'success'" src="@assets/done.svg" alt="message icon">
+    <img v-if="type === 'failed'" src="@assets/failed.svg" alt="message icon">
     <span class="text">{{message}}</span>
   </div>
 </template>

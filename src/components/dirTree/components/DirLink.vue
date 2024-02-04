@@ -75,14 +75,18 @@ export default {
        @contextmenu="showContextMenu">
 
     <div class="nav__link-wrapper" @click="openDir(dir)">
-      <img src="../../../assets/img/folder-fill.svg" alt="folder icon" class="dir-folder-icon"/>
+      <img src="@assets/folder-fill.svg"
+           alt="folder icon"
+           class="dir-folder-icon"/>
 
-      <RenameInput v-if="showRenameInput" :dir="dir" @hide-rename-input="hideRenameInput"/>
+      <RenameInput v-if="showRenameInput"
+                   :dir="dir"
+                   @hide-rename-input="hideRenameInput"/>
       <span v-else class="nav__name">{{ dir.name }}</span>
 
     </div>
     <img v-if="showCartIcon"
-         src="../../../assets/img/chevron-right.svg"
+         src="@assets/chevron-right.svg"
          alt=""
          class="cheven_link svg-img"
          :class="{ 'opened-sub-dir': isSubNavOpen}"

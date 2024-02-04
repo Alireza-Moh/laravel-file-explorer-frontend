@@ -13,11 +13,11 @@ export default {
     toggleDarkMode() {
       this.isDarkMode = !this.isDarkMode;
       if (!this.isDarkMode) {
-        localStorage.setItem("mode", "light-mode");
-        document.body.classList.remove("dark-mode")
+        this.setDarkModeInStorage("light-mode");
+        document.body.classList.remove("dark-mode");
       } else {
-        localStorage.setItem("mode", "dark-mode");
-        document.body.classList.add("dark-mode")
+        this.setDarkModeInStorage();
+        this.addDarkModeClassToBody();
       }
     },
     checkDarkMode() {
@@ -25,8 +25,14 @@ export default {
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
       if (getMode && getMode === "dark-mode" && prefersDark.matches) {
         this.isDarkMode = true;
-        document.body.classList.add("dark-mode")
+        this.addDarkModeClassToBody();
       }
+    },
+    setDarkModeInStorage(theme) {
+      localStorage.setItem("mode", theme);
+    },
+    addDarkModeClassToBody() {
+      document.body.classList.add("dark-mode");
     }
   }
 }
@@ -38,7 +44,10 @@ export default {
       Laravel File Explorer
     </div>
     <div class="dark-mode">
-      <div class="toggle" @click="toggleDarkMode" :class="{ active: isDarkMode }"></div>
+      <div class="toggle"
+           :class="{ active: isDarkMode }"
+           @click="toggleDarkMode">
+      </div>
     </div>
   </header>
 </template>

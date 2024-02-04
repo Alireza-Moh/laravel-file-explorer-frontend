@@ -14,11 +14,14 @@ export default {
 <template>
   <div class="thumbnail-box">
     <div class="thumbnail-image-box">
-      <img :src="item.url" alt="img" class="thumbnail">
+      <img :src="item.url"
+           alt="img"
+           class="thumbnail">
     </div>
   </div>
 
-  <ItemPreviewCellWithRenameInput :item="item" :show-rename-input="showRenameInput"/>
+  <ItemPreviewCellWithRenameInput :item="item"
+                                  :show-rename-input="showRenameInput"/>
 </template>
 
 <style scoped>

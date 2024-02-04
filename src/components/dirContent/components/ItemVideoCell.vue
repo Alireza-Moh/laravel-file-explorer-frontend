@@ -14,10 +14,13 @@ export default {
 
 <template>
   <video width="80" height="80" muted>
-    <source :src="item.url" :type="videoType" class="video-src">
+    <source :src="item.url"
+            :type="videoType"
+            class="video-src">
   </video>
 
-  <ItemPreviewCellWithRenameInput :item="item" :show-rename-input="showRenameInput"/>
+  <ItemPreviewCellWithRenameInput :item="item"
+                                  :show-rename-input="showRenameInput"/>
 </template>
 
 <style scoped>

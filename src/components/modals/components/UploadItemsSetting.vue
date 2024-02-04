@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "UploadedFilesSetting",
+  name: "UploadItemsSetting",
   emits: ["update:modelValue"],
   data() {
     return {
