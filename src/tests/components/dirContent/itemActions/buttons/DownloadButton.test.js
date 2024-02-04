@@ -1,7 +1,6 @@
 import {mount} from "@vue/test-utils";
 import {createTestingPinia} from "@pinia/testing";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
-import randomItems from "@/tests/testData/randomItems.json";
 import mitt from "mitt";
 import DownloadButton from "@/components/dirContent/itemActions/buttons/DownloadButton.vue";
 describe("DownloadButton", () => {
