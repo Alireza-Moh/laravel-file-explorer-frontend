@@ -1,11 +1,12 @@
 <script>
 import ConfirmModal from "@/components/modals/ConfirmModal.vue";
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
+import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 
 export default {
   name: "DeleteButton",
   components: {ConfirmModal},
-  mixins: [storesMixin],
   props: {
     items: Array
   },
@@ -13,7 +14,10 @@ export default {
     return {
       showConfirmModal: false,
       diskName: null,
-      dirName: null
+      dirName: null,
+      settingsStore: useSettingsStore(),
+      checkedItemsStore: useCheckedItemsStore(),
+      dirItemsStore: useDirItemsStore()
     }
   },
   created() {
@@ -66,24 +70,22 @@ export default {
       }
     },
     getFromData() {
-      let itemsToDelete = [];
+      let files = [];
+      let dirs = [];
 
       this.items.forEach(item => {
-        itemsToDelete.push({
+        const itemToDelete = {
           name: item.name,
-          path: item.path,
-          type: item.type
-        })
+          path: item.path
+        };
+        if (item.type === 'file') {
+          files.push(itemToDelete);
+        } else if (item.type === 'dir') {
+          dirs.push(itemToDelete);
+        }
       });
 
-      return itemsToDelete.reduce((acc, item) => {
-        if (item.type === 'file') {
-          acc.files.push(item);
-        } else if (item.type === 'dir') {
-          acc.dirs.push(item);
-        }
-        return acc;
-      }, {files: [], dirs: []});
+      return { files, dirs };
     },
     removeItemFromDirStore(status, filesToDelete) {
       if (status === "success") {

@@ -1,7 +1,7 @@
 <script>
 import RightClickContextMenu from "@/components/dirTree/components/RightClickContextMenu.vue";
 import RenameInput from "@/components/dirTree/components/RenameInput.vue";
-import dirMixin from "@/components/_baseComponents/mixins/dirMixin.js";
+import dirMixin from "@/components/dirContent/mixins/dirMixin.js";
 
 export default {
   name: "DirLink",

@@ -1,9 +1,8 @@
 <script>
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
 
 export default {
   name: "RenameInput",
-  mixins: [storesMixin],
   emits: ["hideRenameInput"],
   props: {
     dir: Object
@@ -11,6 +10,7 @@ export default {
   data() {
     return {
       newDirName: this.dir.name,
+      settingsStore: useSettingsStore(),
     }
   },
   methods: {
@@ -31,7 +31,7 @@ export default {
       const ulr = this.settingsStore.baseUrl
           + "disks/"
           + this.settingsStore.defaultFileExplorerViewData.selectedDisk
-          + "/files/"
+          + "/dirs/"
           + this.dir.name;
 
       this.$http.put(ulr, options).then((data) => {
@@ -42,7 +42,7 @@ export default {
           this.$emit("hideRenameInput", status, this.newDirName, newPath);
         }
       });
-    },
+    }
   }
 }
 </script>

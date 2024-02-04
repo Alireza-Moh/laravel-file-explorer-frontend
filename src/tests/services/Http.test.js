@@ -126,7 +126,7 @@ describe('Http', () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    Accept: 'application/json'
+                    "Accept": 'application/json'
                 }
             }
         );
@@ -139,17 +139,17 @@ describe('Http', () => {
                 json: () => Promise.resolve(responseData),
             })
         )
-        const response = await Http.delete('http://example.com', {});
+        const response = await Http.delete('https://example.com', {});
 
         expect(response).toEqual(responseData);
         expect(fetch).toHaveBeenCalledTimes(1);
         expect(fetch).toHaveBeenCalledWith(
-            'http://example.com',
+            'https://example.com',
             {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                    Accept: 'application/json'
+                    "Accept": 'application/json'
                 }
             }
         );

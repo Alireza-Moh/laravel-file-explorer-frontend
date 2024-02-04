@@ -1,10 +1,9 @@
 <script>
 import DirLink from "@/components/dirTree/components/DirLink.vue";
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
 
 export default {
   name: "DirTree",
-  mixins: [storesMixin],
   components: {DirLink},
   props: {
     dirs: Array
@@ -13,7 +12,8 @@ export default {
     return {
       isSubNavOpen: false,
       selectedDir: null,
-      selectedSubNavToShow: null
+      selectedSubNavToShow: null,
+      settingsStore: useSettingsStore(),
     }
   },
   created() {

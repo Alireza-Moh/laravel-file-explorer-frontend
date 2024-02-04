@@ -5,15 +5,18 @@ import ItemActionList from "@/components/dirContent/itemActions/ItemActionList.v
 import DirTree from "@/components/dirTree/components/DirTree.vue";
 import TreeContainer from "@/components/dirTree/TreeContainer.vue";
 import DirContentTable from "@/components/dirContent/DirContentTable.vue";
-import storesMixin from "@/mixins/storesMixin.js";
 import Notify from "@/components/_baseComponents/Notify.vue";
 import ImageViewer from "@/components/dirContent/components/ImageViewer.vue";
 import VideoPlayerViewer from "@/components/dirContent/components/VideoPlayerViewer.vue";
 import Loader from "@/components/_baseComponents/Loader.vue";
+import {useSettingsStore} from "@/stores/settingsStore.js";
+import {useDisksStore} from "@/stores/disksStore.js";
+import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
+import {useDirItemsStore} from "@/stores/dirItemsStore.js";
+import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
 
 export default {
   name: "FileExplorer",
-  mixins: [storesMixin],
   components: {
     Loader,
     VideoPlayerViewer,
@@ -28,7 +31,12 @@ export default {
   },
   data() {
     return {
-      isLoading: true
+      isLoading: true,
+      settingsStore: useSettingsStore(),
+      disksStore: useDisksStore(),
+      diskDirsStore: useDiskDirsStore(),
+      dirItemsStore: useDirItemsStore(),
+      checkedItemsStore: useCheckedItemsStore()
     }
   },
   created() {
@@ -201,39 +209,5 @@ body.dark-mode .rename-input {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
-}
-
-.shimmer {
-  overflow: hidden;
-  position: relative;
-}
-
-.shimmer::before {
-  content: "";
-  position: absolute;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-  animation: shimmer 1s infinite;
-}
-
-@keyframes shimmer {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-body.dark-mode .shimmer::before {
-  content: "";
-  position: absolute;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-  animation: shimmer 1s infinite;
 }
 </style>

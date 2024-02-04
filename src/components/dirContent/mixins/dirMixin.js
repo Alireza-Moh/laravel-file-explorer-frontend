@@ -1,7 +1,15 @@
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
+import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 
 export default {
-    mixins:[storesMixin],
+    data() {
+        return {
+            settingsStore: useSettingsStore(),
+            dirItemsStore: useDirItemsStore(),
+            checkedItemsStore: useCheckedItemsStore()
+        }
+    },
     methods: {
         openDir(dir) {
             if (dir.type === "dir") {

@@ -90,7 +90,6 @@ describe("CreateDirButton", () => {
         expect(createItemMethodSpy).toHaveBeenCalledWith(
             "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/android/new-dir",
             "android/" + targetFileName,
-            "dir",
             "android"
         );
         expect(postHttpSpy).toHaveBeenCalledWith(
@@ -98,8 +97,7 @@ describe("CreateDirButton", () => {
             {
                 body: JSON.stringify({
                     path: "android/" + targetFileName,
-                    type: "dir",
-                    dirPath: "android"
+                    destination: "android"
                 })
             }
         );

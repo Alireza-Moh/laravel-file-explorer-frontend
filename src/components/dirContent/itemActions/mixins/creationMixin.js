@@ -1,16 +1,20 @@
 import ItemActionModal from "@/components/modals/ItemActionModal.vue";
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
+import {useDirItemsStore} from "@/stores/dirItemsStore.js";
+import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
 
 export default {
     components: {ItemActionModal},
-    mixins: [storesMixin],
     data() {
         return {
             showModal: false,
             diskName: null,
             dirName: null,
             selectedDirPath: null,
-            errors: {}
+            errors: {},
+            settingsStore: useSettingsStore(),
+            dirItemsStore: useDirItemsStore(),
+            diskDirsStore: useDiskDirsStore(),
         }
     },
     created() {
@@ -34,12 +38,11 @@ export default {
             this.showModal = false;
             this.errors = {};
         },
-        createItem(url, path, type, dirPath) {
+        createItem(url, path, destination) {
             const options = {
                 body: JSON.stringify({
                     path: path,
-                    type: type,
-                    dirPath: dirPath
+                    destination: destination
                 })
             };
 

@@ -1,13 +1,13 @@
 <script>
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
 
 export default {
   name: "SaveButton",
-  mixins: [storesMixin],
   data() {
     return {
       item: null,
-      oldFileName: null
+      oldFileName: null,
+      settingsStore: useSettingsStore(),
     }
   },
   mounted() {
@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     saveNewFileName() {
-      const url = this.settingsStore.baseUrl + "disks/" + this.item.diskName + "/dirs/" + this.getFileNameWithoutExtension();
+      const url = this.settingsStore.baseUrl + "disks/" + this.item.diskName + "/files/" + this.getFileNameWithoutExtension();
 
       this.$http.put(url, this.getRequestOption()).then((data) => {
         this.$emitter.emit("uncheckInput");
@@ -40,6 +40,7 @@ export default {
     getRequestOption() {
       return  {
         body: JSON.stringify({
+          newName: this.item.name,
           oldPath: this.item.path,
           newPath: this.getNewPath()
         })

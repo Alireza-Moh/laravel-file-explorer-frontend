@@ -6,8 +6,13 @@ export default {
   components: {FileUploadModal},
   data() {
     return {
-      showModal: false
+      showModal: false,
     }
+  },
+  mounted() {
+    this.$emitter.on("closeUploadModal", () => {
+      this.showModal = false;
+    });
   }
 }
 </script>
@@ -17,7 +22,7 @@ export default {
     <img src="../../../../assets/img/cloud-arrow-up.svg" alt="upload button" class="svg-img">
     <span class="action-btn__text item-action-btn__text">Upload Files</span>
   </button>
-  <FileUploadModal v-if="showModal" @close-modal="showModal = false"/>
+  <FileUploadModal v-if="showModal"/>
 </template>
 
 <style scoped>

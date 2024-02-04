@@ -1,14 +1,14 @@
 <script>
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
 
 export default {
   name: "ContentTableMenu",
   emits: ["update:modelValue"],
-  mixins: [storesMixin],
   data() {
     return {
       currentDirPath: null,
-      showPreviewView: false
+      showPreviewView: false,
+      settingsStore: useSettingsStore()
     }
   },
   created() {
@@ -85,10 +85,6 @@ export default {
   gap: 10px;
   font-size: 12px;
   color: #000000;
-}
-
-.copy-icon {
-  cursor: pointer;
 }
 
 #itemSearch {

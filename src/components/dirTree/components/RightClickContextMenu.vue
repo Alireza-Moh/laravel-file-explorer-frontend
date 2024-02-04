@@ -1,14 +1,20 @@
 <script>
-import storesMixin from "@/mixins/storesMixin.js";
+import {useSettingsStore} from "@/stores/settingsStore.js";
+import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
 
 export default {
   name: "RightClickContextMenu",
-  mixins: [storesMixin],
   props: {
     left: Number,
     top: Number,
     dir: {},
-    directoryIndex: {}
+    directoryIndex: {},
+  },
+  data() {
+    return {
+      settingsStore: useSettingsStore(),
+      diskDirsStore: useDiskDirsStore()
+    }
   },
   methods: {
     renameDir() {
