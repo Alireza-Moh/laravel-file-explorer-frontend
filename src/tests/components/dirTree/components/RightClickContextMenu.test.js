@@ -4,11 +4,13 @@ import {createTestingPinia} from "@pinia/testing";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import RightClickContextMenu from "@/components/dirTree/components/RightClickContextMenu.vue";
 import diskDirsStoreTestData from "@/tests/testData/stores/diskDirsStoreTestData.json";
+import mitt from "mitt";
 
 describe('RightClickContextMenu', () => {
-    let wrapper, $http;
+    let wrapper, $http, $emitter;
 
     beforeEach(() => {
+        $emitter = new mitt();
         const showAlert = vi.fn();
         Object.defineProperty(window, 'showAlert', {
             writable: true,
@@ -20,12 +22,13 @@ describe('RightClickContextMenu', () => {
             delete: vi.fn().mockImplementation(() => {
                 return Promise.resolve(deleteDirApiResponseTestData);
             })
-        }
+        };
 
         wrapper = mount(RightClickContextMenu, {
             global: {
                 mocks: {
                     $http,
+                    $emitter
                 },
                 plugins: [
                     createTestingPinia({
@@ -75,12 +78,21 @@ describe('RightClickContextMenu', () => {
         expect(contentDiv.style.top).toBe('100px');
     });
 
-    test("should emit 'rename-dir' event when rename link is clicked", async () => {
+    test("should emit 'showRenameModal' event when rename link is clicked", async () => {
+        const emitSpy = vi.spyOn($emitter, "emit");
         const renameLink = wrapper.find('#rename-link');
 
         renameLink.trigger("click");
 
-        expect(wrapper.emitted()).toHaveProperty("renameDir");
+        expect(emitSpy).toHaveBeenCalledWith(
+            'showRenameModal',
+            {
+                label: "New directory name:",
+                functionOnSave: wrapper.vm.renameDir,
+                errors: {},
+                itemName: "android"
+            }
+        );
     });
 
     test("should delete the subdirectory when the delete link is clicked", async () => {

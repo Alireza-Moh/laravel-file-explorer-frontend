@@ -1,20 +1,32 @@
 <script>
 export default {
   name: "MultipleErrorModal",
-  emits: ["hideErrorModal"],
-  props: {
-    errors: Object
+  data() {
+    return {
+      showErrorModal: false,
+      errors: {},
+      showErrorKey: true,
+      headline: "Errors"
+    }
   },
+  mounted() {
+    this.$emitter.on("showErrorModal", (data) => {
+      this.headline = data.headline;
+      this.errors = data.errors;
+      this.showErrorKey = data.showErrorKey;
+      this.showErrorModal = true;
+    });
+  }
 }
 </script>
 
 <template>
-  <div class="modal-wrapper">
+  <div v-if="showErrorModal" class="modal-wrapper">
     <div class="confirm-wrapper">
-      <div class="headline">Download Errors:</div>
+      <div class="headline">{{headline}}</div>
       <div class="error-box">
         <div v-for="(fileErrors, fileName) in errors" class="error-wrapper">
-          <div class="file-name">{{fileName}}</div>
+          <div class="file-name" v-if="showErrorKey">{{fileName}}</div>
           <ul class="errors-box">
             <li v-for="error in fileErrors" class="error">{{error}}</li>
           </ul>
@@ -22,7 +34,7 @@ export default {
       </div>
       <button type="button"
               class="ok-btn"
-              @click="$emit('hideErrorModal')">
+              @click="showErrorModal = false">
         Ok
       </button>
     </div>
@@ -30,6 +42,10 @@ export default {
 </template>
 
 <style scoped>
+.modal-wrapper {
+  z-index: 5;
+}
+
 .confirm-wrapper {
   position: absolute;
   top: 50%;
@@ -40,7 +56,7 @@ export default {
   padding: 2em;
   min-width: 500px;
   border-radius: 4px;
-  z-index: 999;
+  z-index: 3;
   color: #000000;
 }
 
@@ -88,5 +104,14 @@ export default {
 
 .error-wrapper:last-child {
   margin-bottom: 0;
+}
+
+body.dark-mode .headline {
+  color: #f1f3f4;
+}
+
+body.dark-mode .confirm-wrapper {
+  background-color: #202124;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 </style>

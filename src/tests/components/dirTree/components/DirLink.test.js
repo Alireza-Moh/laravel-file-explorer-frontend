@@ -6,7 +6,6 @@ import RightClickContextMenu from "@/components/dirTree/components/RightClickCon
 import dirItemsApiResponseTestData from "@/tests/testData/dirItemsApiResponseTestData.json";
 import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData.json";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
-import RenameInput from "@/components/dirTree/components/RenameInput.vue";
 import mitt from "mitt";
 
 const getIosDirectoryItems = () => {
@@ -36,6 +35,13 @@ describe('DirLink component', () => {
         $http = {
             post: vi.fn().mockImplementation(() => {
                 return Promise.resolve(dirItemsApiResponseTestData);
+            }),
+            put: vi.fn().mockImplementation(() => {
+                return Promise.resolve({
+                    "result": {
+                        "status": "success"
+                    }
+                });
             })
         }
 
@@ -292,43 +298,43 @@ describe('DirLink component', () => {
     });
 
     test("should show rename input component when rename button in RightClickContextMenu is clicked", async () => {
+        const emitSpy = vi.spyOn($emitter, "emit");
         const navLink = wrapper.find(".nav__link");
         navLink.trigger("contextmenu");
         await wrapper.vm.$nextTick();
         const rightClickContextMenu = wrapper.findComponent(RightClickContextMenu);
 
-        rightClickContextMenu.vm.$emit('rename-dir');
+        rightClickContextMenu.vm.showRenameModal();
         await wrapper.vm.$nextTick();
 
-        const renameInput = wrapper.findComponent(RenameInput);
-        expect(renameInput.exists()).toBe(true);
-    });
 
-    test("should hide the RenameInput component when the 'hide-rename-input' event is emitted", async () => {
-        wrapper.find(".nav__link").trigger("contextmenu");
-        await wrapper.vm.$nextTick();
-        const rightClickContextMenu = wrapper.findComponent(RightClickContextMenu);
-        rightClickContextMenu.vm.$emit('rename-dir');
-        await wrapper.vm.$nextTick();
-
-        wrapper.findComponent(RenameInput).vm.$emit("hide-rename-input");
-        await wrapper.vm.$nextTick();
-
-        expect(wrapper.vm.showRenameInput).toBe(false);
-        expect(wrapper.findComponent(RenameInput).exists()).toBe(false);
+        expect(emitSpy).toHaveBeenCalledWith("closeRightContext");
+        expect(emitSpy).toHaveBeenCalledWith(
+            'showRenameModal',
+            {
+                label: "New directory name:",
+                functionOnSave: rightClickContextMenu.vm.renameDir,
+                errors: {},
+                itemName: "android"
+            }
+        );
     });
 
     test("should change directory name to 'changedDir' and the path to 'changedDir' when the status is 'success' on 'hide-rename-input' event emit", async () => {
+        const showAlert = vi.fn();
+        Object.defineProperty(window, 'showAlert', {
+            writable: true,
+            configurable: true,
+            value: showAlert
+        });
         wrapper.find(".nav__link").trigger("contextmenu");
         await wrapper.vm.$nextTick();
         const rightClickContextMenu = wrapper.findComponent(RightClickContextMenu);
-        rightClickContextMenu.vm.$emit('rename-dir');
+        const renameDirMethodSpy = vi.spyOn(rightClickContextMenu.vm, "renameDir");
+
+        rightClickContextMenu.vm.renameDir("newDirName");
         await wrapper.vm.$nextTick();
 
-        wrapper.findComponent(RenameInput).vm.$emit("hide-rename-input", "success", "changedDir", "changedDir");
-        await wrapper.vm.$nextTick();
-
-        expect(wrapper.vm.dir.name).toBe("changedDir");
-        expect(wrapper.vm.dir.path).toBe("changedDir");
+        expect(renameDirMethodSpy).toHaveBeenCalledWith("newDirName");
     });
 });

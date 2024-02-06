@@ -14,10 +14,14 @@ import {useDisksStore} from "@/stores/disksStore.js";
 import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import MultipleErrorModal from "@/components/modals/MultipleErrorModal.vue";
+import RenameModal from "@/components/modals/RenameModal.vue";
 
 export default {
   name: "FileExplorer",
   components: {
+    RenameModal,
+    MultipleErrorModal,
     Loader,
     VideoPlayerViewer,
     ImageViewer,
@@ -103,6 +107,8 @@ export default {
       </div>
       <ImageViewer v-once/>
       <VideoPlayerViewer v-once/>
+      <MultipleErrorModal/>
+      <RenameModal/>
     </main>
   </div>
 </template>
@@ -209,5 +215,9 @@ body.dark-mode .rename-input {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .error {
+  color: #c30c0c;
 }
 </style>

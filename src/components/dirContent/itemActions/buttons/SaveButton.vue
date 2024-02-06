@@ -39,6 +39,17 @@ export default {
           window.showAlert(status, data.result.message);
           this.$emitter.emit("hideRenameInput");
         }
+        if (data.errors) {
+          this.$emitter.emit(
+              "showErrorModal",
+              {
+                headline: "Rename Errors",
+                errors: data.errors,
+                showErrorKey: false
+              }
+          );
+          this.item.name = this.oldFileName;
+        }
       });
     },
     getRequestOption() {

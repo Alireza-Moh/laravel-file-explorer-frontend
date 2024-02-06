@@ -1,9 +1,11 @@
 <script>
 import {useSettingsStore} from "@/stores/settingsStore.js";
 import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
+import ItemActionModal from "@/components/modals/RenameModal.vue";
 
 export default {
   name: "RightClickContextMenu",
+  components: {ItemActionModal},
   props: {
     left: Number,
     top: Number,
@@ -13,12 +15,23 @@ export default {
   data() {
     return {
       settingsStore: useSettingsStore(),
-      diskDirsStore: useDiskDirsStore()
+      diskDirsStore: useDiskDirsStore(),
+      errors: {}
     }
   },
   methods: {
-    renameDir() {
-      this.$emit("renameDir");
+    showRenameModal() {
+      this.$emitter.emit("closeRightContext");
+      this.$emitter.emit(
+          "showRenameModal",
+          {
+            label: "New directory name:",
+            functionOnSave: this.renameDir,
+            errors: this.errors,
+            itemName: this.dir.name
+          }
+      );
+      this.showRenameModal = true;
     },
     deleteDir() {
       const url = this.settingsStore.baseUrl + "disks/" + this.dir.diskName + "/dirs/delete"
@@ -38,6 +51,16 @@ export default {
           window.showAlert(status, data.result.message);
           this.removeDirFromDiskDirsStore(status)
         }
+        if (data.errors) {
+          this.$emitter.emit(
+              "showErrorModal",
+              {
+                headline: "Delete Errors",
+                errors: data.errors,
+                showErrorKey: false
+              }
+          );
+        }
       });
     },
     removeDirFromDiskDirsStore(status) {
@@ -55,9 +78,9 @@ export default {
         if (dir.name === this.dir.name) {
           dirs.splice(i, 1);
           return true;
-        } else if (dir.subDir && dir.subDir.length > 0) {
-          const directoryIndex = this.findAndDeleteDirByName(dir.subDir);
-          if (directoryIndex) {
+        } else if (dir.subDir && dir.subDir.length) {
+          const foundFile = this.findAndDeleteDirByName(dir.subDir);
+          if (foundFile) {
             if (dir.subDir.length === 0) {
               delete dir.subDir;
             }
@@ -66,7 +89,66 @@ export default {
         }
       }
       return false;
-    }
+    },
+    renameDir(newDirName) {
+      const newPath = this.getNewDirNamePath(newDirName);
+      const ulr = this.settingsStore.baseUrl
+          + "disks/"
+          + this.settingsStore.defaultFileExplorerViewData.selectedDisk
+          + "/dirs/"
+          + this.dir.name;
+      const options = this.getRequestOption(newDirName, newPath);
+
+      this.$http.put(ulr, options).then((data) => {
+        if (data.result) {
+          this.handleSuccessResponse(data, newDirName, newPath);
+        }
+        this.showErrors(data);
+      });
+    },
+    getNewDirNamePath(newDirName) {
+      const splitPath = this.dir.path.split('/');
+
+      let newPath = newDirName;
+      if (splitPath.length > 1) {
+        newPath = this.dir.path.replace(this.dir.name, newDirName);
+      }
+
+      return newPath;
+    },
+    getRequestOption(newDirName, newPath) {
+      return {
+        body: JSON.stringify({
+          oldName: this.dir.name,
+          newName: newDirName,
+          oldPath: this.dir.path,
+          newPath: newPath
+        })
+      };
+    },
+    handleSuccessResponse(responseData, newDirName, newPath) {
+      const status = responseData.result.status;
+
+      window.showAlert(status, responseData.result.message);
+      this.$emitter.emit("hideRenameModal");
+
+      if (status === "success") {
+        this.dir.name = newDirName;
+        this.dir.path = newPath;
+      }
+    },
+    showErrors(responseData) {
+      if (responseData.errors) {
+        this.$emitter.emit(
+            "showErrorModal",
+            {
+              headline: "Rename Errors",
+              errors: responseData.errors,
+              showErrorKey: false
+            }
+        );
+      }
+    },
   }
 }
 </script>
@@ -74,7 +156,7 @@ export default {
 <template>
   <div class="content" :style="{ top: top + 'px', left: left + 'px' }">
     <ul class="menu">
-      <li class="item" @click="renameDir" id="rename-link">
+      <li class="item" @click="showRenameModal" id="rename-link">
         <img src="@assets/pen.svg" alt="rename" class="svg-img">
         <span>Rename</span>
       </li>

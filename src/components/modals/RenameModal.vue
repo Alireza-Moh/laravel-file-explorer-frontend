@@ -1,16 +1,27 @@
 <script>
 export default {
-  name: "ItemActionModal",
-  props: {
-    functionOnCancel: Function,
-    functionOnSave: Function,
-    label: String,
-    errors: Object
-  },
+  name: "RenameModal",
   data() {
     return {
-      enteredName: null
+      showRenameModal: false,
+      enteredName: null,
+      label: "",
+      functionOnSave: null,
+      errors: {}
     }
+  },
+  mounted() {
+    this.$emitter.on("showRenameModal", (data) => {
+      this.label = data.label;
+      this.functionOnSave = data.functionOnSave;
+      this.errors = data.errors;
+      this.enteredName = data.itemName;
+      this.showRenameModal = true;
+    });
+
+    this.$emitter.on("hideRenameModal", () => {
+      this.showRenameModal = false;
+    })
   },
   methods: {
     invokeSaveFunction() {
@@ -21,7 +32,7 @@ export default {
 </script>
 
 <template>
-  <div class="modal-wrapper">
+  <div v-if="showRenameModal" class="modal-wrapper">
     <div class="modal">
       <div class="input-box">
         <label for="itemName">{{label}}</label>
@@ -44,7 +55,7 @@ export default {
 
         <button type="button"
                 id="cancel-btn"
-                @click="functionOnCancel">
+                @click="showRenameModal = false">
           Cancel
         </button>
       </div>
@@ -54,7 +65,7 @@ export default {
 
 <style scoped>
 .modal {
-  z-index: 999999;
+  z-index: 2;
   background-color: #fff;
   border-top: 4px solid #7071E8;
   width: 500px;

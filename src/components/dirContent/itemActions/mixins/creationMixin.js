@@ -1,13 +1,10 @@
-import ItemActionModal from "@/components/modals/ItemActionModal.vue";
 import {useSettingsStore} from "@/stores/settingsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
 
 export default {
-    components: {ItemActionModal},
     data() {
         return {
-            showModal: false,
             diskName: null,
             dirName: null,
             selectedDirPath: null,
@@ -31,13 +28,6 @@ export default {
         });
     },
     methods: {
-        openModal() {
-            this.showModal = true;
-        },
-        closeModal() {
-            this.showModal = false;
-            this.errors = {};
-        },
         createItem(url, path, destination) {
             const options = {
                 body: JSON.stringify({
@@ -46,14 +36,13 @@ export default {
                 })
             };
 
-
             this.$http.post(url, options).then((data) => {
                 if (data.errors) {
                     this.errors = data.errors;
                     return;
                 }
                 if (data.result) {
-                    this.showModal = false;
+                    this.$emitter.emit("hideRenameModal");
                     const items = data.result.items;
 
                     window.showAlert(data.result.status, data.result.message);

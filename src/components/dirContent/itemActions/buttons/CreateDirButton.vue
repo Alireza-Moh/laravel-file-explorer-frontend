@@ -5,6 +5,17 @@ export default {
   name: "CreateDirButton",
   mixins: [creationMixin],
   methods: {
+    openModal() {
+      this.$emitter.emit(
+          "showRenameModal",
+          {
+            label: "Enter directory name:",
+            functionOnSave: this.createDir,
+            errors: this.errors,
+            itemName: ""
+          }
+      );
+    },
     createDir(dirName) {
       if (this.diskName && this.dirName) {
         this.createItem(
@@ -26,11 +37,6 @@ export default {
     <img src="@assets/folder-plus.svg" alt="create icon" class="svg-img">
     <span class="action-btn__text item-action-btn__text">Create directory</span>
   </button>
-  <ItemActionModal
-      v-if="showModal"
-      :function-on-cancel="closeModal"
-      :function-on-save="createDir"
-      label=" Enter directory name:"/>
 </template>
 
 <style scoped>
