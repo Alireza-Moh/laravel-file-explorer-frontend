@@ -32,7 +32,6 @@ export default {
             const dirName = dir.name;
 
             const url = this.settingsStore.baseUrl + "disks/" + diskName + "/dirs/" + dirName
-
             const options = {
                 body: JSON.stringify({
                     path: dir.path
@@ -40,10 +39,22 @@ export default {
             };
 
             this.$http.post(url, options).then((data) => {
-                const items = data.items;
+                if (data.errors) {
+                    this.$emitter.emit(
+                        "showErrorModal",
+                        {
+                            headline: "Failed fetching directory data",
+                            errors: data.errors,
+                            showErrorKey: false
+                        }
+                    );
+                }
+                else {
+                    const items = data.items;
 
-                this.addsNewDirWithItemsToStore(dir, diskName, items, data.selectedDirPath)
-                this.updateSettingDefaultStore(dir, items, data.selectedDirPath);
+                    this.addsNewDirWithItemsToStore(dir, diskName, items, data.selectedDirPath)
+                    this.updateSettingDefaultStore(dir, items, data.selectedDirPath);
+                }
             });
         },
         addsNewDirWithItemsToStore(dir, selectedDisk, items, selectedDirPath) {

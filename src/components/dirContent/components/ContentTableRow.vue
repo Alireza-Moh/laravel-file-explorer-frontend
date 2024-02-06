@@ -132,7 +132,7 @@ export default {
     </div>
 
     <div class="size-cell">
-      {{item.size}} KB
+      {{item.size}}
     </div>
     <div class="show-cell" @click="showItem">
       <img v-if="isImage"
