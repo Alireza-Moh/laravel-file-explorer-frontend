@@ -9,13 +9,15 @@ export default {
 </script>
 
 <template>
-  <div class="confirm-wrapper">
-    <div class="confirm-message-box">
-      <slot name="confirmQuestion"></slot>
-    </div>
-    <div class="confirm-action-box">
-      <button type="button" class="yes" @click="confirmMethodOnYes">Yes</button>
-      <button type="button" class="no" @click="confirmMethodOnNo">No</button>
+  <div class="modal-wrapper">
+    <div class="confirm-wrapper">
+      <div class="confirm-message-box">
+        <slot name="confirmQuestion"></slot>
+      </div>
+      <div class="confirm-action-box">
+        <button type="button" class="yes" @click="confirmMethodOnYes">Yes</button>
+        <button type="button" class="no" @click="confirmMethodOnNo">No</button>
+      </div>
     </div>
   </div>
 </template>
@@ -53,12 +55,16 @@ export default {
   cursor: pointer;
   border: none;
   border-radius: 4px;
+  color: #fff;
   transition: all 0.2s ease-in-out;
 }
 
 .confirm-action-box button.yes {
   background-color: #7071E8;
-  color: white;
+}
+
+.confirm-action-box button.no {
+  background-color: #FE0000;
 }
 
 .confirm-action-box button.yes:hover {
@@ -71,11 +77,6 @@ export default {
 
 body.dark-mode .confirm-wrapper {
   background-color: #202124;
-  color: #f1f3f4;
-}
-
-body.dark-mode .confirm-action-box button.no {
-  background-color: #303134;
   color: #f1f3f4;
 }
 </style>

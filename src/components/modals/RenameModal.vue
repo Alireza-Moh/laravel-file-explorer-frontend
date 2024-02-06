@@ -67,7 +67,6 @@ export default {
 .modal {
   z-index: 2;
   background-color: #fff;
-  border-top: 4px solid #7071E8;
   width: 500px;
   border-radius: 4px;
   padding: 2em;
