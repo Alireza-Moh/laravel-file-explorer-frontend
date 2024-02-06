@@ -40,12 +40,18 @@ export default {
       disksStore: useDisksStore(),
       diskDirsStore: useDiskDirsStore(),
       dirItemsStore: useDirItemsStore(),
-      checkedItemsStore: useCheckedItemsStore()
+      checkedItemsStore: useCheckedItemsStore(),
+      hideTree: false
     }
   },
   created() {
     this.settingsStore.setBaseUrl("http://laravel-wrapper.localhost:8084/api/laravel-file-explorer/");
     this.initExplorer();
+  },
+  mounted() {
+    this.$emitter.on("toggleTree", () => {
+      this.hideTree = !this.hideTree;
+    });
   },
   methods: {
     initExplorer() {
@@ -98,7 +104,7 @@ export default {
     <Loader v-if="isLoading"/>
     <main v-else>
       <TreeContainer/>
-      <div class="content-box">
+      <div class="content-box" :class="{moveLeft: hideTree}">
         <div class="nav-box">
           <DiskList/>
           <ItemActionList/>
@@ -128,6 +134,11 @@ body {
 .content-box {
   margin-left: 250px;
   border-left: 1px solid #e8ebef;
+  transition: all 0.3s linear;
+}
+
+.content-box.moveLeft {
+  margin-left: 0;
 }
 
 body.dark-mode {
@@ -215,6 +226,29 @@ body.dark-mode .rename-input {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 700px) {
+  .size-cell {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .size-cell,
+  .date-cell {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .nav {
+    transform: translateX(-100%);
+  }
+
+  .content-box {
+    margin-left: 0;
+  }
 }
 
 body.dark-mode .error {

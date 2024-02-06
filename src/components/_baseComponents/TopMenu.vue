@@ -27,6 +27,9 @@ export default {
         this.isDarkMode = true;
         document.body.classList.add("dark-mode")
       }
+    },
+    toggleTreeContainer() {
+      this.$emitter.emit("toggleTree");
     }
   }
 }
@@ -34,8 +37,14 @@ export default {
 
 <template>
   <header>
-    <div class="logo">
-      Laravel File Explorer
+    <div class="logo-box">
+      <div class="logo">
+        Laravel File Explorer
+      </div>
+      <img src="@assets/burger.svg"
+           alt="close navbar"
+           class="burger"
+           @click="toggleTreeContainer"/>
     </div>
     <div class="dark-mode">
       <div class="toggle"
@@ -53,6 +62,12 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 header .logo {
@@ -86,6 +101,10 @@ header .logo {
 .toggle.active::before {
   background-color: #555555;
   transform: translateX(150%);
+}
+
+.burger {
+  cursor: pointer;
 }
 
 body.dark-mode header {

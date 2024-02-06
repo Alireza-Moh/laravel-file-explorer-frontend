@@ -172,6 +172,12 @@ export default {
   }
 }
 
+@media screen and (max-width: 500px) {
+  .size-cell {
+    display: none;
+  }
+}
+
 body.dark-mode .item {
   border-bottom: 1px solid #303134;
   color: #bdc1c6;
