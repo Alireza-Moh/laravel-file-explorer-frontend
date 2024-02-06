@@ -95,7 +95,7 @@ export default {
   border: 1px solid #e8ebef;
   border-radius: 4px;
   outline: none;
-  width: 300px;
+  width: 400px;
   background-color: transparent;
   color: #000000;
 }
