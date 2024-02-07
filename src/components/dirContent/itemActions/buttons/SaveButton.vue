@@ -21,7 +21,7 @@ export default {
       const url = this.settingsStore.baseUrl
           + "disks/"
           + this.item.diskName
-          + "/files/"
+          + "/items/"
           + this.getFileNameWithoutExtension();
 
       this.$http.put(url, this.getRequestOption()).then((data) => {

@@ -81,7 +81,7 @@ describe("DownloadButton", () => {
         await wrapper.vm.$nextTick();
 
         expect(postBlobHttpSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/files/download",
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/download",
             {
                 body: JSON.stringify({
                     items: [

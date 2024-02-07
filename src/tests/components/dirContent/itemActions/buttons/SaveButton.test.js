@@ -73,7 +73,7 @@ describe("SaveButton", () => {
         actionBtn.trigger("click");
 
         expect(postHttpSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/files/oldFilename",
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/oldFilename",
             {
                 body: '{"newName":"4665_001v.png","oldPath":"android/4665_001v.png","newPath":"android/4665_001v.png"}'
             }

@@ -22,17 +22,8 @@ export default {
     this.diskName = this.settingsStore.defaultFileExplorerViewData.selectedDisk
   },
   methods: {
-    download() {
-      const containsDir = this.items.some(item => item.type === 'dir');
-      if (containsDir) {
-        window.showAlert("failed", "Directory download is not supported");
-      }
-      else {
-        this.startDownload();
-      }
-    },
-    startDownload(){
-      const url = this.settingsStore.baseUrl + "disks/" + this.diskName + "/files/download";
+    download(){
+      const url = this.settingsStore.baseUrl + "disks/" + this.diskName + "/items/download";
       const options = {
         body: JSON.stringify({
           items: this.getFormData()

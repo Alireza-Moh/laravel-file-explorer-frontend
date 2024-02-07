@@ -61,7 +61,7 @@ export default {
       if (type === "file") {
         return this.settingsStore.baseUrl
             + "disks/" + this.diskName
-            + "/files/delete"
+            + "/items/delete"
       }
       else if (type === "dir") {
         return this.settingsStore.baseUrl

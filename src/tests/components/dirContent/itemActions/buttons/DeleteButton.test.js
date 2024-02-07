@@ -96,7 +96,7 @@ describe("DeleteButton", () => {
 
         expect(deleteHttpSpy).toHaveBeenCalledTimes(2);
         expect(deleteHttpSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/files/delete",
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/delete",
             {
                 body: JSON.stringify({
                     items: [

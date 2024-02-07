@@ -37,7 +37,7 @@ export default {
 
         const url = this.settingsStore.baseUrl
             + "disks/" + selectedDisk
-            + "/files/upload";
+            + "/items/upload";
         this.$http.post(url, this.getOptions(), false).then((data) => {
           this.handleResponse(data, selectedDisk, selectedDir);
         });

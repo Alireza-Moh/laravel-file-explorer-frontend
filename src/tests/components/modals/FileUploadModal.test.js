@@ -186,7 +186,7 @@ describe("FileUploadModal component", () => {
         await saveButton.trigger("click");
 
         expect(postSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/files/upload",
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/upload",
             {
                 body: formData
             },
