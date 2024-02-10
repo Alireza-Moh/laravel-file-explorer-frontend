@@ -99,19 +99,20 @@ export default {
 </script>
 
 <template>
-  <ContentTableMenu :item="selectedItem" v-model="searchedItem"/>
+  <ContentTableMenu :item="selectedItem"
+                    v-model="searchedItem"/>
   <div class="content-header">
     <div class="headline check-box-cell"></div>
     <div class="headline name-cell">Name</div>
     <div class="headline date-cell">Modified</div>
     <div class="headline size-cell">Size</div>
-    <div class="headline show-cell"></div>
   </div>
   <div ref="viewport" class="viewport" @scroll="onScroll">
 
     <div class="full-container" :style="{ height: fullHeight + 'px' }">
 
-      <div class="visible-container" :style="{ transform: 'translateY(' + scrollTop + 'px)' }">
+      <div class="visible-container"
+           :style="{ transform: 'translateY(' + scrollTop + 'px)' }">
         <template v-if="filteredItems.length > 0" >
           <ContentTableRow v-for="(item, index) in filteredItems"
                            :key="index"

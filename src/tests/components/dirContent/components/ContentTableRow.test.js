@@ -94,28 +94,11 @@ describe('ContentTableRow', () => {
         expect(itemVideoCell.props().videoType).toEqual("video/mp4");
     });
 
-    test('should render show-image icon when the passed item is an image', () => {
-        const imageElement = wrapper.find('.show-cell img');
-
-        expect(imageElement.exists()).toBe(true);
-        expect(imageElement.attributes('src').endsWith("eye.svg")).toBe(true);
-    });
-
-    test('should render show-video icon when the passed item is a video', async () => {
-        wrapper.setProps({item: getTestVideo()});
-        await wrapper.vm.$nextTick();
-
-        const imageElement = wrapper.find('.show-cell img');
-
-        expect(imageElement.exists()).toBe(true);
-        expect(imageElement.attributes('src').includes("play-circle.svg")).toBe(true);
-    });
-
     test('should show image when show-image icon is clicked and it is an image', async () => {
         const emitSpy = vi.spyOn($emitter, "emit");
-        const imageElement = wrapper.find('.show-cell');
+        const imageElement = wrapper.find('.item');
 
-        imageElement.trigger("click");
+        imageElement.trigger("dblclick");
 
         expect(emitSpy).toHaveBeenCalledWith('showImageViewer', targetItem.url);
     });
@@ -125,9 +108,9 @@ describe('ContentTableRow', () => {
         wrapper.setProps({item: testVideoItem});
         await wrapper.vm.$nextTick();
         const emitSpy = vi.spyOn($emitter, "emit");
-        const imageElement = wrapper.find('.show-cell');
+        const imageElement = wrapper.find('.item');
 
-        imageElement.trigger("click");
+        imageElement.trigger("dblclick");
 
         expect(emitSpy).toHaveBeenCalledWith('showVideoPlayer', testVideoItem);
     });

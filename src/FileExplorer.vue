@@ -183,29 +183,24 @@ body.dark-mode .rename-input {
 }
 
 .date-cell {
-  width: 15%;
+  width: 16%;
   text-align: left;
 }
 
 .size-cell {
   width: 12%;
   text-align: right;
+  padding-right: 20px;
 }
 
 .name-cell {
   display: flex;
   align-items: center;
   gap: 20px;
-  width: 68%;
+  width: 70%;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
-}
-
-.show-cell {
-  width: 3%;
-  padding-right: 20px;
-  cursor: pointer;
 }
 
 .delete-icon {

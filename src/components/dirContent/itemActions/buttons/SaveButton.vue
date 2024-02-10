@@ -63,14 +63,7 @@ export default {
       };
     },
     getNewPath() {
-      const splitPath = this.item.path.split('/');
-
-      let newPath = this.oldItemName;
-      if (splitPath.length > 1) {
-        newPath = this.item.path.replace(this.oldItemName, this.item.name);
-      }
-
-      return newPath;
+      return this.item.path.replace(this.oldItemName, this.item.name);
     },
     getFileNameWithoutExtension() {
       const lastDotIndex = this.oldItemName.lastIndexOf('.');

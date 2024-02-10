@@ -50,10 +50,13 @@ export default {
   },
   methods: {
     showItem() {
+      if (this.item.type === "dir") {
+        this.openDir(this.item);
+      }
       if (this.isImage) {
         this.$emitter.emit("showImageViewer", this.item.url);
       }
-      else if (this.isVideo) {
+      if (this.isVideo) {
         this.$emitter.emit("showVideoPlayer", this.item);
       }
     },
@@ -96,7 +99,7 @@ export default {
 </script>
 
 <template>
-  <div class="item" @dblclick="openDir(item)">
+  <div class="item" @dblclick="showItem">
 
     <div class="check-box-cell">
       <input type="checkbox"
@@ -133,15 +136,6 @@ export default {
 
     <div class="size-cell">
       {{item.size}}
-    </div>
-    <div class="show-cell" @click="showItem">
-      <img v-if="isImage"
-           src="@assets/eye.svg"
-           alt="show image">
-      <img v-else-if="isVideo"
-           src="@assets/play-circle.svg"
-           alt="show video">
-      <div v-else></div>
     </div>
   </div>
 </template>

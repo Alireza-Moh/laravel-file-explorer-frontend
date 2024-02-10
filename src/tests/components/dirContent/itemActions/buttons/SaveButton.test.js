@@ -13,8 +13,8 @@ describe("SaveButton", () => {
         "size": 64.61,
         "lastModified": "2024-01-10 05:31:56",
         "type": "file",
-        "path": "android/4665_001v.png",
-        "url": "http://localhost:8084/storage/tests/android/4665_001v.png",
+        "path": "android/oldItemName.png",
+        "url": "http://localhost:8084/storage/tests/android/oldItemName.png",
         "extension": "png"
     };
 
@@ -58,7 +58,7 @@ describe("SaveButton", () => {
     test("should make api response when there is an item to save changes", async () => {
         wrapper.setData({
             item: targetItem,
-            oldFileName: "oldFilename"
+            oldItemName: "oldItemName.png"
         });
         await wrapper.vm.$nextTick();
         const showAlert = vi.fn();
@@ -73,11 +73,12 @@ describe("SaveButton", () => {
         actionBtn.trigger("click");
 
         expect(postHttpSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/oldFilename",
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/oldItemName",
             {
-                body: '{"newName":"4665_001v.png","oldPath":"android/4665_001v.png","newPath":"android/4665_001v.png"}'
+                body: '{"oldName":"oldItemName.png","newName":"4665_001v.png","oldPath":"android/oldItemName.png","newPath":"android/4665_001v.png"}'
             }
         );
+
     });
 
     test("should not show save-btn when there is no item is to save", async () => {
