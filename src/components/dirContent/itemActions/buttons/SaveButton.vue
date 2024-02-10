@@ -6,14 +6,14 @@ export default {
   data() {
     return {
       item: null,
-      oldFileName: null,
+      oldItemName: null,
       settingsStore: useSettingsStore(),
     }
   },
   mounted() {
     this.$emitter.on("sendItemToSave", (item) => {
       this.item = item;
-      this.oldFileName = item.name;
+      this.oldItemName = item.name;
     });
   },
   methods: {
@@ -33,7 +33,7 @@ export default {
             this.item.path = this.getNewPath();
           }
           else if (status === "failed") {
-            this.item.name = this.oldFileName;
+            this.item.name = this.oldItemName;
           }
 
           window.showAlert(status, data.result.message);
@@ -48,13 +48,14 @@ export default {
                 showErrorKey: false
               }
           );
-          this.item.name = this.oldFileName;
+          this.item.name = this.oldItemName;
         }
       });
     },
     getRequestOption() {
       return  {
         body: JSON.stringify({
+          oldName: this.oldItemName,
           newName: this.item.name,
           oldPath: this.item.path,
           newPath: this.getNewPath()
@@ -64,20 +65,20 @@ export default {
     getNewPath() {
       const splitPath = this.item.path.split('/');
 
-      let newPath = this.oldFileName;
+      let newPath = this.oldItemName;
       if (splitPath.length > 1) {
-        newPath = this.item.path.replace(this.oldFileName, this.item.name);
+        newPath = this.item.path.replace(this.oldItemName, this.item.name);
       }
 
       return newPath;
     },
     getFileNameWithoutExtension() {
-      const lastDotIndex = this.oldFileName.lastIndexOf('.');
+      const lastDotIndex = this.oldItemName.lastIndexOf('.');
 
       if (lastDotIndex === -1) {
-        return this.oldFileName;
+        return this.oldItemName;
       } else {
-        return this.oldFileName.substring(0, lastDotIndex);
+        return this.oldItemName.substring(0, lastDotIndex);
       }
     }
   }
