@@ -2,14 +2,15 @@
 import videoTypes from "@/services/videoTypes.js";
 import imageTypes from "@/services/imageTypes.js";
 import ItemIcon from "@/components/dirContent/components/ItemIcon.vue";
-import ItemPreviewCellWithRenameInput from "@/components/dirContent/components/ItemPreviewCellWithRenameInput.vue";
 import ItemImageCell from "@/components/dirContent/components/ItemImageCell.vue";
 import ItemVideoCell from "@/components/dirContent/components/ItemVideoCell.vue";
 import dirMixin from "@/components/dirContent/mixins/dirMixin.js";
+import PreviewView from "@/components/dirContent/components/PreviewView.vue";
+import ItemName from "@/components/dirContent/components/ItemName.vue";
 
 export default {
   name: "ContentTableRow",
-  components: {ItemVideoCell, ItemImageCell, ItemPreviewCellWithRenameInput, ItemIcon},
+  components: {ItemName, PreviewView, ItemVideoCell, ItemImageCell, ItemIcon},
   props: {
     item: {
       type: Object
@@ -36,16 +37,6 @@ export default {
   mounted() {
     this.$emitter.on("uncheckInput", () => {
       this.isChecked = false;
-    });
-
-    this.$emitter.on("showRenameInputForItem", (itemName) => {
-      if (this.item.name === itemName) {
-        this.showRenameInput = true;
-      }
-    });
-
-    this.$emitter.on("hideRenameInput", () => {
-      this.showRenameInput = false;
     });
   },
   methods: {
@@ -100,7 +91,6 @@ export default {
 
 <template>
   <div class="item" @dblclick="showItem">
-
     <div class="check-box-cell">
       <input type="checkbox"
              name="folder-item"
@@ -111,23 +101,14 @@ export default {
 
     <div class="name-cell">
       <ItemIcon :type="item.type"/>
-      <template v-if="showPreviewView">
-        <ItemImageCell v-if="isImage"
-                       :item="item"
-                       :show-rename-input="showRenameInput"/>
+      <PreviewView v-if="showPreviewView"
+                   :item="item"
+                   :is-image="isImage"
+                   :is-video="isVideo"
+                   :video-type="videoType"/>
 
-        <ItemVideoCell v-if="isVideo"
-                       :item="item"
-                       :show-rename-input="showRenameInput"
-                       :video-type="videoType"/>
-
-        <ItemPreviewCellWithRenameInput v-if="!isVideo && !isImage"
-                                        :item="item"
-                                        :show-rename-input="showRenameInput"/>
-      </template>
-      <ItemPreviewCellWithRenameInput v-else
-                                      :item="item"
-                                      :show-rename-input="showRenameInput"/>
+      <ItemName  v-else
+                 :item-name="item.name"/>
     </div>
 
     <div class="date-cell">

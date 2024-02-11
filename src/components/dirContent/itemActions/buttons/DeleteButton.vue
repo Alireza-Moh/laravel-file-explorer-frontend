@@ -8,7 +8,9 @@ export default {
   name: "DeleteButton",
   components: {ConfirmModal},
   props: {
-    items: Array
+    items: {
+      type: Array
+    }
   },
   data() {
     return {

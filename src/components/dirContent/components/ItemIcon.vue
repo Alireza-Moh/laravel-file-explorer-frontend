@@ -2,7 +2,9 @@
 export default {
   name: "ItemIcon",
   props: {
-    type: String
+    type: {
+      type: String
+    }
   },
   computed: {
     iconPath() {

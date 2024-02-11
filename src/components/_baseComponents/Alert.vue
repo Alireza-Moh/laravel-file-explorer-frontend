@@ -2,8 +2,12 @@
 export default {
   name: "Alert",
   props: {
-    type: String,
-    message: String
+    type: {
+      type: String
+    },
+    message: {
+      type: String
+    }
   }
 }
 </script>

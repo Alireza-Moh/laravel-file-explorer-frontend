@@ -7,10 +7,18 @@ export default {
   name: "RightClickContextMenu",
   components: {ItemActionModal},
   props: {
-    left: Number,
-    top: Number,
-    dir: {},
-    directoryIndex: {},
+    left: {
+      type: Number
+    },
+    top: {
+      type: Number
+    },
+    dir:{
+      type: Object
+    },
+    directoryIndex: {
+      type: Object
+    }
   },
   data() {
     return {

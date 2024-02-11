@@ -1,12 +1,10 @@
 <script>
-import ItemPreviewCellWithRenameInput from "@/components/dirContent/components/ItemPreviewCellWithRenameInput.vue";
-
 export default {
   name: "ItemImageCell",
-  components: {ItemPreviewCellWithRenameInput},
   props: {
-    item: Object,
-    showRenameInput: Boolean
+    itemUrl: {
+      type: String
+    }
   }
 }
 </script>
@@ -14,14 +12,11 @@ export default {
 <template>
   <div class="thumbnail-box">
     <div class="thumbnail-image-box">
-      <img :src="item.url"
+      <img :src="itemUrl"
            alt="img"
            class="thumbnail">
     </div>
   </div>
-
-  <ItemPreviewCellWithRenameInput :item="item"
-                                  :show-rename-input="showRenameInput"/>
 </template>
 
 <style scoped>

@@ -13,6 +13,7 @@ export default {
     methods: {
         openDir(dir) {
             if (dir.type === "dir") {
+                this.checkedItemsStore.uncheckItems();
                 this.$emitter.emit("disablePreviewView");
                 const dirItems = this.dirItemsStore.getDirItems(
                     this.settingsStore.defaultFileExplorerViewData.selectedDisk,

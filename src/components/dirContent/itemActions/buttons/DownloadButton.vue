@@ -7,7 +7,9 @@ export default {
   name: "DownloadButton",
   components: {MultipleErrorModal},
   props: {
-    items: Object
+    items: {
+      type: Array
+    }
   },
   data() {
     return {

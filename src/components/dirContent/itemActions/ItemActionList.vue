@@ -1,6 +1,5 @@
 <script>
 import RenameButton from "@/components/dirContent/itemActions/buttons/RenameButton.vue";
-import SaveButton from "@/components/dirContent/itemActions/buttons/SaveButton.vue";
 import DeleteButton from "@/components/dirContent/itemActions/buttons/DeleteButton.vue";
 import DownloadButton from "@/components/dirContent/itemActions/buttons/DownloadButton.vue";
 import CreateDirButton from "@/components/dirContent/itemActions/buttons/CreateDirButton.vue";
@@ -15,7 +14,6 @@ export default {
     CreateDirButton,
     DownloadButton,
     DeleteButton,
-    SaveButton,
     RenameButton,
     CreateFileButton
   },
@@ -49,7 +47,6 @@ export default {
       <DownloadButton :items="items"/>
       <DeleteButton :items="items"/>
       <RenameButton :items="items"/>
-      <SaveButton/>
     </div>
   </div>
 </template>

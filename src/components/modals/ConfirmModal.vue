@@ -2,8 +2,12 @@
 export default {
   name: "ConfirmModal",
   props: {
-    confirmMethodOnYes: Function,
-    confirmMethodOnNo: Function,
+    confirmMethodOnYes: {
+      type: Function
+    },
+    confirmMethodOnNo: {
+      type: Function
+    }
   }
 }
 </script>
