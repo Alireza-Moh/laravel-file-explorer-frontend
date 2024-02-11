@@ -25,7 +25,6 @@ export default {
   data() {
     return {
       showRenameInput: false,
-      isChecked: false,
       isImage: false,
       isVideo: false,
       videoType: "",
@@ -36,7 +35,7 @@ export default {
   },
   mounted() {
     this.$emitter.on("uncheckInput", () => {
-      this.isChecked = false;
+      this.item.isChecked = false;
     });
   },
   methods: {
@@ -69,7 +68,7 @@ export default {
     },
   },
   watch: {
-    isChecked(newValue) {
+    "item.isChecked"(newValue) {
       if (newValue === false) {
         this.$emit('showSelectedItemUrl', null);
         this.checkedItemsStore.removeItemFromList(this.item);
@@ -96,7 +95,7 @@ export default {
              name="folder-item"
              class="folder-item-checkbox"
              aria-label="check box"
-             v-model="isChecked">
+             v-model="item.isChecked">
     </div>
 
     <div class="name-cell">

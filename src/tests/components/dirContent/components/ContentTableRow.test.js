@@ -92,7 +92,7 @@ describe('ContentTableRow', () => {
 
     test("should emit 'showSelectedItemUrl' event with correct item when checkBox is selected", async () => {
         wrapper.setData({ isChecked: true });
-        wrapper.vm.$options.watch.isChecked.call(wrapper.vm, true);
+        wrapper.vm.$options.watch["item.isChecked"].call(wrapper.vm, true);
 
         expect(wrapper.emitted("showSelectedItemUrl")).toBeTruthy();
         expect(wrapper.emitted()['showSelectedItemUrl'][0][0]).toEqual(targetItem);
@@ -101,7 +101,7 @@ describe('ContentTableRow', () => {
 
     test("should emit 'showSelectedItemUrl' with null event when checkBox gets unchecked", async () => {
         wrapper.setData({ isChecked: true });
-        wrapper.vm.$options.watch.isChecked.call(wrapper.vm, false);
+        wrapper.vm.$options.watch["item.isChecked"].call(wrapper.vm, false);
 
         expect(wrapper.emitted("showSelectedItemUrl")).toBeTruthy();
         expect(wrapper.emitted()['showSelectedItemUrl'][0][0]).toEqual(null);

@@ -12,7 +12,8 @@
         "type": "file",
         "path": "android/4576_001 (2021_08_10 13_17_28 UTC).jpg",
         "url": "http://localhost:8084/storage/tests/android/4576_001ss.jpg",
-        "extension": "jpg"
+        "extension": "jpg",
+        "isChecked": false
       },
       {
         "diskName": "tests",
@@ -23,7 +24,8 @@
         "type": "file",
         "path": "android/45A13B56photo.jpg",
         "url": "http://localhost:8084/storage/tests/android/45A13B56photo.jpg",
-        "extension": "jpg"
+        "extension": "jpg",
+        "isChecked": false
       },
       {
         "diskName": "tests",
@@ -34,7 +36,8 @@
         "type": "file",
         "path": "android/file1.txt",
         "url": "http://localhost:8084/storage/tests/android/file1.txt",
-        "extension": "txt"
+        "extension": "txt",
+        "isChecked": false
       }
     ]
   }

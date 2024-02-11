@@ -10,7 +10,8 @@
       "type": "file",
       "path": "android/file1.txt",
       "url": "http://localhost:8084/storage/tests/ios/file1.txt",
-      "extension": "txt"
+      "extension": "txt",
+      "isChecked": false
     },
     {
       "diskName": "tests",
@@ -21,7 +22,8 @@
       "type": "file",
       "path": "ios/document.pdf",
       "url": "http://localhost:8084/storage/mobile/ios/document.pdf",
-      "extension": "pdf"
+      "extension": "pdf",
+      "isChecked": false
     },
     {
       "diskName": "tests",
@@ -32,7 +34,8 @@
       "type": "file",
       "path": "android/image.jpg",
       "url": "http://localhost:8084/storage/tests/ios/image.jpg",
-      "extension": "jpg"
+      "extension": "jpg",
+      "isChecked": false
     },
     {
       "diskName": "tests",
@@ -43,7 +46,8 @@
       "type": "file",
       "path": "ios/spreadsheet.pdf",
       "url": "http://localhost:8084/storage/mobile/ios/spreadsheet.pdf",
-      "extension": "pdf"
+      "extension": "pdf",
+      "isChecked": false
     },
     {
       "diskName": "tests",
@@ -54,7 +58,8 @@
       "type": "file",
       "path": "android/code.js",
       "url": "http://localhost:8084/storage/tests/ios/code.js",
-      "extension": "js"
+      "extension": "js",
+      "isChecked": false
     },
     {
       "diskName": "tests",
@@ -65,7 +70,8 @@
       "type": "file",
       "path": "ios/presentation.pdf",
       "url": "http://localhost:8084/storage/mobile/ios/presentation.pdf",
-      "extension": "pdf"
+      "extension": "pdf",
+      "isChecked": false
     },
     {
       "diskName": "tests",
@@ -76,7 +82,8 @@
       "type": "file",
       "path": "android/video.mp4",
       "url": "http://localhost:8084/storage/tests/ios/video.mp4",
-      "extension": "mp4"
+      "extension": "mp4",
+      "isChecked": false
     },
     {
       "diskName": "tests",
@@ -87,7 +94,8 @@
       "type": "file",
       "path": "ios/archive.pdf",
       "url": "http://localhost:8084/storage/mobile/ios/archive.pdf",
-      "extension": "pdf"
+      "extension": "pdf",
+      "isChecked": false
     },
     {
       "diskName": "tests",
@@ -98,7 +106,8 @@
       "type": "file",
       "path": "android/document.docx",
       "url": "http://localhost:8084/storage/tests/ios/document.docx",
-      "extension": "docx"
+      "extension": "docx",
+      "isChecked": false
     },
     {
       "diskName": "tests",
@@ -109,7 +118,8 @@
       "type": "file",
       "path": "ios/image.png",
       "url": "http://localhost:8084/storage/mobile/ios/image.png",
-      "extension": "png"
+      "extension": "png",
+      "isChecked": false
     }
   ],
   "selectedDirPath": "ios"
