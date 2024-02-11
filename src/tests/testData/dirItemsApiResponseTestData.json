@@ -3,6 +3,7 @@
   "items": [
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "file1.txt",
       "size": 123.45,
       "lastModified": "2022-01-11 08:30:00",
@@ -13,6 +14,7 @@
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "document.pdf",
       "size": 1024.75,
       "lastModified": "2022-01-11 09:15:45",
@@ -23,6 +25,7 @@
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "image.jpg",
       "size": 512.89,
       "lastModified": "2022-01-11 10:45:20",
@@ -33,6 +36,7 @@
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "spreadsheet.pdf",
       "size": 2048.33,
       "lastModified": "2022-01-11 12:00:01",
@@ -43,6 +47,7 @@
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "code.js",
       "size": 76.5,
       "lastModified": "2022-01-11 13:30:45",
@@ -53,6 +58,7 @@
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "presentation.pdf",
       "size": 1536.22,
       "lastModified": "2022-01-11 15:20:00",
@@ -63,6 +69,7 @@
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "video.mp4",
       "size": 4096.75,
       "lastModified": "2022-01-11 17:10:30",
@@ -73,6 +80,7 @@
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "archive.pdf",
       "size": 8192.5,
       "lastModified": "2022-01-11 19:00:15",
@@ -83,6 +91,7 @@
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "document.docx",
       "size": 2048.88,
       "lastModified": "2022-01-11 20:45:50",
@@ -93,6 +102,7 @@
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "image.png",
       "size": 512.5,
       "lastModified": "2022-01-11 22:30:25",
