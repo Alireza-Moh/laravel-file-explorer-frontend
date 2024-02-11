@@ -33,7 +33,3 @@ export default {
 
   <ItemName :item-name="item.name"/>
 </template>
-
-<style scoped>
-
-</style>

@@ -89,7 +89,3 @@ export default {
                       :errors="errors"
                       @hide-error-modal="hideErrorModal"/>
 </template>
-
-<style scoped>
-
-</style>

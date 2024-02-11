@@ -22,7 +22,3 @@ export default {
 <template>
   <img :src="iconPath" alt="folder icon">
 </template>
-
-<style scoped>
-
-</style>

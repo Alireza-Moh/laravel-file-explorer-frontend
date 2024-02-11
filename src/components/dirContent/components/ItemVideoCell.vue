@@ -19,7 +19,3 @@ export default {
             class="video-src">
   </video>
 </template>
-
-<style scoped>
-
-</style>

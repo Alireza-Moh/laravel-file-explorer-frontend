@@ -24,7 +24,3 @@ export default {
   </button>
   <ItemUploadModal v-if="showModal"/>
 </template>
-
-<style scoped>
-
-</style>

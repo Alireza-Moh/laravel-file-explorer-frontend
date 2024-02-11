@@ -40,17 +40,19 @@ export default {
       const itemsToDelete = this.getFromData();
 
       const deleteRequest = (items, type) => {
-        if (items.length > 0) {
+        if (items.length) {
           const options = {
             body: JSON.stringify({ items })
           };
           this.$http.delete(this.getUrl(type), options).then((data) => {
-            this.$emitter.emit("uncheckInput");
-            this.checkedItemsStore.items = [];
+            this.showErrors(data);
             if (data.result) {
               const status = data.result.status;
               window.showAlert(status, data.result.message);
               this.removeItemFromDirStore(status, items);
+
+              this.$emitter.emit("uncheckInput");
+              this.checkedItemsStore.items = [];
             }
           });
         }
@@ -106,6 +108,18 @@ export default {
         });
       }
     },
+    showErrors(data) {
+      if (data.errors) {
+        this.$emitter.emit(
+            "showErrorModal",
+            {
+              headline: "Delete item error",
+              errors: data.errors,
+              showErrorKey: false
+            }
+        );
+      }
+    }
   }
 }
 </script>
@@ -126,7 +140,3 @@ export default {
     </template>
   </ConfirmModal>
 </template>
-
-<style scoped>
-
-</style>

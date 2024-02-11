@@ -38,7 +38,3 @@ export default {
     <span class="action-btn__text item-action-btn__text">Create directory</span>
   </button>
 </template>
-
-<style scoped>
-
-</style>

@@ -14,7 +14,3 @@ export default {
         {{itemName}}
     </span>
 </template>
-
-<style scoped>
-
-</style>
