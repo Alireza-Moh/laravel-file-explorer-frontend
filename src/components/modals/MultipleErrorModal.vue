@@ -22,7 +22,7 @@ export default {
 
 <template>
   <div v-if="showErrorModal" class="modal-wrapper">
-    <div class="confirm-wrapper">
+    <div class="modal">
       <div class="headline">{{headline}}</div>
       <div class="error-box">
         <div v-for="(fileErrors, fileName) in errors" class="error-wrapper">
@@ -44,20 +44,6 @@ export default {
 <style scoped>
 .modal-wrapper {
   z-index: 5;
-}
-
-.confirm-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 10px;
-  padding: 2em;
-  min-width: 500px;
-  border-radius: 4px;
-  z-index: 3;
-  color: #000000;
 }
 
 .headline {
@@ -108,10 +94,5 @@ export default {
 
 body.dark-mode .headline {
   color: #f1f3f4;
-}
-
-body.dark-mode .confirm-wrapper {
-  background-color: #202124;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 </style>

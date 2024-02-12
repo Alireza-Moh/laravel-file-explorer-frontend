@@ -14,7 +14,7 @@ export default {
 
 <template>
   <div class="modal-wrapper">
-    <div class="confirm-wrapper">
+    <div class="modal">
       <div class="confirm-message-box">
         <slot name="confirmQuestion"></slot>
       </div>
@@ -27,20 +27,6 @@ export default {
 </template>
 
 <style scoped>
-.confirm-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 10px;
-  padding: 2em;
-  min-width: 500px;
-  border-radius: 4px;
-  z-index: 999;
-  color: #000000;
-}
-
 .confirm-message-box {
   font-size: 1rem;
 }
@@ -77,10 +63,5 @@ export default {
 
 .confirm-action-box button.no:hover {
   background-color: #e2e2e7;
-}
-
-body.dark-mode .confirm-wrapper {
-  background-color: #202124;
-  color: #f1f3f4;
 }
 </style>

@@ -223,17 +223,17 @@ body.dark-mode .rename-input {
   background-color: rgba(0, 0, 0, 0.2);
 }
 
-@media screen and (max-width: 700px) {
-  .size-cell {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .size-cell,
-  .date-cell {
-    display: none;
-  }
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 10px;
+  padding: 2em;
+  width: 500px;
+  border-radius: 4px;
+  z-index: 2;
 }
 
 @media screen and (max-width: 900px) {
@@ -246,7 +246,37 @@ body.dark-mode .rename-input {
   }
 }
 
+@media screen and (max-width: 700px) {
+  .size-cell {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .size-cell,
+  .date-cell {
+    display: none;
+  }
+
+  .modal {
+    width: 400px !important;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .modal {
+    width: 350px !important;
+  }
+}
+
 body.dark-mode .error {
   color: #c30c0c;
 }
+
+body.dark-mode .modal {
+  background-color: #202124;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  color: #f1f3f4;
+}
+
 </style>

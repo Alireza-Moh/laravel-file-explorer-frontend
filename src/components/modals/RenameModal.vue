@@ -65,19 +65,9 @@ export default {
 
 <style scoped>
 .modal {
-  z-index: 2;
-  background-color: #fff;
-  width: 500px;
-  border-radius: 4px;
-  padding: 2em;
   display: flex;
   flex-direction: column;
   gap: 2em;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 }
 
 .modal .input-box {
@@ -131,11 +121,6 @@ label {
 
 body.dark-mode .modal .input-box input {
   border: 1px solid #303134;
-}
-
-body.dark-mode .modal {
-  background-color: #202124;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 
 body.dark-mode #itemName,
