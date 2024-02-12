@@ -90,15 +90,12 @@ export default {
 
 <template>
   <div class="item" @dblclick="showItem">
-    <div class="check-box-cell">
+    <div class="name-cell name-cell-inter">
       <input type="checkbox"
              name="folder-item"
              class="folder-item-checkbox"
              aria-label="check box"
              v-model="item.isChecked">
-    </div>
-
-    <div class="name-cell">
       <ItemIcon :type="item.type"/>
       <PreviewView v-if="showPreviewView"
                    :item="item"
@@ -110,7 +107,7 @@ export default {
                  :item-name="item.name"/>
     </div>
 
-    <div class="date-cell">
+    <div class="date-cell date-cell-inter">
       {{item.lastModified}}
     </div>
 
@@ -132,8 +129,16 @@ export default {
   transition: all 0.2s ease-in-out;
 }
 
+.name-cell-inter {
+  padding-left: 20px;
+}
+
 .item:hover {
   background-color: #F8F9FA;
+}
+
+.check-box-cell {
+  padding-left: 20px;
 }
 
 .folder-item-checkbox {

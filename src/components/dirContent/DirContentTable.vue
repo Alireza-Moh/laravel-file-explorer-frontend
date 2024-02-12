@@ -102,7 +102,6 @@ export default {
   <ContentTableMenu :item="selectedItem"
                     v-model="searchedItem"/>
   <div class="content-header">
-    <div class="headline check-box-cell"></div>
     <div class="headline name-cell">Name</div>
     <div class="headline date-cell">Modified</div>
     <div class="headline size-cell">Size</div>

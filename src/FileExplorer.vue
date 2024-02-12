@@ -175,13 +175,6 @@ body.dark-mode .rename-input {
   width: 100%;
 }
 
-.check-box-cell {
-  width: 3%;
-  padding-left: 20px;
-  display: flex;
-  align-items: center;
-}
-
 .date-cell {
   width: 16%;
   text-align: left;
@@ -197,7 +190,7 @@ body.dark-mode .rename-input {
   display: flex;
   align-items: center;
   gap: 20px;
-  width: 70%;
+  width: 73%;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
@@ -250,10 +243,13 @@ body.dark-mode .rename-input {
   .size-cell {
     display: none;
   }
+
+  .date-cell-inter {
+    text-align: right;
+  }
 }
 
 @media screen and (max-width: 570px) {
-  .size-cell,
   .date-cell {
     display: none;
   }

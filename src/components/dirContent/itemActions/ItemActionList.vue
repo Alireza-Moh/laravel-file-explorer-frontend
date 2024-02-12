@@ -58,7 +58,7 @@ export default {
   gap: 10px;
 }
 
-@media screen and (max-width: 1000px){
+@media screen and (max-width: 800px){
   .item-action-btn__text {
     display: none;
   }
