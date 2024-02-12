@@ -278,5 +278,4 @@ body.dark-mode .modal {
   box-shadow: 0 5px 10px rgba(0,0,0,0.2);
   color: #f1f3f4;
 }
-
 </style>
