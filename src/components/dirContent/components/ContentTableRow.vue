@@ -21,7 +21,6 @@ export default {
     }
   },
   mixins: [dirMixin],
-  emits: ["showSelectedItemUrl"],
   data() {
     return {
       showRenameInput: false,
@@ -66,18 +65,16 @@ export default {
         }
       }
     },
-  },
-  watch: {
-    "item.isChecked"(newValue) {
-      if (newValue === false) {
-        this.$emit('showSelectedItemUrl', null);
-        this.checkedItemsStore.removeItemFromList(this.item);
-      }
-      if (newValue === true) {
-        this.$emit('showSelectedItemUrl', this.item);
+    onCheck() {
+      if (this.item.isChecked) {
         this.checkedItemsStore.addItem(this.item);
       }
-    },
+      else {
+        this.checkedItemsStore.removeItemFromList(this.item);
+      }
+    }
+  },
+  watch: {
     item: {
       handler() {
         this.checkItemMediaType();
@@ -95,7 +92,7 @@ export default {
              name="folder-item"
              class="folder-item-checkbox"
              aria-label="check box"
-             v-model="item.isChecked">
+             v-model="item.isChecked" @change="onCheck">
       <ItemIcon :type="item.type"/>
       <PreviewView v-if="showPreviewView"
                    :item="item"

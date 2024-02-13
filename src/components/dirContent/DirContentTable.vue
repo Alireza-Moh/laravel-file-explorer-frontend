@@ -11,7 +11,6 @@ export default {
     return {
       selectedDir: null,
       selectedDisk: null,
-      selectedItem: null,
       searchedItem: null,
       items: [],
       visibleItems: [],
@@ -71,9 +70,6 @@ export default {
     this.listenForItemPreviewAction();
   },
   methods: {
-    setSelectedItem(item) {
-      this.selectedItem = item;
-    },
     onScroll() {
       this.scrollTop = this.$refs.viewport.scrollTop;
       this.updateVisibleItems();
@@ -99,8 +95,7 @@ export default {
 </script>
 
 <template>
-  <ContentTableMenu :item="selectedItem"
-                    v-model="searchedItem"/>
+  <ContentTableMenu v-model="searchedItem"/>
   <div class="content-header">
     <div class="headline name-cell">Name</div>
     <div class="headline date-cell">Modified</div>
@@ -116,8 +111,7 @@ export default {
           <ContentTableRow v-for="(item, index) in filteredItems"
                            :key="index"
                            :item="item"
-                           :show-preview-view="showPreviewView"
-                           @show-selected-item-url="setSelectedItem"/>
+                           :show-preview-view="showPreviewView"/>
 
         </template>
         <div v-else class="item empty">

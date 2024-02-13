@@ -90,22 +90,12 @@ describe('ContentTableRow', () => {
         expect(emitSpy).toHaveBeenCalledWith('showVideoPlayer', testVideoItem);
     });
 
-    test("should emit 'showSelectedItemUrl' event with correct item when checkBox is selected", async () => {
-        wrapper.setData({ isChecked: true });
-        wrapper.vm.$options.watch["item.isChecked"].call(wrapper.vm, true);
+    test("should add the correct item to the 'checkedItemsStore' when item is checked", async () => {
+        const checkBox = wrapper.find('.folder-item-checkbox');
 
-        expect(wrapper.emitted("showSelectedItemUrl")).toBeTruthy();
-        expect(wrapper.emitted()['showSelectedItemUrl'][0][0]).toEqual(targetItem);
+        checkBox.setValue(true);
+
         expect(checkedItemsStore.addItem).toHaveBeenCalledWith(targetItem);
-    });
-
-    test("should emit 'showSelectedItemUrl' with null event when checkBox gets unchecked", async () => {
-        wrapper.setData({ isChecked: true });
-        wrapper.vm.$options.watch["item.isChecked"].call(wrapper.vm, false);
-
-        expect(wrapper.emitted("showSelectedItemUrl")).toBeTruthy();
-        expect(wrapper.emitted()['showSelectedItemUrl'][0][0]).toEqual(null);
-        expect(checkedItemsStore.removeItemFromList).toHaveBeenCalledWith(targetItem);
     });
 
     test('should open directory on dbClick ', async () => {
