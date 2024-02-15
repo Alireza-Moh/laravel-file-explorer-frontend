@@ -92,11 +92,13 @@ export default {
               :class="{selected: isSelectedDisk(diskName)}"
               :disabled="isSelectedDisk(diskName)"
               @click="getDiskDirs(diskName)">
-        <img src="../assets/img/hdd.svg" alt="hdd" class="svg-img">
+        <img src="@assets/hdd.svg" alt="hdd" class="svg-img">
         <span class="action-btn__text">{{diskName}}</span>
       </button>
     </template>
-    <div v-else class="action-btn selected" id="empty-disk">No disks found</div>
+    <div v-else
+         class="action-btn selected"
+         id="empty-disk">No disks found</div>
   </div>
 </template>
 

@@ -3,19 +3,19 @@ import {useSettingsStore} from "@/stores/settingsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 
 export default {
-  name: "UploadedFilesActionButtons",
+  name: "UploadItemsActionButtons",
   emits: ["updateFilesListComp"],
   props: {
-    maxUploadFile: {
+    maxUploadItems: {
       type: Number
     },
-    maxUploadFilesReached: {
+    maxUploadItemsReached: {
       type: Boolean
     },
-    ifFileExist: {
+    ifItemExist: {
       type: Number
     },
-    files: {
+    items: {
       type: Array
     }
   },
@@ -26,7 +26,7 @@ export default {
     }
   },
   methods: {   uploadFiles() {
-      if (this.files.length > 0 && this.files.length <= this.maxUploadFile) {
+      if (this.items.length > 0 && this.items.length <= this.maxUploadItems) {
         const selectedDisk = this.settingsStore.defaultFileExplorerViewData.selectedDisk;
         const selectedDir = this.settingsStore.defaultFileExplorerViewData.selectedDir;
 
@@ -37,7 +37,7 @@ export default {
 
         const url = this.settingsStore.baseUrl
             + "disks/" + selectedDisk
-            + "/files/upload";
+            + "/items/upload";
         this.$http.post(url, this.getOptions(), false).then((data) => {
           this.handleResponse(data, selectedDisk, selectedDir);
         });
@@ -46,10 +46,10 @@ export default {
     getOptions() {
       const formData = new FormData();
 
-      formData.append("ifFileExist", this.ifFileExist);
+      formData.append("ifItemExist", this.ifItemExist);
       formData.append("destination", this.settingsStore.defaultFileExplorerViewData.selectedDirPath)
-      for (let i = 0; i < this.files.length; i++) {
-        formData.append("items[]", this.files[i]);
+      for (let i = 0; i < this.items.length; i++) {
+        formData.append("items[]", this.items[i]);
       }
 
       return {
@@ -79,8 +79,8 @@ export default {
     <button type="button"
             id="save-btn"
             @click="uploadFiles"
-            :class="{selected: maxUploadFilesReached}"
-            :disabled="maxUploadFilesReached">
+            :class="{selected: maxUploadItemsReached}"
+            :disabled="maxUploadItemsReached">
       Save
     </button>
     <button type="button"

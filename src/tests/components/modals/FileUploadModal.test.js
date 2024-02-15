@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import FileUploadModal from "@/components/modals/FileUploadModal.vue";
+import FileUploadModal from "@/components/modals/ItemUploadModal.vue";
 import {createTestingPinia} from "@pinia/testing";
 import uploadFileApiResponseTestData from "@/tests/testData/uploadFileApiResponseTestData.json";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
@@ -56,9 +56,9 @@ describe("FileUploadModal component", () => {
 
         await fileInput.trigger("change");
 
-        expect(wrapper.vm.files).toHaveLength(2);
-        expect(wrapper.vm.files[0].name).toBe("file1.txt");
-        expect(wrapper.vm.files[1].name).toBe("file2.txt");
+        expect(wrapper.vm.items).toHaveLength(2);
+        expect(wrapper.vm.items[0].name).toBe("file1.txt");
+        expect(wrapper.vm.items[1].name).toBe("file2.txt");
     });
 
     test("should display a warning message when the maximum file upload limit is exceeded", async () => {
@@ -90,14 +90,14 @@ describe("FileUploadModal component", () => {
         const alertComponent = wrapper.findComponent({ name: "Alert" });
         expect(alertComponent.exists()).toBe(true);
         expect(alertComponent.text()).toContain("Limit: Maximum of 10 files per upload");
-        expect(wrapper.vm.maxUploadFilesReached).toBe(true);
+        expect(wrapper.vm.maxUploadItemsReached).toBe(true);
     });
 
-    test("should remove a file when the delete icon is clicked", async () => {
+    test("should remove a item when the delete icon is clicked", async () => {
         const wrapper = mount(FileUploadModal, {
             data() {
                 return {
-                    files: [
+                    items: [
                         { name: "file1.txt" },
                         { name: "file2.jpg" },
                         { name: "file3.pdf" },
@@ -109,8 +109,8 @@ describe("FileUploadModal component", () => {
 
         await deleteIcons[1].trigger("click");
 
-        expect(wrapper.vm.files).toHaveLength(2);
-        expect(wrapper.vm.files[1].name).toBe("file3.pdf");
+        expect(wrapper.vm.items).toHaveLength(2);
+        expect(wrapper.vm.items[1].name).toBe("file3.pdf");
     });
 
     test("should send the files to the backend when the save button is clicked", async () => {
@@ -147,7 +147,7 @@ describe("FileUploadModal component", () => {
 
         await fileExist[1].setChecked();
 
-        expect(wrapper.vm.ifFileExist).toBe(1);
+        expect(wrapper.vm.ifItemExist).toBe(1);
     });
 
     test("should send form data to backend", async () => {
@@ -177,7 +177,7 @@ describe("FileUploadModal component", () => {
         await fileExist[1].setChecked();
 
         const formData = new FormData();
-        formData.append("ifFileExist", 1);
+        formData.append("ifItemExist", 1);
         formData.append("destination", "android");
         for (let i = 0; i < files.length; i++) {
             formData.append("items[]", files[i]);
@@ -186,7 +186,7 @@ describe("FileUploadModal component", () => {
         await saveButton.trigger("click");
 
         expect(postSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/files/upload",
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/upload",
             {
                 body: formData
             },

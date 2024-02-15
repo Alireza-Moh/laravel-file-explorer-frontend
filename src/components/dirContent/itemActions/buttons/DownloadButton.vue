@@ -7,7 +7,9 @@ export default {
   name: "DownloadButton",
   components: {MultipleErrorModal},
   props: {
-    items: Object
+    items: {
+      type: Array
+    }
   },
   data() {
     return {
@@ -22,17 +24,8 @@ export default {
     this.diskName = this.settingsStore.defaultFileExplorerViewData.selectedDisk
   },
   methods: {
-    download() {
-      const containsDir = this.items.some(item => item.type === 'dir');
-      if (containsDir) {
-        window.showAlert("failed", "Directory download is not supported");
-      }
-      else {
-        this.startDownload();
-      }
-    },
-    startDownload(){
-      const url = this.settingsStore.baseUrl + "disks/" + this.diskName + "/files/download";
+    download(){
+      const url = this.settingsStore.baseUrl + "disks/" + this.diskName + "/items/download";
       const options = {
         body: JSON.stringify({
           items: this.getFormData()
@@ -89,14 +82,10 @@ export default {
 
 <template>
   <button type="button" class="action-btn" @click="download">
-    <img src="../../../../assets/img/download.svg" alt="download icon" class="svg-img">
+    <img src="@assets/download.svg" alt="download icon" class="svg-img">
     <span class="action-btn__text item-action-btn__text">Download</span>
   </button>
   <MultipleErrorModal v-if="showErrorModal"
                       :errors="errors"
                       @hide-error-modal="hideErrorModal"/>
 </template>
-
-<style scoped>
-
-</style>

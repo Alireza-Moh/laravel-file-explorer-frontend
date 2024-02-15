@@ -15,6 +15,9 @@ export const useCheckedItemsStore = defineStore("checkedItems", {
                     break;
                 }
             }
+        },
+        uncheckItems() {
+            this.items = [];
         }
     }
 });

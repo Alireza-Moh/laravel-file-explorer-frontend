@@ -14,10 +14,14 @@ import {useDisksStore} from "@/stores/disksStore.js";
 import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import MultipleErrorModal from "@/components/modals/MultipleErrorModal.vue";
+import RenameModal from "@/components/modals/RenameModal.vue";
 
 export default {
   name: "FileExplorer",
   components: {
+    RenameModal,
+    MultipleErrorModal,
     Loader,
     VideoPlayerViewer,
     ImageViewer,
@@ -36,12 +40,18 @@ export default {
       disksStore: useDisksStore(),
       diskDirsStore: useDiskDirsStore(),
       dirItemsStore: useDirItemsStore(),
-      checkedItemsStore: useCheckedItemsStore()
+      checkedItemsStore: useCheckedItemsStore(),
+      hideTree: false
     }
   },
   created() {
     this.settingsStore.setBaseUrl("http://laravel-wrapper.localhost:8084/api/laravel-file-explorer/");
     this.initExplorer();
+  },
+  mounted() {
+    this.$emitter.on("toggleTree", () => {
+      this.hideTree = !this.hideTree;
+    });
   },
   methods: {
     initExplorer() {
@@ -94,7 +104,7 @@ export default {
     <Loader v-if="isLoading"/>
     <main v-else>
       <TreeContainer/>
-      <div class="content-box">
+      <div class="content-box" :class="{moveLeft: hideTree}">
         <div class="nav-box">
           <DiskList/>
           <ItemActionList/>
@@ -103,6 +113,8 @@ export default {
       </div>
       <ImageViewer v-once/>
       <VideoPlayerViewer v-once/>
+      <MultipleErrorModal/>
+      <RenameModal/>
     </main>
   </div>
 </template>
@@ -122,6 +134,11 @@ body {
 .content-box {
   margin-left: 250px;
   border-left: 1px solid #e8ebef;
+  transition: all 0.3s linear;
+}
+
+.content-box.moveLeft {
+  margin-left: 0;
 }
 
 body.dark-mode {
@@ -158,37 +175,25 @@ body.dark-mode .rename-input {
   width: 100%;
 }
 
-.check-box-cell {
-  width: 3%;
-  padding-left: 20px;
-  display: flex;
-  align-items: center;
-}
-
 .date-cell {
-  width: 15%;
+  width: 16%;
   text-align: left;
 }
 
 .size-cell {
   width: 12%;
   text-align: right;
+  padding-right: 20px;
 }
 
 .name-cell {
   display: flex;
   align-items: center;
   gap: 20px;
-  width: 68%;
+  width: 73%;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;
-}
-
-.show-cell {
-  width: 3%;
-  padding-right: 20px;
-  cursor: pointer;
 }
 
 .delete-icon {
@@ -209,5 +214,64 @@ body.dark-mode .rename-input {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 10px;
+  padding: 2em;
+  width: 500px;
+  border-radius: 4px;
+  z-index: 2;
+}
+
+@media screen and (max-width: 900px) {
+  .nav {
+    transform: translateX(-100%);
+  }
+
+  .content-box {
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .size-cell {
+    display: none;
+  }
+
+  .date-cell-inter {
+    text-align: right;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .date-cell {
+    display: none;
+  }
+
+  .modal {
+    width: 400px !important;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .modal {
+    width: 350px !important;
+  }
+}
+
+body.dark-mode .error {
+  color: #c30c0c;
+}
+
+body.dark-mode .modal {
+  background-color: #202124;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+  color: #f1f3f4;
 }
 </style>

@@ -8,7 +8,7 @@ import mitt from "mitt";
 import ContextMenuRenameAction from "@/components/dirTree/components/ContextMenuRenameAction.vue";
 import ContextMenuDeleteAction from "@/components/dirTree/components/ContextMenuDeleteAction.vue";
 
-describe('RightClickContextMenu', () => {
+describe('ContextMenuDeleteAction', () => {
     let wrapper, $http, $emitter;
 
     beforeEach(() => {
@@ -36,7 +36,6 @@ describe('RightClickContextMenu', () => {
                     createTestingPinia({
                         initialState: {
                             settings: settingsStoreTestData,
-
                             diskDirs: diskDirsStoreTestData,
                         }
                     })
@@ -59,7 +58,8 @@ describe('RightClickContextMenu', () => {
                             "subDir": []
                         }
                     ]
-                }
+                },
+                directoryIndex: 0,
             }
         })
     });
@@ -68,26 +68,59 @@ describe('RightClickContextMenu', () => {
         wrapper.unmount();
     });
 
-    test('should render RightClickContextMenu component', () => {
-        expect(RightClickContextMenu).toBeTruthy();
+    test('should render ContextMenuDeleteAction component', () => {
+        expect(ContextMenuDeleteAction).toBeTruthy();
     });
 
-    test('should have correct styles for "content" div', async () => {
-        const contentDiv = wrapper.find('.context-menu-content').element;
+    test("should delete the subdirectory when the delete link is clicked", async () => {
+        const deleteSpy = vi.spyOn($http, 'delete');
+        wrapper.setProps({
+            dir: {
+                "diskName": "tests",
+                "name": "forTesting",
+                "path": "android/forTesting",
+                "type": "dir",
+                "subDir": []
+            }
+        });
+        await wrapper.vm.$nextTick();
+        const deleteLink = wrapper.find('#delete-link');
 
-        expect(contentDiv.style.left).toBe('100px');
-        expect(contentDiv.style.top).toBe('100px');
+        deleteLink.trigger("click");
+
+        expect(deleteSpy).toHaveBeenCalledWith(
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/delete",
+            {
+                body: JSON.stringify({
+                    items: [
+                        {
+                            name: "forTesting",
+                            path: "android/forTesting"
+                        }
+                    ]
+                })
+            }
+        );
     });
 
-    test("should render ContextMenuRenameAction component on initialization", async () => {
-        const component = wrapper.findComponent(ContextMenuRenameAction);
+    test("should send a delete request to the server when the delete link is clicked", async () => {
+        const deleteSpy = vi.spyOn($http, 'delete');
+        const deleteLink = wrapper.find('#delete-link');
 
-        expect(component.exists()).toBe(true);
-    });
+        deleteLink.trigger("click");
 
-    test("should render ContextMenuDeleteAction component on initialization", async () => {
-        const component = wrapper.findComponent(ContextMenuDeleteAction);
-
-        expect(component.exists()).toBe(true);
+        expect(deleteSpy).toHaveBeenCalledWith(
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/delete",
+            {
+                body: JSON.stringify({
+                    items: [
+                        {
+                            name: "android",
+                            path: "android"
+                        }
+                    ]
+                })
+            }
+        );
     });
 });

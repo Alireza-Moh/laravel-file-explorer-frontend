@@ -6,7 +6,9 @@ export default {
   name: "DirTree",
   components: {DirLink},
   props: {
-    dirs: Array
+    dirs: {
+      type: Array
+    }
   },
   data() {
     return {

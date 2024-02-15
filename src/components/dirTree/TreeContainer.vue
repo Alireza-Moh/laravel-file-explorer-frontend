@@ -10,6 +10,7 @@ export default {
     return {
       dirs: [],
       settingsStore: useSettingsStore(),
+      hideTree: false
     }
   },
   created() {
@@ -19,12 +20,16 @@ export default {
     this.settingsStore.$subscribe((mutation, state) => {
       this.dirs = state.defaultFileExplorerViewData.dirsForSelectedDisk;
     });
+
+    this.$emitter.on("toggleTree", () => {
+      this.hideTree = !this.hideTree;
+    });
   }
 }
 </script>
 
 <template>
-  <div class="nav" id="navbar">
+  <div class="nav" :class="{hide: hideTree}" id="navbar">
     <div class="nav__items">
       <DirTree v-if="dirs.length"
                :dirs="dirs"/>
@@ -42,11 +47,16 @@ export default {
   position: fixed;
   height: 100%;
   padding-top: 2em;
+  transition: all 0.3s linear;
 }
 
 .nav__items {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.nav.hide {
+  transform: translateX(-100%);
 }
 </style>

@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "UploadedFilesSetting",
+  name: "UploadItemsSetting",
   emits: ["update:modelValue"],
   data() {
     return {
@@ -16,7 +16,7 @@ export default {
 </script>
 
 <template>
-  <div class="radio-wrapper">
+<!--  <div class="radio-wrapper">
     <h5>If file exist:</h5>
     <div class="inner-wrapper">
       <div class="radio-box">
@@ -36,7 +36,28 @@ export default {
                @change="setSetting">
       </div>
     </div>
-  </div>
+  </div>-->
+  <fieldset class="radio-wrapper">
+    <legend>If file exist</legend>
+    <div class="inner-wrapper">
+      <div class="radio-box">
+        <label for="skip">Skip</label>
+        <input type="radio"
+               name="fileExist"
+               value="0"
+               v-model="ifFileExist"
+               @change="setSetting">
+      </div>
+      <div class="radio-box">
+        <label for="overwrite">Overwrite</label>
+        <input type="radio"
+               name="fileExist"
+               value="1"
+               v-model="ifFileExist"
+               @change="setSetting">
+      </div>
+    </div>
+  </fieldset>
 </template>
 
 <style scoped>
@@ -45,10 +66,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   margin: 1em 0;
-  padding: 5px 0;
-}
-
-.radio-wrapper h5 {
+  padding: 10px;
+  border: 1px dashed #929fb1;
+  border-radius: 4px;
   color: #929fb1;
   font-size: 17px;
 }
@@ -57,7 +77,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.5em;
 }
 
 .radio-box {
@@ -71,5 +90,9 @@ export default {
 
 body.dark-mode .radio-box {
   color: #f1f3f4;
+}
+
+body.dark-mode .radio-wrapper {
+  border: 1px dashed #303134;
 }
 </style>

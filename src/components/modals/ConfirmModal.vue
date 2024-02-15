@@ -2,39 +2,31 @@
 export default {
   name: "ConfirmModal",
   props: {
-    confirmMethodOnYes: Function,
-    confirmMethodOnNo: Function,
+    confirmMethodOnYes: {
+      type: Function
+    },
+    confirmMethodOnNo: {
+      type: Function
+    }
   }
 }
 </script>
 
 <template>
-  <div class="confirm-wrapper">
-    <div class="confirm-message-box">
-      <slot name="confirmQuestion"></slot>
-    </div>
-    <div class="confirm-action-box">
-      <button type="button" class="yes" @click="confirmMethodOnYes">Yes</button>
-      <button type="button" class="no" @click="confirmMethodOnNo">No</button>
+  <div class="modal-wrapper">
+    <div class="modal">
+      <div class="confirm-message-box">
+        <slot name="confirmQuestion"></slot>
+      </div>
+      <div class="confirm-action-box">
+        <button type="button" class="yes" @click="confirmMethodOnYes">Yes</button>
+        <button type="button" class="no" @click="confirmMethodOnNo">No</button>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.confirm-wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 10px;
-  padding: 2em;
-  min-width: 500px;
-  border-radius: 4px;
-  z-index: 999;
-  color: #000000;
-}
-
 .confirm-message-box {
   font-size: 1rem;
 }
@@ -53,12 +45,16 @@ export default {
   cursor: pointer;
   border: none;
   border-radius: 4px;
+  color: #fff;
   transition: all 0.2s ease-in-out;
 }
 
 .confirm-action-box button.yes {
   background-color: #7071E8;
-  color: white;
+}
+
+.confirm-action-box button.no {
+  background-color: #FE0000;
 }
 
 .confirm-action-box button.yes:hover {
@@ -67,15 +63,5 @@ export default {
 
 .confirm-action-box button.no:hover {
   background-color: #e2e2e7;
-}
-
-body.dark-mode .confirm-wrapper {
-  background-color: #202124;
-  color: #f1f3f4;
-}
-
-body.dark-mode .confirm-action-box button.no {
-  background-color: #303134;
-  color: #f1f3f4;
 }
 </style>

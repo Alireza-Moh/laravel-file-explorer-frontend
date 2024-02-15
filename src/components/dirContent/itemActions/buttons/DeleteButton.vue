@@ -8,7 +8,9 @@ export default {
   name: "DeleteButton",
   components: {ConfirmModal},
   props: {
-    items: Array
+    items: {
+      type: Array
+    }
   },
   data() {
     return {
@@ -38,17 +40,19 @@ export default {
       const itemsToDelete = this.getFromData();
 
       const deleteRequest = (items, type) => {
-        if (items.length > 0) {
+        if (items.length) {
           const options = {
             body: JSON.stringify({ items })
           };
           this.$http.delete(this.getUrl(type), options).then((data) => {
-            this.$emitter.emit("uncheckInput");
-            this.checkedItemsStore.items = [];
+            this.showErrors(data);
             if (data.result) {
               const status = data.result.status;
               window.showAlert(status, data.result.message);
               this.removeItemFromDirStore(status, items);
+
+              this.$emitter.emit("uncheckInput");
+              this.checkedItemsStore.items = [];
             }
           });
         }
@@ -61,7 +65,7 @@ export default {
       if (type === "file") {
         return this.settingsStore.baseUrl
             + "disks/" + this.diskName
-            + "/files/delete"
+            + "/items/delete"
       }
       else if (type === "dir") {
         return this.settingsStore.baseUrl
@@ -91,22 +95,38 @@ export default {
       if (status === "success") {
         this.dirItemsStore.$patch((state) => {
           filesToDelete.forEach(itemToDelete => {
-            const targetDirItems = state.data.find(dirItems => dirItems.diskName === this.diskName && dirItems.dirName === this.dirName);
+            const targetDirItems = state.data.find((dirItems) => {
+              return dirItems.diskName === this.diskName && dirItems.dirName === this.dirName;
+            });
 
             if (targetDirItems) {
-              targetDirItems.dirItems = targetDirItems.dirItems.filter(item => item.name !== itemToDelete.name);
+              targetDirItems.dirItems = targetDirItems.dirItems.filter((item) => {
+                return item.name !== itemToDelete.name;
+              });
             }
           });
         });
       }
     },
+    showErrors(data) {
+      if (data.errors) {
+        this.$emitter.emit(
+            "showErrorModal",
+            {
+              headline: "Delete item error",
+              errors: data.errors,
+              showErrorKey: false
+            }
+        );
+      }
+    }
   }
 }
 </script>
 
 <template>
   <button type="button" class="action-btn" @click="confirmDelete">
-    <img src="../../../../assets/img/trash3.svg" alt="" class="svg-img">
+    <img src="@assets/trash3.svg" alt="" class="svg-img">
     <span class="action-btn__text item-action-btn__text">Delete</span>
   </button>
 
@@ -115,11 +135,8 @@ export default {
                 :confirm-method-on-no="hideConfirmModal">
 
     <template v-slot:confirmQuestion>
-      You are about to delete "{{items.length}}" items<br> Do you want to delete it?
+      You are about to delete "{{items.length}}" items<br>
+      Do you want to delete it?
     </template>
   </ConfirmModal>
 </template>
-
-<style scoped>
-
-</style>

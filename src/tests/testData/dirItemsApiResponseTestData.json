@@ -3,103 +3,123 @@
   "items": [
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "file1.txt",
       "size": 123.45,
       "lastModified": "2022-01-11 08:30:00",
       "type": "file",
       "path": "android/file1.txt",
       "url": "http://localhost:8084/storage/tests/ios/file1.txt",
-      "extension": "txt"
+      "extension": "txt",
+      "isChecked": false
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "document.pdf",
       "size": 1024.75,
       "lastModified": "2022-01-11 09:15:45",
       "type": "file",
       "path": "ios/document.pdf",
       "url": "http://localhost:8084/storage/mobile/ios/document.pdf",
-      "extension": "pdf"
+      "extension": "pdf",
+      "isChecked": false
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "image.jpg",
       "size": 512.89,
       "lastModified": "2022-01-11 10:45:20",
       "type": "file",
       "path": "android/image.jpg",
       "url": "http://localhost:8084/storage/tests/ios/image.jpg",
-      "extension": "jpg"
+      "extension": "jpg",
+      "isChecked": false
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "spreadsheet.pdf",
       "size": 2048.33,
       "lastModified": "2022-01-11 12:00:01",
       "type": "file",
       "path": "ios/spreadsheet.pdf",
       "url": "http://localhost:8084/storage/mobile/ios/spreadsheet.pdf",
-      "extension": "pdf"
+      "extension": "pdf",
+      "isChecked": false
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "code.js",
       "size": 76.5,
       "lastModified": "2022-01-11 13:30:45",
       "type": "file",
       "path": "android/code.js",
       "url": "http://localhost:8084/storage/tests/ios/code.js",
-      "extension": "js"
+      "extension": "js",
+      "isChecked": false
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "presentation.pdf",
       "size": 1536.22,
       "lastModified": "2022-01-11 15:20:00",
       "type": "file",
       "path": "ios/presentation.pdf",
       "url": "http://localhost:8084/storage/mobile/ios/presentation.pdf",
-      "extension": "pdf"
+      "extension": "pdf",
+      "isChecked": false
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "video.mp4",
       "size": 4096.75,
       "lastModified": "2022-01-11 17:10:30",
       "type": "file",
       "path": "android/video.mp4",
       "url": "http://localhost:8084/storage/tests/ios/video.mp4",
-      "extension": "mp4"
+      "extension": "mp4",
+      "isChecked": false
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "archive.pdf",
       "size": 8192.5,
       "lastModified": "2022-01-11 19:00:15",
       "type": "file",
       "path": "ios/archive.pdf",
       "url": "http://localhost:8084/storage/mobile/ios/archive.pdf",
-      "extension": "pdf"
+      "extension": "pdf",
+      "isChecked": false
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "document.docx",
       "size": 2048.88,
       "lastModified": "2022-01-11 20:45:50",
       "type": "file",
       "path": "android/document.docx",
       "url": "http://localhost:8084/storage/tests/ios/document.docx",
-      "extension": "docx"
+      "extension": "docx",
+      "isChecked": false
     },
     {
       "diskName": "tests",
+      "dirName": "android",
       "name": "image.png",
       "size": 512.5,
       "lastModified": "2022-01-11 22:30:25",
       "type": "file",
       "path": "ios/image.png",
       "url": "http://localhost:8084/storage/mobile/ios/image.png",
-      "extension": "png"
+      "extension": "png",
+      "isChecked": false
     }
   ],
   "selectedDirPath": "ios"

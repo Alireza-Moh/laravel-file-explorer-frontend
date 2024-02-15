@@ -5,6 +5,16 @@ export default {
   name: "CreateFileButton",
   mixins: [creationMixin],
   methods: {
+    openModal() {
+      this.$emitter.emit(
+          "showRenameModal",
+          {
+            label: "Enter file name:",
+            functionOnSave: this.createFile,
+            itemName: ""
+          }
+      );
+    },
     createFile(fileName) {
       if (this.diskName && this.dirName) {
         this.createItem(
@@ -23,16 +33,7 @@ export default {
 
 <template>
   <button type="button" class="action-btn" @click="openModal">
-    <img src="../../../../assets/img/file-earmark-plus.svg" alt="" class="svg-img">
+    <img src="@assets/file-earmark-plus.svg" alt="" class="svg-img">
     <span class="action-btn__text item-action-btn__text">Create file</span>
   </button>
-  <ItemActionModal v-if="showModal"
-                   :function-on-cancel="closeModal"
-                   :function-on-save="createFile"
-                   label="Enter file name:"
-                   :errors="errors"/>
 </template>
-
-<style scoped>
-
-</style>

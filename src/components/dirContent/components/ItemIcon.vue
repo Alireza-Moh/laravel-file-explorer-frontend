@@ -2,7 +2,9 @@
 export default {
   name: "ItemIcon",
   props: {
-    type: String
+    type: {
+      type: String
+    }
   },
   computed: {
     iconPath() {
@@ -20,7 +22,3 @@ export default {
 <template>
   <img :src="iconPath" alt="folder icon">
 </template>
-
-<style scoped>
-
-</style>

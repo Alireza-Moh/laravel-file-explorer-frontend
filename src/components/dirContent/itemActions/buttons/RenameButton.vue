@@ -1,34 +1,44 @@
 <script>
+import itemMixin from "@/components/mixins/itemMixin.js";
+
 export default {
   name: "RenameButton",
   props: {
-    items: Object
+    items: {
+      type: Array
+    }
+  },
+  mixins: [itemMixin],
+  data() {
+    return {
+      item: {},
+    }
   },
   methods: {
     renameItem() {
       if (this.items.length > 1) {
         window.showAlert("warning", "Multiple item renaming is not supported")
       }
-      else {
-        if (this.items.length) {
-          const item = this.items[0];
-
-          this.$emitter.emit("showRenameInputForItem", item.name);
-          this.$emitter.emit("sendItemToSave", item);
-        }
+      if (this.items.length === 1) {
+        this.item = this.items[0];
+        this.oldItemName = this.items[0].name;
+        this.$emitter.emit(
+            "showRenameModal",
+            {
+              label: "Enter new file name:",
+              functionOnSave: this.saveNewItemName,
+              itemName: this.item.name
+            }
+        );
       }
-    },
+    }
   }
 }
 </script>
 
 <template>
   <button type="button" class="action-btn" @click="renameItem">
-    <img src="../../../../assets/img/pen.svg" alt="rename button" class="svg-img">
+    <img src="@assets/pen.svg" alt="rename button" class="svg-img">
     <span class="action-btn__text item-action-btn__text">Rename</span>
   </button>
 </template>
-
-<style scoped>
-
-</style>

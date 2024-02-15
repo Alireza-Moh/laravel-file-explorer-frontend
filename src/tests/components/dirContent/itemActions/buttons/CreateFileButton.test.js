@@ -5,21 +5,23 @@ import diskDirsStoreTestData from "@/tests/testData/stores/diskDirsStoreTestData
 import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData.json";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import CreateFileButton from "@/components/dirContent/itemActions/buttons/CreateFileButton.vue";
-import ItemActionModal from "@/components/modals/ItemActionModal.vue";
+import mitt from "mitt";
 describe("CreateFileButton", () => {
-    let wrapper, $http;
+    let wrapper, $http, $emitter;
 
     beforeEach(() => {
+        $emitter = new mitt()
         $http = {
             post: vi.fn().mockImplementation(() => {
                 return Promise.resolve(createFileApiResponseTestData);
             })
-        }
+        };
 
         wrapper = mount(CreateFileButton, {
             global: {
                 mocks: {
-                    $http
+                    $http,
+                    $emitter
                 },
                 plugins: [
                     createTestingPinia({
@@ -42,28 +44,21 @@ describe("CreateFileButton", () => {
         expect(CreateFileButton).toBeTruthy();
     });
 
-    test("should show item-action-modal when action button is clicked", async () => {
+    test("should emit showRenameModal when action button is clicked", async () => {
+        const emitSpy = vi.spyOn($emitter, "emit");
         const actionBtn = wrapper.find(".action-btn");
 
         actionBtn.trigger("click");
         await wrapper.vm.$nextTick();
 
-        const modal = wrapper.findComponent(ItemActionModal);
-        expect(modal.exists()).toBe(true);
-    });
-
-    test("should close modal when close button is clicked in the modal", async () => {
-        const closeMethodSpy = vi.spyOn(wrapper.vm, "closeModal");
-        wrapper.setData({showModal: true});
-        await wrapper.vm.$nextTick();
-
-        const closeBtn = wrapper.find("#cancel-btn");
-        closeBtn.trigger("click");
-        await wrapper.vm.$nextTick();
-
-        const modal = wrapper.findComponent(ItemActionModal);
-        expect(closeMethodSpy).toHaveBeenCalledTimes(1);
-        expect(modal.exists()).toBe(false);
+        expect(emitSpy).toHaveBeenCalledWith(
+            'showRenameModal',
+            {
+                label: "Enter file name:",
+                functionOnSave: wrapper.vm.createFile,
+                itemName: ""
+            }
+        );
     });
 
     test("should create file when create button is clicked in the modal", async () => {
@@ -77,13 +72,8 @@ describe("CreateFileButton", () => {
         const createFileMethodSpy = vi.spyOn(wrapper.vm, "createFile");
         const createItemMethodSpy = vi.spyOn(wrapper.vm, "createItem");
         const postHttpSpy = vi.spyOn($http, "post");
-        wrapper.setData({showModal: true});
-        await wrapper.vm.$nextTick();
-        const modal = wrapper.findComponent(ItemActionModal);
-        modal.find("#itemName").setValue(targetFileName);
 
-        const closeBtn = wrapper.find("#save-btn");
-        closeBtn.trigger("click");
+        wrapper.vm.createFile(targetFileName);
 
         expect(createFileMethodSpy).toHaveBeenCalledWith(targetFileName);
         expect(createItemMethodSpy).toHaveBeenCalledWith(
@@ -110,13 +100,10 @@ describe("CreateFileButton", () => {
             value: showAlert
         });
         const showAlertSpy = vi.spyOn(window, "showAlert");
-        wrapper.setData({diskName: "", dirName: null, showModal: true});
+        wrapper.setData({diskName: "", dirName: null});
         await wrapper.vm.$nextTick();
 
-        const modal = wrapper.findComponent(ItemActionModal);
-        modal.find("#itemName").setValue("test.txt");
-        const closeBtn = wrapper.find("#save-btn");
-        closeBtn.trigger("click");
+        wrapper.vm.createFile("");
 
         expect(showAlertSpy).toHaveBeenCalledWith("failed", "Disk or directory not found");
     });

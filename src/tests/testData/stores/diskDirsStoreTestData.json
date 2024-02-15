@@ -4,6 +4,7 @@
       "dirs": [
         {
           "diskName": "tests",
+          "dirName": "android",
           "name": "android",
           "path": "android",
           "type": "dir",

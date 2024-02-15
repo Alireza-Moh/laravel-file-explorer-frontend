@@ -1,9 +1,9 @@
 <script>
 export default {
-  name: "UploadedFilesDropBox",
+  name: "UploadItemsDropBox",
   emits: ["update:modelValue"],
   props: {
-    maxUploadFilesReached: {
+    maxUploadItemsReached: {
       type: Boolean
     },
     modelValue: {
@@ -22,12 +22,12 @@ export default {
 <template>
   <div class="drop-box">
     <div class="image-box">
-      <img src="../../../assets/img/cloud.png" alt="cloud image">
+      <img src="@assets/cloud.png" alt="cloud image">
     </div>
     <button class="select-btn"
-            :class="{selected: maxUploadFilesReached}"
+            :class="{selected: maxUploadItemsReached}"
             @click="$refs.fileInput.click()"
-            :disabled="maxUploadFilesReached">
+            :disabled="maxUploadItemsReached">
       Browse Files
     </button>
     <input type="file"

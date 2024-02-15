@@ -11,14 +11,14 @@ export default {
     return {
       selectedDir: null,
       selectedDisk: null,
-      selectedItem: null,
       searchedItem: null,
       items: [],
       visibleItems: [],
       itemHeight: 80,
       scrollTop: 0,
       settingsStore: useSettingsStore(),
-      dirItemsStore: useDirItemsStore()
+      dirItemsStore: useDirItemsStore(),
+      showPreviewView: false
     };
   },
   computed: {
@@ -58,17 +58,18 @@ export default {
     });
 
     this.dirItemsStore.$subscribe((mutation, state) => {
-      const dir = state.data.find((dir) => (dir.diskName === this.selectedDisk) && (dir.dirName === this.selectedDir));
+      const dir = state.data.find((dir) => {
+        return (dir.diskName === this.selectedDisk) && (dir.dirName === this.selectedDir);
+      });
       if (dir && dir.dirItems) {
         this.items = dir.dirItems;
         this.updateVisibleItems();
       }
     });
+
+    this.listenForItemPreviewAction();
   },
   methods: {
-    setSelectedItem(item) {
-      this.selectedItem = item;
-    },
     onScroll() {
       this.scrollTop = this.$refs.viewport.scrollTop;
       this.updateVisibleItems();
@@ -80,29 +81,37 @@ export default {
       const endIdx = startIdx + visibleCount * 2; //to improve scrolling experience, retrieve twice the number of items
       this.visibleItems = this.items.slice(startIdx, endIdx);
     },
+    listenForItemPreviewAction() {
+      this.$emitter.on("showPreviewView", () => {
+        this.showPreviewView = !this.showPreviewView;
+      });
+
+      this.$emitter.on("disablePreviewView", () => {
+        this.showPreviewView = false;
+      });
+    }
   }
 };
 </script>
 
 <template>
-  <ContentTableMenu :item="selectedItem" v-model="searchedItem"/>
+  <ContentTableMenu v-model="searchedItem"/>
   <div class="content-header">
-    <div class="headline check-box-cell"></div>
     <div class="headline name-cell">Name</div>
     <div class="headline date-cell">Modified</div>
     <div class="headline size-cell">Size</div>
-    <div class="headline show-cell"></div>
   </div>
   <div ref="viewport" class="viewport" @scroll="onScroll">
 
     <div class="full-container" :style="{ height: fullHeight + 'px' }">
 
-      <div class="visible-container" :style="{ transform: 'translateY(' + scrollTop + 'px)' }">
+      <div class="visible-container"
+           :style="{ transform: 'translateY(' + scrollTop + 'px)' }">
         <template v-if="filteredItems.length > 0" >
           <ContentTableRow v-for="(item, index) in filteredItems"
                            :key="index"
                            :item="item"
-                           @show-selected-item-url="setSelectedItem"/>
+                           :show-preview-view="showPreviewView"/>
 
         </template>
         <div v-else class="item empty">

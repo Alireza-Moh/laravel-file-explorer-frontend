@@ -26,7 +26,6 @@ class Http {
     }
 
     delete(url, options) {
-        console.log(this.#getOptions("DELETE", options))
         return fetch(url, this.#getOptions("DELETE", options)).then((response) => {
             return response.json();
         }).catch((error) => {

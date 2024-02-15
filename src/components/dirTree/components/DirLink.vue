@@ -1,11 +1,11 @@
 <script>
 import RightClickContextMenu from "@/components/dirTree/components/RightClickContextMenu.vue";
-import RenameInput from "@/components/dirTree/components/RenameInput.vue";
 import dirMixin from "@/components/dirContent/mixins/dirMixin.js";
+import ItemActionModal from "@/components/modals/RenameModal.vue";
 
 export default {
   name: "DirLink",
-  components: {RenameInput, RightClickContextMenu},
+  components: {ItemActionModal, RightClickContextMenu},
   mixins: [dirMixin],
   emits: ['openSubNav'],
   props: {
@@ -23,7 +23,6 @@ export default {
       showRightContext: false,
       left: 0,
       top: 0,
-      showRenameInput: false,
       isSubNavOpen: false,
       selectedDir: null
     }
@@ -34,6 +33,10 @@ export default {
   mounted() {
     this.settingsStore.$subscribe((mutation, state) => {
       this.selectedDir = state.defaultFileExplorerViewData.selectedDir;
+    });
+
+    this.$emitter.on("closeRightContext", () => {
+      this.showRightContext = false;
     });
   },
   methods: {
@@ -51,19 +54,6 @@ export default {
       this.top = event.clientY;
 
       this.showRightContext = true;
-    },
-    closeContextMenu() {
-      this.showRightContext = false;
-    },
-    renameDir() {
-      this.showRenameInput = true;
-    },
-    hideRenameInput(status, newDirName, newPath) {
-      this.showRenameInput = false;
-      if (status === "success") {
-        this.dir.name = newDirName;
-        this.dir.path = newPath;
-      }
     }
   }
 }
@@ -75,26 +65,27 @@ export default {
        @contextmenu="showContextMenu">
 
     <div class="nav__link-wrapper" @click="openDir(dir)">
-      <img src="../../../assets/img/folder-fill.svg" alt="folder icon" class="dir-folder-icon"/>
-
-      <RenameInput v-if="showRenameInput" :dir="dir" @hide-rename-input="hideRenameInput"/>
-      <span v-else class="nav__name">{{ dir.name }}</span>
+      <img src="@assets/folder-fill.svg"
+           alt="folder icon"
+           class="dir-folder-icon"/>
+      <span class="nav__name">{{ dir.name }}</span>
 
     </div>
     <img v-if="showCartIcon"
-         src="../../../assets/img/chevron-right.svg"
+         src="@assets/chevron-right.svg"
          alt=""
          class="cheven_link svg-img"
          :class="{ 'opened-sub-dir': isSubNavOpen}"
          @click="openSubNav"/>
   </div>
 
-  <div v-if="showRightContext" class="context-overlay" @click="closeContextMenu">
+  <div v-if="showRightContext"
+       class="context-overlay"
+       @click="showRightContext = false">
     <RightClickContextMenu v-if="showRightContext"
                            :left="left"
                            :top="top"
-                           :dir="dir"
-                           @rename-dir="renameDir"/>
+                           :dir="dir"/>
   </div>
 </template>
 

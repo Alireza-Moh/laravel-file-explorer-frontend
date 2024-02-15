@@ -11,7 +11,6 @@ import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
 import DownloadButton from "@/components/dirContent/itemActions/buttons/DownloadButton.vue";
 import DeleteButton from "@/components/dirContent/itemActions/buttons/DeleteButton.vue";
 import RenameButton from "@/components/dirContent/itemActions/buttons/RenameButton.vue";
-import SaveButton from "@/components/dirContent/itemActions/buttons/SaveButton.vue";
 import randomItems from "@/tests/testData/randomItems.json";
 describe('ItemActionList', () => {
     let wrapper, $emitter,$http;
@@ -112,15 +111,6 @@ describe('ItemActionList', () => {
 
         expect(btn.exists()).toBe(true);
         expect(btn.props().items).toEqual(expect.arrayContaining(randomItems));
-    });
-
-    test('should render SaveButton component', async () => {
-        wrapper.setData({showItemActions: true, items: randomItems});
-        await wrapper.vm.$nextTick();
-
-        const btn = wrapper.findComponent(SaveButton)
-
-        expect(btn.exists()).toBe(true);
     });
 
     test("should hide related action buttons and emit 'hideRenameInput' event when no item is selected", async () => {

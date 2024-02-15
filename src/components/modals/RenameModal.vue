@@ -1,16 +1,25 @@
 <script>
 export default {
-  name: "ItemActionModal",
-  props: {
-    functionOnCancel: Function,
-    functionOnSave: Function,
-    label: String,
-    errors: Object
-  },
+  name: "RenameModal",
   data() {
     return {
-      enteredName: null
+      showRenameModal: false,
+      enteredName: null,
+      label: "",
+      functionOnSave: null
     }
+  },
+  mounted() {
+    this.$emitter.on("showRenameModal", (data) => {
+      this.label = data.label;
+      this.functionOnSave = data.functionOnSave;
+      this.enteredName = data.itemName;
+      this.showRenameModal = true;
+    });
+
+    this.$emitter.on("hideRenameModal", () => {
+      this.showRenameModal = false;
+    })
   },
   methods: {
     invokeSaveFunction() {
@@ -21,16 +30,28 @@ export default {
 </script>
 
 <template>
-  <div class="modal-wrapper">
+  <div v-if="showRenameModal" class="modal-wrapper">
     <div class="modal">
       <div class="input-box">
         <label for="itemName">{{label}}</label>
-        <input type="text" name="itemName" id="itemName" v-model="enteredName" required>
-        <span class="error" v-if="errors && errors.path && errors.path[0]">{{ errors.path[0] }}</span>
+        <input type="text"
+               name="itemName"
+               id="itemName"
+               v-model="enteredName"
+               required>
       </div>
       <div class="button-box">
-        <button type="button" id="save-btn" @click="invokeSaveFunction">Save</button>
-        <button type="button" id="cancel-btn" @click="functionOnCancel">Cancel</button>
+        <button type="button"
+                id="save-btn"
+                @click="invokeSaveFunction">
+          Save
+        </button>
+
+        <button type="button"
+                id="cancel-btn"
+                @click="showRenameModal = false">
+          Cancel
+        </button>
       </div>
     </div>
   </div>
@@ -38,20 +59,9 @@ export default {
 
 <style scoped>
 .modal {
-  z-index: 999999;
-  background-color: #fff;
-  border-top: 4px solid #7071E8;
-  width: 500px;
-  border-radius: 4px;
-  padding: 2em;
   display: flex;
   flex-direction: column;
   gap: 2em;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 }
 
 .modal .input-box {
@@ -105,11 +115,6 @@ label {
 
 body.dark-mode .modal .input-box input {
   border: 1px solid #303134;
-}
-
-body.dark-mode .modal {
-  background-color: #202124;
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
 }
 
 body.dark-mode #itemName,
