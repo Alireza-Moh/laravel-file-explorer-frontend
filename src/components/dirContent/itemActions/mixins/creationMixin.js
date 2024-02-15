@@ -38,8 +38,14 @@ export default {
 
             this.$http.post(url, options).then((data) => {
                 if (data.errors) {
-                    this.errors = data.errors;
-                    return;
+                    this.$emitter.emit(
+                        "showErrorModal",
+                        {
+                            headline: "Failed creating item",
+                            errors: data.errors,
+                            showErrorKey: false
+                        }
+                    );
                 }
                 if (data.result) {
                     this.$emitter.emit("hideRenameModal");

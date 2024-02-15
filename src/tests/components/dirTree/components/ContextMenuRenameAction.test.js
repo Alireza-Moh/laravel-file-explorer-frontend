@@ -53,7 +53,6 @@ describe('ContextMenuRenameAction', () => {
             {
                 label: "New directory name:",
                 functionOnSave: wrapper.vm.saveNewItemName,
-                errors: {},
                 itemName: "android"
             }
         );

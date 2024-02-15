@@ -6,15 +6,13 @@ export default {
       showRenameModal: false,
       enteredName: null,
       label: "",
-      functionOnSave: null,
-      errors: {}
+      functionOnSave: null
     }
   },
   mounted() {
     this.$emitter.on("showRenameModal", (data) => {
       this.label = data.label;
       this.functionOnSave = data.functionOnSave;
-      this.errors = data.errors;
       this.enteredName = data.itemName;
       this.showRenameModal = true;
     });
@@ -41,10 +39,6 @@ export default {
                id="itemName"
                v-model="enteredName"
                required>
-        <span class="error"
-              v-if="errors && errors.path && errors.path[0]">
-          {{ errors.path[0] }}
-        </span>
       </div>
       <div class="button-box">
         <button type="button"

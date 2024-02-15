@@ -34,27 +34,29 @@ export default {
 </script>
 
 <template>
-  <div class="modal">
-    <div class="upload-box">
-      <div class="header">
-        <h3>Upload Files</h3>
-      </div>
-      <Alert v-if="maxUploadItemsReached"
-             type="warning"
-             message="Limit: Maximum of 10 files per upload"/>
-      <UploadItemsDropBox v-model="items"
+  <div class="modal-wrapper">
+    <div class="modal">
+      <div class="upload-box">
+        <div class="header">
+          <h3>Upload Files</h3>
+        </div>
+        <Alert v-if="maxUploadItemsReached"
+               type="warning"
+               message="Limit: Maximum of 10 files per upload"/>
+        <UploadItemsDropBox v-model="items"
                             :max-upload-items-reached="maxUploadItemsReached"/>
-      <UploadItemsSetting v-model="ifItemExist"/>
-      <UploadItemsList :items="items"
+        <UploadItemsSetting v-model="ifItemExist"/>
+        <UploadItemsList :items="items"
                          :errors="errors"
                          @remove-item="removeItemFromList"
                          ref="fileListComp"/>
-      <UploadItemsActionButtons
-          :max-upload-items="maxUploadItems"
-          :max-upload-items-reached="maxUploadItemsReached"
-          :items="items"
-          :if-item-exist="ifItemExist"
-          @update-items-list-comp="updateComp"/>
+        <UploadItemsActionButtons
+            :max-upload-items="maxUploadItems"
+            :max-upload-items-reached="maxUploadItemsReached"
+            :items="items"
+            :if-item-exist="ifItemExist"
+            @update-items-list-comp="updateComp"/>
+      </div>
     </div>
   </div>
 </template>

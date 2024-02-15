@@ -11,7 +11,6 @@ export default {
           {
             label: "Enter file name:",
             functionOnSave: this.createFile,
-            errors: this.errors,
             itemName: ""
           }
       );

@@ -27,7 +27,6 @@ export default {
             {
               label: "Enter new file name:",
               functionOnSave: this.saveNewItemName,
-              errors: {},
               itemName: this.item.name
             }
         );

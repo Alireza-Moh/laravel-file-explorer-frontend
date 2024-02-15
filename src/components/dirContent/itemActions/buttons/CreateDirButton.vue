@@ -11,7 +11,6 @@ export default {
           {
             label: "Enter directory name:",
             functionOnSave: this.createDir,
-            errors: this.errors,
             itemName: ""
           }
       );

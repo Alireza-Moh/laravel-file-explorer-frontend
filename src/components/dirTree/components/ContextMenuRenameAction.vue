@@ -18,7 +18,6 @@ export default {
           {
             label: "New directory name:",
             functionOnSave: this.saveNewItemName,
-            errors: {},
             itemName: this.item.name
           }
       );

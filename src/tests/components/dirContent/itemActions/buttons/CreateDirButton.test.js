@@ -57,7 +57,6 @@ describe("CreateDirButton", () => {
             {
                 label: "Enter directory name:",
                 functionOnSave: wrapper.vm.createDir,
-                errors: {},
                 itemName: ""
             }
         );

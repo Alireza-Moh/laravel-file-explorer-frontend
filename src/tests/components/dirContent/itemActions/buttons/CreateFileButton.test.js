@@ -56,7 +56,6 @@ describe("CreateFileButton", () => {
             {
                 label: "Enter file name:",
                 functionOnSave: wrapper.vm.createFile,
-                errors: {},
                 itemName: ""
             }
         );
