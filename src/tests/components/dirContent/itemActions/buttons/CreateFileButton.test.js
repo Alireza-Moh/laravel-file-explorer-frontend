@@ -1,4 +1,4 @@
-import {mount, shallowMount} from "@vue/test-utils";
+import {mount} from "@vue/test-utils";
 import {createTestingPinia} from "@pinia/testing";
 import createFileApiResponseTestData from "@/tests/testData/createFileApiResponseTestData.json";
 import diskDirsStoreTestData from "@/tests/testData/stores/diskDirsStoreTestData.json";
