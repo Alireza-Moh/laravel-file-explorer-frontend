@@ -15,16 +15,10 @@ export default {
   data() {
     return {
       showConfirmModal: false,
-      diskName: null,
-      dirName: null,
       settingsStore: useSettingsStore(),
       checkedItemsStore: useCheckedItemsStore(),
       dirItemsStore: useDirItemsStore()
     }
-  },
-  created() {
-    this.diskName = this.settingsStore.defaultFileExplorerViewData.selectedDisk;
-    this.dirName = this.settingsStore.defaultFileExplorerViewData.selectedDir;
   },
   methods: {
     confirmDelete() {
@@ -62,14 +56,15 @@ export default {
       deleteRequest(itemsToDelete.dirs, "dir");
     },
     getUrl(type) {
+      const diskName = this.items[0].diskName;
       if (type === "file") {
         return this.settingsStore.baseUrl
-            + "disks/" + this.diskName
+            + "disks/" + diskName
             + "/items/delete"
       }
       else if (type === "dir") {
         return this.settingsStore.baseUrl
-            + "disks/" + this.diskName
+            + "disks/" + diskName
             + "/dirs/delete"
       }
     },
@@ -91,20 +86,19 @@ export default {
 
       return { files, dirs };
     },
-    removeItemFromDirStore(status, filesToDelete) {
+    removeItemFromDirStore(status, itemsToDelete) {
       if (status === "success") {
         this.dirItemsStore.$patch((state) => {
-          filesToDelete.forEach(itemToDelete => {
-            const targetDirItems = state.data.find((dirItems) => {
-              return dirItems.diskName === this.diskName && dirItems.dirName === this.dirName;
-            });
-
-            if (targetDirItems) {
-              targetDirItems.dirItems = targetDirItems.dirItems.filter((item) => {
-                return item.name !== itemToDelete.name;
-              });
-            }
+          const targetDirItems = state.data.find((dirItems) => {
+            return dirItems.diskName === this.items[0].diskName && dirItems.dirName === this.items[0].dirName;
           });
+
+          const itemsToDeleteNames = itemsToDelete.map(item => item.name);
+          if (targetDirItems) {
+            targetDirItems.dirItems = targetDirItems.dirItems.filter((item) => {
+              return !itemsToDeleteNames.includes(item.name)
+            });
+          }
         });
       }
     },
