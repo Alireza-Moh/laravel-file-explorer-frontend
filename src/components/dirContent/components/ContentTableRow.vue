@@ -42,11 +42,14 @@ export default {
       if (this.item.type === "dir") {
         this.openDir(this.item);
       }
-      if (this.isImage) {
+      else if (this.isImage) {
         this.$emitter.emit("showImageViewer", this.item.url);
       }
-      if (this.isVideo) {
+      else if (this.isVideo) {
         this.$emitter.emit("showVideoPlayer", this.item);
+      }
+      else {
+        this.$emitter.emit("showEditorViewer", this.item);
       }
     },
     checkItemMediaType() {

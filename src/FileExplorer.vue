@@ -16,10 +16,12 @@ import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
 import MultipleErrorModal from "@/components/modals/MultipleErrorModal.vue";
 import RenameModal from "@/components/modals/RenameModal.vue";
+import EditorViewer from "@/components/dirContent/components/EditorViewer.vue";
 
 export default {
   name: "FileExplorer",
   components: {
+    EditorViewer,
     RenameModal,
     MultipleErrorModal,
     Loader,
@@ -115,6 +117,7 @@ export default {
       <VideoPlayerViewer v-once/>
       <MultipleErrorModal/>
       <RenameModal/>
+      <EditorViewer/>
     </main>
   </div>
 </template>

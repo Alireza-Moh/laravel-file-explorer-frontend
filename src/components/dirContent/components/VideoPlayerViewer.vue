@@ -20,7 +20,7 @@ export default {
   <div v-if="showPlayer" class="modal">
     <span class="close" @click="showPlayer = false">&times;</span>
     <div class="modal-content">
-      <video controls class="video">
+      <video class="video" controls>
         <source :src="item.url"
                 :type="item.videoType"
                 class="video-src">
