@@ -1,8 +1,10 @@
 import {useSettingsStore} from "@/stores/settingsStore.js";
 import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
+import globalMixin from "@/components/mixins/globalMixin.js";
 
 export default {
+    mixins: [globalMixin],
     data() {
         return {
             settingsStore: useSettingsStore(),
@@ -40,17 +42,8 @@ export default {
             };
 
             this.$http.post(url, options).then((data) => {
-                if (data.errors) {
-                    this.$emitter.emit(
-                        "showErrorModal",
-                        {
-                            headline: "Failed fetching directory data",
-                            errors: data.errors,
-                            showErrorKey: false
-                        }
-                    );
-                }
-                else {
+                this.showErrorModal(data, "Failed fetching directory data");
+                if (!data.errors) {
                     const items = data.items;
 
                     this.addsNewDirWithItemsToStore(dir, diskName, items, data.selectedDirPath)

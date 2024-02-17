@@ -3,10 +3,12 @@ import ConfirmModal from "@/components/modals/ConfirmModal.vue";
 import {useSettingsStore} from "@/stores/settingsStore.js";
 import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
+import globalMixin from "@/components/mixins/globalMixin.js";
 
 export default {
   name: "DeleteButton",
   components: {ConfirmModal},
+  mixins: [globalMixin],
   props: {
     items: {
       type: Array
@@ -39,7 +41,7 @@ export default {
             body: JSON.stringify({ items })
           };
           this.$http.delete(this.getUrl(type), options).then((data) => {
-            this.showErrors(data);
+            this.showErrorModal(data, "Delete item error");
             if (data.result) {
               const status = data.result.status;
               window.showAlert(status, data.result.message);
@@ -100,18 +102,6 @@ export default {
             });
           }
         });
-      }
-    },
-    showErrors(data) {
-      if (data.errors) {
-        this.$emitter.emit(
-            "showErrorModal",
-            {
-              headline: "Delete item error",
-              errors: data.errors,
-              showErrorKey: false
-            }
-        );
       }
     }
   }

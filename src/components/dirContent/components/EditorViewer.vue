@@ -20,10 +20,12 @@ import 'codemirror/mode/ruby/ruby';
 import 'codemirror/mode/go/go';
 import 'codemirror/mode/yaml/yaml';
 import 'codemirror/mode/properties/properties';
+import globalMixin from "@/components/mixins/globalMixin.js";
 
 export default {
   name: "EditorViewer",
   components: {Codemirror},
+  mixins: [globalMixin],
   data() {
     return {
       item: null,
@@ -95,16 +97,7 @@ export default {
           this.content = data.result.content;
           this.showEditor = true;
         }
-        if (data.errors) {
-          this.$emitter.emit(
-              "showErrorModal",
-              {
-                headline: "Failed fetching item content",
-                errors: data.errors,
-                showErrorKey: false
-              }
-          );
-        }
+        this.showErrorModal(data, "Failed fetching item content");
       });
     },
     saveChanges() {

@@ -1,9 +1,11 @@
 <script>
 import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
 import {useSettingsStore} from "@/stores/settingsStore.js";
+import globalMixin from "@/components/mixins/globalMixin.js";
 
 export default {
   name: "ContextMenuDeleteAction",
+  mixins: [globalMixin],
   props: {
     dir: {
       type: Object
@@ -35,16 +37,7 @@ export default {
           window.showAlert(status, data.result.message);
           this.removeDirFromDiskDirsStore(status)
         }
-        if (data.errors) {
-          this.$emitter.emit(
-              "showErrorModal",
-              {
-                headline: "Delete Errors",
-                errors: data.errors,
-                showErrorKey: false
-              }
-          );
-        }
+        this.showErrorModal(data, "Delete Errors");
       });
     },
     removeDirFromDiskDirsStore(status) {

@@ -1,8 +1,10 @@
 import {useSettingsStore} from "@/stores/settingsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
+import globalMixin from "@/components/mixins/globalMixin.js";
 
 export default {
+    mixins: [globalMixin],
     data() {
         return {
             diskName: null,
@@ -37,16 +39,7 @@ export default {
             };
 
             this.$http.post(url, options).then((data) => {
-                if (data.errors) {
-                    this.$emitter.emit(
-                        "showErrorModal",
-                        {
-                            headline: "Failed creating item",
-                            errors: data.errors,
-                            showErrorKey: false
-                        }
-                    );
-                }
+                this.showErrorModal(data);
                 if (data.result) {
                     this.$emitter.emit("hideRenameModal");
                     const items = data.result.items;
