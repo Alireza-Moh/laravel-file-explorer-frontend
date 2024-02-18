@@ -147,21 +147,19 @@ export default {
     justify-content: space-between;
     display: flex;
     align-items: center;
-    gap: 20px;
     padding: 15px 20px;
     font-size: 14px;
     font-weight: bold;
     color: #000000;
 }
 
-.item {
+.item-empty {
     height: 80px; /* must match itemHeight */
     display: flex;
     align-items: center;
     gap: 20px;
     border-bottom: 1px solid #e8ebef;
     font-size: 14px;
-    text-align: right;
     transition: all 0.2s ease-in-out;
 }
 

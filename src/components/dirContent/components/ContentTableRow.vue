@@ -103,7 +103,7 @@ export default {
                       :item-name="item.name"/>
         </div>
 
-        <div class="date-cell date-cell-inter">
+        <div class="date-cell">
             {{ item.lastModified }}
         </div>
 
@@ -118,10 +118,10 @@ export default {
     height: 80px; /* must match itemHeight */
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 20px;
     border-bottom: 1px solid #e8ebef;
     font-size: 14px;
-    text-align: right;
     transition: all 0.2s ease-in-out;
 }
 
@@ -129,12 +129,12 @@ export default {
     padding-left: 20px;
 }
 
-.item:hover {
-    background-color: #F8F9FA;
+.size-cell {
+    padding-right: 20px;
 }
 
-.check-box-cell {
-    padding-left: 20px;
+.item:hover {
+    background-color: #F8F9FA;
 }
 
 .folder-item-checkbox {
@@ -147,9 +147,9 @@ export default {
     }
 }
 
-@media screen and (max-width: 500px) {
-    .size-cell {
-        display: none;
+@media screen and (max-width: 700px) {
+    .date-cell {
+        padding-right: 20px;
     }
 }
 

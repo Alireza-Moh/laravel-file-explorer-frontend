@@ -177,25 +177,24 @@ body.dark-mode .rename-input {
     width: 100%;
 }
 
-.date-cell {
-    width: 16%;
-    text-align: left;
-}
-
-.size-cell {
-    width: 12%;
-    text-align: right;
-    padding-right: 20px;
-}
-
 .name-cell {
     display: flex;
     align-items: center;
     gap: 20px;
-    width: 73%;
+    width: 65%;
     overflow: hidden;
     text-overflow: ellipsis;
     text-align: left;
+}
+
+.date-cell {
+    width: 20%;
+    text-align: right;
+}
+
+.size-cell {
+    width: 15%;
+    text-align: right;
 }
 
 .delete-icon {
@@ -245,13 +244,12 @@ body.dark-mode .rename-input {
     .size-cell {
         display: none;
     }
-
-    .date-cell-inter {
-        text-align: right;
-    }
 }
 
 @media screen and (max-width: 570px) {
+    .name-cell {
+        width: 100%;
+    }
     .date-cell {
         display: none;
     }
