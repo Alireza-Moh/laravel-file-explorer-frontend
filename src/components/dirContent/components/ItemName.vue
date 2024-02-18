@@ -1,16 +1,16 @@
 <script>
 export default {
-  name: "ItemName",
-  props: {
-    itemName: {
-      type: String
+    name: "ItemName",
+    props: {
+        itemName: {
+            type: String
+        }
     }
-  }
 }
 </script>
 
 <template>
     <span class="item-name">
-        {{itemName}}
+        {{ itemName }}
     </span>
 </template>

@@ -1,21 +1,21 @@
 <script>
 export default {
-  name: "ItemVideoCell",
-  props: {
-    itemUrl: {
-      type: String
-    },
-    videoType: {
-      type: String
+    name: "ItemVideoCell",
+    props: {
+        itemUrl: {
+            type: String
+        },
+        videoType: {
+            type: String
+        }
     }
-  }
 }
 </script>
 
 <template>
-  <video width="80" height="80" muted>
-    <source :src="itemUrl"
-            :type="videoType"
-            class="video-src">
-  </video>
+    <video height="80" muted width="80">
+        <source :src="itemUrl"
+                :type="videoType"
+                class="video-src">
+    </video>
 </template>

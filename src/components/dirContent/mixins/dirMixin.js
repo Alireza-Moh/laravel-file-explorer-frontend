@@ -28,6 +28,8 @@ export default {
                 else {
                     this.fetchDirItems(dir);
                 }
+                this.$emitter.emit("uncheckInput");
+                this.checkedItemsStore.items = [];
             }
         },
         fetchDirItems(dir) {
