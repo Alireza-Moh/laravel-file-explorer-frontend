@@ -64,7 +64,7 @@ export default {
                 go: 'text/x-go',
                 yaml: 'text/x-yaml',
                 json: 'application/json',
-            },
+            }
         }
     },
     mounted() {
@@ -127,13 +127,12 @@ export default {
 
 <template>
     <div v-if="showEditor" class="modal-wrapper">
-        <div class="modal">
+        <div class="modal" ref="modal">
             <h3 class="headline">{{ item.name }}</h3>
             <Codemirror v-model:value="content"
                         :options="options"
                         border
-                        height="400"
-                        width="935"/>
+                        height="500"/>
             <div class="button-box">
                 <button id="save-btn"
                         type="button"
@@ -152,7 +151,7 @@ export default {
 
 <style scoped>
 .modal {
-    width: 1000px;
+    width: 80%;
 }
 
 .headline {
@@ -195,4 +194,22 @@ button {
 #save-btn:hover {
     background-color: #4d4dbf;
 }
+
+/*@media screen and (max-width: 1050px) {
+    .modal {
+        width: 800px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .modal {
+        width: 600px;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .modal {
+        width: 500px;
+    }
+}*/
 </style>
