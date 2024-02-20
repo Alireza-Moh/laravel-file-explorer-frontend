@@ -45,11 +45,6 @@ export default {
                 + new URLSearchParams({
                     path: encodeURIComponent(dir.path)
                 });
-            const options = {
-                body: JSON.stringify({
-                    path: dir.path
-                })
-            };
 
             this.$http.get(url).then((data) => {
                 this.showErrorModal(data, "Failed fetching directory data");
