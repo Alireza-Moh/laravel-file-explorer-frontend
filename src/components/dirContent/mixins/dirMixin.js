@@ -36,14 +36,22 @@ export default {
             const diskName = this.settingsStore.defaultFileExplorerViewData.selectedDisk;
             const dirName = dir.name;
 
-            const url = this.settingsStore.baseUrl + "disks/" + diskName + "/dirs/" + dirName
+            const url = this.settingsStore.baseUrl
+                + "disks/"
+                + diskName
+                + "/dirs/"
+                + dirName
+                + "?"
+                + new URLSearchParams({
+                    path: encodeURIComponent(dir.path)
+                });
             const options = {
                 body: JSON.stringify({
                     path: dir.path
                 })
             };
 
-            this.$http.post(url, options).then((data) => {
+            this.$http.get(url).then((data) => {
                 this.showErrorModal(data, "Failed fetching directory data");
                 if (!data.errors) {
                     const items = data.items;

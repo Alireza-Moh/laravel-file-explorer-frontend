@@ -17,14 +17,6 @@ class Http {
         });
     }
 
-    put(url, options) {
-        return fetch(url, this.#getOptions("PUT", options)).then((response) => {
-            return response.json();
-        }).catch((error) => {
-            this.#showErrorMessage();
-        });
-    }
-
     delete(url, options) {
         return fetch(url, this.#getOptions("DELETE", options)).then((response) => {
             return response.json();
@@ -56,7 +48,6 @@ class Http {
                 "Accept": "application/json"
             },
         };
-
         if (contentType) {
             baseOptions.headers["Content-Type"] = "application/json";
         }

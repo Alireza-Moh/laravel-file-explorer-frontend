@@ -22,7 +22,7 @@ describe("RenameButton", () => {
     beforeEach(() => {
         $emitter = mitt();
         $http = {
-            put: vi.fn().mockImplementation(() => {
+            post: vi.fn().mockImplementation(() => {
                 return Promise.resolve({
                     "result": {
                         "status": "success",
@@ -87,12 +87,12 @@ describe("RenameButton", () => {
             configurable: true,
             value: showAlert
         });
-        const postHttpSpy = vi.spyOn($http, "put");
+        const postHttpSpy = vi.spyOn($http, "post");
 
         wrapper.vm.saveNewItemName("newItemName.png");
 
         expect(postHttpSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/oldItemName",
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/oldItemName",
             {
                 body: '{"oldName":"oldItemName.png","newName":"newItemName.png","oldPath":"android/oldItemName.png","newPath":"android/newItemName.png"}'
             }

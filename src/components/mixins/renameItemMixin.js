@@ -18,10 +18,10 @@ export default {
             const url = this.settingsStore.baseUrl
                 + "disks/"
                 + this.item.diskName
-                + "/items/"
+                + "/dirs/"
                 + this.getFileNameWithoutExtension();
 
-            this.$http.put(url, this.getRequestOption()).then((data) => {
+            this.$http.post(url, this.getRequestOption()).then((data) => {
                 this.$emitter.emit("uncheckInput");
                 this.handleResponse(data);
             });

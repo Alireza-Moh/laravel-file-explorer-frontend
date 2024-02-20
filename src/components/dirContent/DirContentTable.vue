@@ -153,7 +153,7 @@ export default {
     color: #000000;
 }
 
-.item-empty {
+.item {
     height: 80px; /* must match itemHeight */
     display: flex;
     align-items: center;

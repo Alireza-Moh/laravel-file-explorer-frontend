@@ -85,41 +85,43 @@ export default {
                 + "disks/"
                 + this.item.diskName
                 + "/items/"
-                + this.item.name.replace("." + this.item.extension, "");
+                + this.item.name.replace("." + this.item.extension, "")
+                + "?"
+                + new URLSearchParams({
+                    path: encodeURIComponent(this.item.path)
+                });
 
-            const options = {
-                body: JSON.stringify({
-                    path: this.item.path
-                })
-            };
-            this.$http.post(url, options).then((data) => {
+            this.$http.get(url).then((data) => {
                 if (data.result) {
                     this.content = data.result.content;
                     this.showEditor = true;
                 }
-                this.showErrorModal(data, "Failed fetching item content");
+                this.showErrorModal(data, "File content errors");
             });
         },
         saveChanges() {
             const url = this.settingsStore.baseUrl
-                + "changes/"
                 + "disks/"
                 + this.item.diskName
                 + "/items/"
                 + this.item.name.replace("." + this.item.extension, "");
 
-            const options = {
-                body: JSON.stringify({
-                    path: this.item.path,
-                    content: this.content
-                })
-            };
-            this.$http.put(url, options).then((data) => {
+            this.$http.post(url, this.getOption(), false).then((data) => {
                 if (data.result) {
                     window.showAlert(data.result.status, data.result.message);
                     this.showEditor = false;
                 }
+                this.showErrorModal(data, "Failed updating file");
             });
+        },
+        getOption() {
+            const formData = new FormData();
+            formData.append("path", this.item.path);
+            formData.append("item", new Blob([this.content]), this.item.name);
+
+            return  {
+                body: formData,
+            }
         }
     }
 }
@@ -194,22 +196,4 @@ button {
 #save-btn:hover {
     background-color: #4d4dbf;
 }
-
-/*@media screen and (max-width: 1050px) {
-    .modal {
-        width: 800px;
-    }
-}
-
-@media screen and (max-width: 900px) {
-    .modal {
-        width: 600px;
-    }
-}
-
-@media screen and (max-width: 650px) {
-    .modal {
-        width: 500px;
-    }
-}*/
 </style>

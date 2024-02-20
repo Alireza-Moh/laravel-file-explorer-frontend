@@ -15,7 +15,7 @@ describe('ContentTableRow', () => {
 
     beforeEach(() => {
         $http = {
-            post: vi.fn().mockImplementation(() => {
+            get: vi.fn().mockImplementation(() => {
                 return Promise.resolve(dirItemsApiResponseTestData);
             })
         }
