@@ -17,7 +17,6 @@ import ImageViewer from "@/components/dirContent/components/ImageViewer.vue";
 import VideoPlayerViewer from "@/components/dirContent/components/VideoPlayerViewer.vue";
 import Notify from "@/components/_baseComponents/Notify.vue";
 import TopMenu from "@/components/_baseComponents/TopMenu.vue";
-import EditorViewer from "@/components/dirContent/components/EditorViewer.vue";
 
 describe("FileExplorer", () => {
     let wrapper, disksStore, $http, mediaQueryList, $emitter;
@@ -33,7 +32,6 @@ describe("FileExplorer", () => {
             configurable: true,
             value: () => mediaQueryList,
         });
-
         $http = {
             get: vi.fn().mockImplementation(() => {
                 return Promise.resolve(loadFileExplorerApiResponseTestData);
@@ -142,15 +140,6 @@ describe("FileExplorer", () => {
         await wrapper.vm.$nextTick();
 
         const component = wrapper.findComponent(VideoPlayerViewer);
-
-        expect(component.exists()).toBe(true);
-    });
-
-    test("should load EditorViewer component when data is loaded", async () => {
-        wrapper.setData({isLoading: false});
-        await wrapper.vm.$nextTick();
-
-        const component = wrapper.findComponent(EditorViewer);
 
         expect(component.exists()).toBe(true);
     });

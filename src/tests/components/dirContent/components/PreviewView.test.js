@@ -45,7 +45,7 @@ describe('PreviewView', () => {
             {
                 item: videItem,
                 isVideo: true,
-                videoTyp: 'video/mp4'
+                videoType: 'video/mp4'
             }
         );
         await wrapper.vm.$nextTick();
@@ -54,4 +54,5 @@ describe('PreviewView', () => {
         expect(itemVideoCell.exists()).toBe(true);
         expect(itemVideoCell.props('itemUrl')).toEqual(videItem.url);
     });
+
 });
