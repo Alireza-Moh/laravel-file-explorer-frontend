@@ -48,14 +48,13 @@ export default {
             })
         },
         getUrlByType(itemType) {
-            if (itemType === "file") {
-                return this.settingsStore.baseUrl
-                    + "disks/" + this.diskName
-                    + "/items/delete";
-            } else if (itemType === "dir") {
-                return this.settingsStore.baseUrl
-                    + "disks/" + this.diskName
-                    + "/dirs/delete";
+            switch (itemType) {
+                case "file":
+                    return this.settingsStore.baseUrl + "disks/" + this.diskName + "/items/delete";
+                case "dir":
+                    return this.settingsStore.baseUrl + "disks/" + this.diskName + "/dirs/delete";
+                default:
+                    throw new InvalidItemType(itemType);
             }
         },
         removeItemFromDirStore() {

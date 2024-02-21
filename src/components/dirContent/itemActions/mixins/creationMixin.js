@@ -10,7 +10,6 @@ export default {
             diskName: null,
             dirName: null,
             selectedDirPath: null,
-            errors: {},
             settingsStore: useSettingsStore(),
             dirItemsStore: useDirItemsStore(),
             diskDirsStore: useDiskDirsStore(),
@@ -41,18 +40,20 @@ export default {
             this.$http.post(url, options).then((data) => {
                 this.showErrorModal(data);
                 if (data.result) {
-                    this.$emitter.emit("hideRenameModal");
                     const items = data.result.items;
 
+                    this.$emitter.emit("hideRenameModal");
                     window.showAlert(data.result.status, data.result.message);
-
-                    this.dirItemsStore.updateDir(items, this.diskName, this.dirName);
-                    this.diskDirsStore.replaceDirsForDisk(this.diskName, data.result.dirs);
-
-                    this.settingsStore.replaceDirsForSelectedDisk(this.diskName, this.dirName, data.result.dirs);
-                    this.settingsStore.replaceItemsForSelectedDir(this.diskName, this.dirName, items);
+                    this.updateStore(items, data);
                 }
             });
+        },
+        updateStore(items, data) {
+            this.dirItemsStore.updateDir(items, this.diskName, this.dirName);
+            this.diskDirsStore.replaceDirsForDisk(this.diskName, data.result.dirs);
+
+            this.settingsStore.replaceDirsForSelectedDisk(this.diskName, this.dirName, data.result.dirs);
+            this.settingsStore.replaceItemsForSelectedDir(this.diskName, this.dirName, items);
         }
     }
 }

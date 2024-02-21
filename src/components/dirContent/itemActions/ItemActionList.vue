@@ -43,7 +43,8 @@ export default {
         <CreateFileButton/>
         <CreateDirButton/>
         <UploadFilesButton/>
-        <div v-if="showItemActions" class="related-item-action-wrapper">
+        <div v-if="showItemActions"
+             class="related-item-action-wrapper">
             <DownloadButton :items="items"/>
             <DeleteButton :items="items"/>
             <RenameButton :items="items"/>

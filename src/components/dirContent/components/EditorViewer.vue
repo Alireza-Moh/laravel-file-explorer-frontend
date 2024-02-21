@@ -21,6 +21,7 @@ import 'codemirror/mode/go/go';
 import 'codemirror/mode/yaml/yaml';
 import 'codemirror/mode/properties/properties';
 import globalMixin from "@/components/mixins/globalMixin.js";
+import editorItemExtensions from "@/services/editorItemExtensions.js";
 
 export default {
     name: "EditorViewer",
@@ -33,45 +34,13 @@ export default {
             content: "",
             options: {},
             settingsStore: useSettingsStore(),
-            textExtensions: {
-                sh: 'text/x-sh',
-                css: 'text/css',
-                less: 'text/x-less',
-                sass: 'text/x-sass',
-                scss: 'text/x-scss',
-                html: 'text/html',
-                js: 'text/javascript',
-                ts: 'text/typescript',
-                vue: 'text/x-vue',
-                htaccess: 'text/plain',
-                env: 'text/plain',
-                txt: 'text/plain',
-                log: 'text/plain',
-                ini: 'text/x-ini',
-                xml: 'application/xml',
-                md: 'text/x-markdown',
-                java: 'text/x-java',
-                c: 'text/x-csrc',
-                cpp: 'text/x-c++src',
-                cs: 'text/x-csharp',
-                scl: 'text/x-scala',
-                php: 'application/x-httpd-php',
-                sql: 'text/x-sql',
-                pl: 'text/x-perl',
-                py: 'text/x-python',
-                swift: 'text/x-swift',
-                rb: 'text/x-ruby',
-                go: 'text/x-go',
-                yaml: 'text/x-yaml',
-                json: 'application/json',
-            }
         }
     },
     mounted() {
         this.$emitter.on("showEditorViewer", (item) => {
             this.item = item;
             this.options = {
-                mode: this.textExtensions[item.extension],
+                mode: editorItemExtensions[item.extension],
                 theme: 'darcula',
                 lineNumbers: true,
                 line: true,
