@@ -15,6 +15,10 @@ export default {
     },
     created() {
         this.dirs = this.settingsStore.defaultFileExplorerViewData.dirsForSelectedDisk;
+
+        if (window.innerWidth <= 900) {
+            this.hideTree = true;
+        }
     },
     mounted() {
         this.settingsStore.$subscribe((mutation, state) => {

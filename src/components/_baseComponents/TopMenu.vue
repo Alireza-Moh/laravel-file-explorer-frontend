@@ -37,14 +37,12 @@ export default {
 
 <template>
     <header>
-        <div class="logo-box">
-            <div class="logo">
-                Laravel File Explorer
-            </div>
-            <img alt="close navbar"
-                 class="burger"
-                 src="@assets/burger.svg"
-                 @click="toggleTreeContainer"/>
+        <img alt="close navbar"
+             class="burger"
+             src="@assets/burger.svg"
+             @click="toggleTreeContainer"/>
+        <div class="logo">
+            Laravel File Explorer
         </div>
         <div class="dark-mode">
             <div :class="{ active: isDarkMode }"
@@ -62,12 +60,6 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.logo-box {
-    display: flex;
-    align-items: center;
-    gap: 20px;
 }
 
 header .logo {
@@ -105,6 +97,12 @@ header .logo {
 
 .burger {
     cursor: pointer;
+}
+
+@media screen and (max-width: 570px) {
+    header .logo {
+        font-size: 1rem;
+    }
 }
 
 body.dark-mode header {

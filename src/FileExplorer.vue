@@ -43,16 +43,24 @@ export default {
             diskDirsStore: useDiskDirsStore(),
             dirItemsStore: useDirItemsStore(),
             checkedItemsStore: useCheckedItemsStore(),
-            hideTree: false
+            hideTree: false,
+            navTranslate: "-100%",
+            contentMove: 0
         }
     },
     created() {
         this.settingsStore.setBaseUrl("http://laravel-wrapper.localhost:8084/api/laravel-file-explorer/");
         this.initExplorer();
+
+        if (window.innerWidth <= 900) {
+            this.hideTree = true;
+        }
     },
     mounted() {
         this.$emitter.on("toggleTree", () => {
             this.hideTree = !this.hideTree;
+            this.navTranslate = 0;
+            this.contentMove = "250px"
         });
     },
     methods: {
@@ -232,11 +240,11 @@ body.dark-mode .rename-input {
 
 @media screen and (max-width: 900px) {
     .nav {
-        transform: translateX(-100%);
+        transform: translateX(v-bind(navTranslate));
     }
 
     .content-box {
-        margin-left: 0;
+        margin-left: v-bind(contentMove);
     }
 }
 
