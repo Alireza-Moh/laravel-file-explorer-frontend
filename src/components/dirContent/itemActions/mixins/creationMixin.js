@@ -1,14 +1,15 @@
 import {useSettingsStore} from "@/stores/settingsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
+import globalMixin from "@/components/mixins/globalMixin.js";
 
 export default {
+    mixins: [globalMixin],
     data() {
         return {
             diskName: null,
             dirName: null,
             selectedDirPath: null,
-            errors: {},
             settingsStore: useSettingsStore(),
             dirItemsStore: useDirItemsStore(),
             diskDirsStore: useDiskDirsStore(),
@@ -37,29 +38,22 @@ export default {
             };
 
             this.$http.post(url, options).then((data) => {
-                if (data.errors) {
-                    this.$emitter.emit(
-                        "showErrorModal",
-                        {
-                            headline: "Failed creating item",
-                            errors: data.errors,
-                            showErrorKey: false
-                        }
-                    );
-                }
+                this.showErrorModal(data);
                 if (data.result) {
-                    this.$emitter.emit("hideRenameModal");
                     const items = data.result.items;
 
+                    this.$emitter.emit("hideRenameModal");
                     window.showAlert(data.result.status, data.result.message);
-
-                    this.dirItemsStore.updateDir(items, this.diskName, this.dirName);
-                    this.diskDirsStore.replaceDirsForDisk(this.diskName, data.result.dirs);
-
-                    this.settingsStore.replaceDirsForSelectedDisk(this.diskName, this.dirName, data.result.dirs);
-                    this.settingsStore.replaceItemsForSelectedDir(this.diskName, this.dirName, items);
+                    this.updateStore(items, data);
                 }
             });
+        },
+        updateStore(items, data) {
+            this.dirItemsStore.updateDir(items, this.diskName, this.dirName);
+            this.diskDirsStore.replaceDirsForDisk(this.diskName, data.result.dirs);
+
+            this.settingsStore.replaceDirsForSelectedDisk(this.diskName, this.dirName, data.result.dirs);
+            this.settingsStore.replaceItemsForSelectedDir(this.diskName, this.dirName, items);
         }
     }
 }

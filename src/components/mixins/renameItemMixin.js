@@ -1,8 +1,10 @@
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
 import {useSettingsStore} from "@/stores/settingsStore.js";
+import globalMixin from "@/components/mixins/globalMixin.js";
 
 export default {
+    mixins: [globalMixin],
     data() {
         return {
             settingsStore: useSettingsStore(),
@@ -16,10 +18,10 @@ export default {
             const url = this.settingsStore.baseUrl
                 + "disks/"
                 + this.item.diskName
-                + "/items/"
+                + "/dirs/"
                 + this.getFileNameWithoutExtension();
 
-            this.$http.put(url, this.getRequestOption()).then((data) => {
+            this.$http.post(url, this.getRequestOption()).then((data) => {
                 this.$emitter.emit("uncheckInput");
                 this.handleResponse(data);
             });
@@ -56,19 +58,7 @@ export default {
                 window.showAlert(status, data.result.message);
                 this.$emitter.emit("hideRenameModal");
             }
-            this.showErrors(data);
-        },
-        showErrors(data) {
-            if (data.errors) {
-                this.$emitter.emit(
-                    "showErrorModal",
-                    {
-                        headline: "Rename item error",
-                        errors: data.errors,
-                        showErrorKey: false
-                    }
-                );
-            }
+            this.showErrorModal(data, "Rename item error");
         },
         updateItemInStore() {
             useDirItemsStore().updateItem(

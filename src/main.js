@@ -1,7 +1,7 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import FileExplorer from './FileExplorer.vue'
 import http from "@/services/http.js";
-import { createPinia } from 'pinia';
+import {createPinia} from 'pinia';
 import mitt from "mitt";
 
 const fileExplorer = createApp(FileExplorer);

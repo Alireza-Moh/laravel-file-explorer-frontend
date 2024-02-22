@@ -9,158 +9,157 @@ import PreviewView from "@/components/dirContent/components/PreviewView.vue";
 import ItemName from "@/components/dirContent/components/ItemName.vue";
 
 export default {
-  name: "ContentTableRow",
-  components: {ItemName, PreviewView, ItemVideoCell, ItemImageCell, ItemIcon},
-  props: {
-    item: {
-      type: Object
-    },
-    showPreviewView: {
-      type: Boolean,
-      default: false
-    }
-  },
-  mixins: [dirMixin],
-  data() {
-    return {
-      showRenameInput: false,
-      isImage: false,
-      isVideo: false,
-      videoType: "",
-    }
-  },
-  created() {
-    this.checkItemMediaType();
-  },
-  mounted() {
-    this.$emitter.on("uncheckInput", () => {
-      this.item.isChecked = false;
-    });
-  },
-  methods: {
-    showItem() {
-      if (this.item.type === "dir") {
-        this.openDir(this.item);
-      }
-      if (this.isImage) {
-        this.$emitter.emit("showImageViewer", this.item.url);
-      }
-      if (this.isVideo) {
-        this.$emitter.emit("showVideoPlayer", this.item);
-      }
-    },
-    checkItemMediaType() {
-      this.isImage = false;
-      this.isVideo = false;
-
-      if (this.item.type !== "dir") {
-        const extension = this.item.extension.toLowerCase();
-
-        this.isImage = imageTypes.includes(extension);
-        this.isVideo = videoTypes.includes(extension);
-
-        if (this.isVideo) {
-          this.videoType = "video/" + extension;
-          this.item.videoType = this.videoType;
+    name: "ContentTableRow",
+    components: {ItemName, PreviewView, ItemVideoCell, ItemImageCell, ItemIcon},
+    props: {
+        item: {
+            type: Object
+        },
+        showPreviewView: {
+            type: Boolean,
+            default: false
         }
-      }
     },
-    onCheck() {
-      if (this.item.isChecked) {
-        this.checkedItemsStore.addItem(this.item);
-      }
-      else {
-        this.checkedItemsStore.removeItemFromList(this.item);
-      }
-    }
-  },
-  watch: {
-    item: {
-      handler() {
+    mixins: [dirMixin],
+    data() {
+        return {
+            showRenameInput: false,
+            isImage: false,
+            isVideo: false,
+            videoType: "",
+        }
+    },
+    created() {
         this.checkItemMediaType();
-      },
-      deep: true
+    },
+    mounted() {
+        this.$emitter.on("uncheckInput", () => {
+            this.item.isChecked = false;
+        });
+    },
+    methods: {
+        showItem() {
+            if (this.item.type === "dir") {
+                this.openDir(this.item);
+            } else if (this.isImage) {
+                this.$emitter.emit("showImageViewer", this.item.url);
+            } else if (this.isVideo) {
+                this.$emitter.emit("showVideoPlayer", this.item);
+            } else {
+                this.$emitter.emit("showEditorViewer", this.item);
+            }
+        },
+        checkItemMediaType() {
+            this.isImage = false;
+            this.isVideo = false;
+
+            if (this.item.type !== "dir") {
+                const extension = this.item.extension.toLowerCase();
+
+                this.isImage = imageTypes.includes(extension);
+                this.isVideo = videoTypes.includes(extension);
+
+                if (this.isVideo) {
+                    this.videoType = "video/" + extension;
+                    this.item.videoType = this.videoType;
+                }
+            }
+        },
+        onCheck() {
+            if (this.item.isChecked) {
+                this.selectedItemsStore.addItem(this.item);
+            } else {
+                this.selectedItemsStore.removeItemFromList(this.item);
+            }
+        }
+    },
+    watch: {
+        item: {
+            handler() {
+                this.checkItemMediaType();
+            },
+            deep: true
+        }
     }
-  }
 }
 </script>
 
 <template>
-  <div class="item" @dblclick="showItem">
-    <div class="name-cell name-cell-inter">
-      <input type="checkbox"
-             name="folder-item"
-             class="folder-item-checkbox"
-             aria-label="check box"
-             v-model="item.isChecked" @change="onCheck">
-      <ItemIcon :type="item.type"/>
-      <PreviewView v-if="showPreviewView"
-                   :item="item"
-                   :is-image="isImage"
-                   :is-video="isVideo"
-                   :video-type="videoType"/>
+    <div class="item" @dblclick="showItem">
+        <div class="name-cell name-cell-inter">
+            <input v-model="item.isChecked"
+                   aria-label="check box"
+                   class="folder-item-checkbox"
+                   name="folder-item"
+                   type="checkbox" @change="onCheck">
+            <ItemIcon :type="item.type"/>
+            <PreviewView v-if="showPreviewView"
+                         :is-image="isImage"
+                         :is-video="isVideo"
+                         :item="item"
+                         :video-type="videoType"/>
 
-      <ItemName  v-else
-                 :item-name="item.name"/>
-    </div>
+            <ItemName v-else
+                      :item-name="item.name"/>
+        </div>
 
-    <div class="date-cell date-cell-inter">
-      {{item.lastModified}}
-    </div>
+        <div class="date-cell">
+            {{ item.lastModified }}
+        </div>
 
-    <div class="size-cell">
-      {{item.size}}
+        <div class="size-cell">
+            {{ item.size }}
+        </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
 .item {
-  height: 80px; /* must match itemHeight */
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  border-bottom: 1px solid #e8ebef;
-  font-size: 14px;
-  text-align: right;
-  transition: all 0.2s ease-in-out;
+    height: 80px; /* must match itemHeight */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid #e8ebef;
+    font-size: 14px;
+    transition: all 0.2s ease-in-out;
 }
 
 .name-cell-inter {
-  padding-left: 20px;
+    padding-left: 20px;
+}
+
+.size-cell {
+    padding-right: 20px;
 }
 
 .item:hover {
-  background-color: #F8F9FA;
-}
-
-.check-box-cell {
-  padding-left: 20px;
+    background-color: #F8F9FA;
 }
 
 .folder-item-checkbox {
-  accent-color: #7071E8;
+    accent-color: #7071E8;
 }
 
 @media screen and (max-width: 1000px) {
-  .name-cell {
-    font-size: 12px;
-  }
+    .name-cell {
+        font-size: 12px;
+    }
 }
 
-@media screen and (max-width: 500px) {
-  .size-cell {
-    display: none;
-  }
+@media screen and (max-width: 700px) {
+    .date-cell {
+        padding-right: 20px;
+    }
 }
 
 body.dark-mode .item {
-  border-bottom: 1px solid #303134;
-  color: #bdc1c6;
+    border-bottom: 1px solid #303134;
+    color: #bdc1c6;
 }
 
 body.dark-mode .item:hover {
-  background-color: #515152;
+    background-color: #515152;
 }
 </style>
 

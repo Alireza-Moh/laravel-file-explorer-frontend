@@ -55,7 +55,7 @@ describe.concurrent("DirTree component", () => {
         expect(DirTree).toBeTruthy();
     });
 
-    it('should render 6 DirLink components', () => {
+    it('should render 6 DirLink uploadComponents', () => {
         const dirLinkComponents = wrapper.findAllComponents(DirLink);
 
         expect(dirLinkComponents.length).toBe(6);

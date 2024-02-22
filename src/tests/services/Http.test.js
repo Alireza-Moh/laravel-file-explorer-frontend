@@ -80,32 +80,6 @@ describe('Http', () => {
         );
     });
 
-    test('should put method returns data when fetch response is ok', async () => {
-        const responseData = { result: 'success' };
-        global.fetch = vi.fn(() =>
-            Promise.resolve({
-                json: () => Promise.resolve(responseData),
-            })
-        )
-        const response = await Http.put('http://example.com/dirs/android', options);
-
-        expect(response).toEqual(responseData);
-        expect(fetch).toHaveBeenCalledTimes(1);
-        expect(fetch).toHaveBeenCalledWith(
-            'http://example.com/dirs/android',
-            {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json'
-                },
-                body: JSON.stringify({
-                    name: "tests"
-                })
-            }
-        );
-    });
-
     test('should postBlob method returns data when fetch response is ok', async () => {
         const responseData = new Blob();
 

@@ -1,4 +1,4 @@
-import {mount} from "@vue/test-utils";
+import {flushPromises, mount} from "@vue/test-utils";
 import {createTestingPinia} from "@pinia/testing";
 import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData.json";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
@@ -6,7 +6,8 @@ import DeleteButton from "@/components/dirContent/itemActions/buttons/DeleteButt
 import ConfirmModal from "@/components/modals/ConfirmModal.vue";
 import randomItemsWithDirs from "@/tests/testData/randomItemsWithDirs.json";
 import mitt from "mitt";
-import checkedItemsStoreTestData from "@/tests/testData/stores/checkedItemsStoreTestData.json";
+import selectedItemsStoreTestData from "@/tests/testData/stores/selectedItemsStoreTestData.json";
+
 describe("DeleteButton", () => {
     let wrapper, $emitter, $http;
 
@@ -34,7 +35,7 @@ describe("DeleteButton", () => {
                         initialState: {
                             settings: settingsStoreTestData,
                             dirItems: dirItemsStoreTestData,
-                            checkedItemsStore: checkedItemsStoreTestData,
+                            checkedItemsStore: selectedItemsStoreTestData,
                         }
                     })
                 ]
@@ -79,7 +80,7 @@ describe("DeleteButton", () => {
         expect(emitSpy).toHaveBeenCalledWith('uncheckInput');
     });
 
-    test("should delete files when user confirm operation", async () => {
+    test("should delete items when user confirm operation", async () => {
         const showAlert = vi.fn();
         Object.defineProperty(window, 'showAlert', {
             writable: true,
@@ -93,6 +94,7 @@ describe("DeleteButton", () => {
 
         closeBtn.trigger("click");
         await wrapper.vm.$nextTick();
+        await flushPromises();
 
         expect(deleteHttpSpy).toHaveBeenCalledTimes(2);
         expect(deleteHttpSpy).toHaveBeenCalledWith(

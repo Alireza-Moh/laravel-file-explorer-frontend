@@ -91,7 +91,6 @@ describe("CreateDirButton", () => {
                 })
             }
         );
-        expect(wrapper.vm.errors).toEqual({});
     });
 
     test("should not make a request when disk or dir is empty", async () => {

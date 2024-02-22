@@ -32,7 +32,6 @@ describe("FileExplorer", () => {
             configurable: true,
             value: () => mediaQueryList,
         });
-
         $http = {
             get: vi.fn().mockImplementation(() => {
                 return Promise.resolve(loadFileExplorerApiResponseTestData);
@@ -127,7 +126,7 @@ describe("FileExplorer", () => {
         expect(component.exists()).toBe(true);
     });
 
-    test("should render ImageViewer component when data is loaded", async () => {
+    test("should load ImageViewer component when data is loaded", async () => {
         wrapper.setData({isLoading: false});
         await wrapper.vm.$nextTick();
 
@@ -136,7 +135,7 @@ describe("FileExplorer", () => {
         expect(component.exists()).toBe(true);
     });
 
-    test("should render VideoPlayerViewer component when data is loaded", async () => {
+    test("should load VideoPlayerViewer component when data is loaded", async () => {
         wrapper.setData({isLoading: false});
         await wrapper.vm.$nextTick();
 

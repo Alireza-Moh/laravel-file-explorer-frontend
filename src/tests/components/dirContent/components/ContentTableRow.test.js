@@ -2,20 +2,20 @@ import { mount } from '@vue/test-utils';
 import mitt from "mitt";
 import ContentTableRow from "@/components/dirContent/components/ContentTableRow.vue";
 import {createTestingPinia} from "@pinia/testing";
-import checkedItemsStoreTestData from "@/tests/testData/stores/checkedItemsStoreTestData.json";
+import selectedItemsStoreTestData from "@/tests/testData/stores/selectedItemsStoreTestData.json";
 import ItemIcon from "@/components/dirContent/components/ItemIcon.vue";
 import {getTestImage, getTestVideo} from "@/tests/helpers/functions.js";
-import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
 import dirItemsApiResponseTestData from "@/tests/testData/dirItemsApiResponseTestData.json";
 import PreviewView from "@/components/dirContent/components/PreviewView.vue";
 
 describe('ContentTableRow', () => {
-    let wrapper, $emitter, checkedItemsStore,$http;
+    let wrapper, $emitter, selectedItemsStore,$http;
     const targetItem = getTestImage();
 
     beforeEach(() => {
         $http = {
-            post: vi.fn().mockImplementation(() => {
+            get: vi.fn().mockImplementation(() => {
                 return Promise.resolve(dirItemsApiResponseTestData);
             })
         }
@@ -31,7 +31,7 @@ describe('ContentTableRow', () => {
             plugins: [
                 createTestingPinia({
                     initialState: {
-                        checkedItemsStore: checkedItemsStoreTestData,
+                        checkedItemsStore: selectedItemsStoreTestData,
                     }
                 })
             ],
@@ -41,7 +41,7 @@ describe('ContentTableRow', () => {
             }
         });
 
-        checkedItemsStore = useCheckedItemsStore();
+        selectedItemsStore = useSelectedItemsStore();
     });
 
     afterEach(() => {
@@ -90,12 +90,12 @@ describe('ContentTableRow', () => {
         expect(emitSpy).toHaveBeenCalledWith('showVideoPlayer', testVideoItem);
     });
 
-    test("should add the correct item to the 'checkedItemsStore' when item is checked", async () => {
+    test("should add the correct item to the 'selectedItemsStore' when item is checked", async () => {
         const checkBox = wrapper.find('.folder-item-checkbox');
 
         checkBox.setValue(true);
 
-        expect(checkedItemsStore.addItem).toHaveBeenCalledWith(targetItem);
+        expect(selectedItemsStore.addItem).toHaveBeenCalledWith(targetItem);
     });
 
     test('should open directory on dbClick ', async () => {

@@ -1,7 +1,7 @@
 import {createPinia, setActivePinia} from "pinia";
-import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
 
-describe('useCheckedItemsStore', () => {
+describe('useSelectedItemsStore', () => {
     let store;
     const targetItem =   {
         "diskName": "tests",
@@ -17,7 +17,7 @@ describe('useCheckedItemsStore', () => {
 
     beforeEach(() => {
         setActivePinia(createPinia());
-        store = useCheckedItemsStore();
+        store = useSelectedItemsStore();
     });
 
     test("should initialize with correct values", () => {

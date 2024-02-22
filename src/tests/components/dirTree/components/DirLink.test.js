@@ -33,7 +33,7 @@ describe('DirLink component', () => {
 
     beforeEach(() => {
         $http = {
-            post: vi.fn().mockImplementation(() => {
+            get: vi.fn().mockImplementation(() => {
                 return Promise.resolve(dirItemsApiResponseTestData);
             }),
             put: vi.fn().mockImplementation(() => {
@@ -141,7 +141,7 @@ describe('DirLink component', () => {
     });
 
     test("should fetch items for 'ios' directory on nav__link-wrapper click for opening directory with a POST request", async () => {
-        const postRequestSpy = vi.spyOn($http, 'post')
+        const postRequestSpy = vi.spyOn($http, 'get')
         wrapper.setProps(getIosDirectoryItems());
         await wrapper.vm.$nextTick();
 
@@ -149,17 +149,12 @@ describe('DirLink component', () => {
         await linkWrapper.trigger("click");
 
         expect(postRequestSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/ios",
-            {
-                body: JSON.stringify({
-                    path: "ios"
-                })
-            }
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/ios?path=ios",
         );
     });
 
     test("should not make a POST request for 'ios' directory to the backend if the items of the directory already exists in the store", async () => {
-        const postRequestSpy = vi.spyOn($http, 'post')
+        const postRequestSpy = vi.spyOn($http, 'get')
         wrapper.setProps(getIosDirectoryItems());
         const items = [
             {

@@ -1,142 +1,82 @@
 <script>
 import ConfirmModal from "@/components/modals/ConfirmModal.vue";
-import {useSettingsStore} from "@/stores/settingsStore.js";
-import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
+import globalMixin from "@/components/mixins/globalMixin.js";
+import deleteItemMixin from "@/components/mixins/deleteItemMixin.js";
 
 export default {
-  name: "DeleteButton",
-  components: {ConfirmModal},
-  props: {
-    items: {
-      type: Array
-    }
-  },
-  data() {
-    return {
-      showConfirmModal: false,
-      diskName: null,
-      dirName: null,
-      settingsStore: useSettingsStore(),
-      checkedItemsStore: useCheckedItemsStore(),
-      dirItemsStore: useDirItemsStore()
-    }
-  },
-  created() {
-    this.diskName = this.settingsStore.defaultFileExplorerViewData.selectedDisk;
-    this.dirName = this.settingsStore.defaultFileExplorerViewData.selectedDir;
-  },
-  methods: {
-    confirmDelete() {
-      this.showConfirmModal = true;
+    name: "DeleteButton",
+    components: {ConfirmModal},
+    mixins: [globalMixin, deleteItemMixin],
+    props: {
+        items: {
+            type: Array
+        }
     },
-    hideConfirmModal() {
-      this.showConfirmModal = false;
-      this.$emitter.emit("uncheckInput");
-      this.checkedItemsStore.items = [];
+    data() {
+        return {
+            showConfirmModal: false,
+            selectedItemsStore: useSelectedItemsStore(),
+            dirItemsStore: useDirItemsStore()
+        }
     },
-    deleteItems() {
-      this.showConfirmModal = false;
-      const itemsToDelete = this.getFromData();
+    methods: {
+        hideConfirmModal() {
+            this.showConfirmModal = false;
+            this.$emitter.emit("uncheckInput");
+            this.selectedItemsStore.items = [];
+        },
+        async deleteItems() {
+            const itemsToDelete = this.getFromData();
+            this.diskName = this.items[0].diskName;
+            this.dirName = this.items[0].dirName;
 
-      const deleteRequest = (items, type) => {
-        if (items.length) {
-          const options = {
-            body: JSON.stringify({ items })
-          };
-          this.$http.delete(this.getUrl(type), options).then((data) => {
-            this.showErrors(data);
-            if (data.result) {
-              const status = data.result.status;
-              window.showAlert(status, data.result.message);
-              this.removeItemFromDirStore(status, items);
-
-              this.$emitter.emit("uncheckInput");
-              this.checkedItemsStore.items = [];
+            if (itemsToDelete.files.length) {
+                await this.deleteSelectedItems("file", itemsToDelete.files);
             }
-          });
-        }
-      };
+            if (itemsToDelete.dirs.length) {
+                await this.deleteSelectedItems("dir", itemsToDelete.dirs);
+            }
 
-      deleteRequest(itemsToDelete.files, "file");
-      deleteRequest(itemsToDelete.dirs, "dir");
-    },
-    getUrl(type) {
-      if (type === "file") {
-        return this.settingsStore.baseUrl
-            + "disks/" + this.diskName
-            + "/items/delete"
-      }
-      else if (type === "dir") {
-        return this.settingsStore.baseUrl
-            + "disks/" + this.diskName
-            + "/dirs/delete"
-      }
-    },
-    getFromData() {
-      let files = [];
-      let dirs = [];
+            this.$emitter.emit("uncheckInput");
+            this.selectedItemsStore.items = [];
+        },
+        getFromData() {
+            let files = [];
+            let dirs = [];
 
-      this.items.forEach(item => {
-        const itemToDelete = {
-          name: item.name,
-          path: item.path
-        };
-        if (item.type === 'file') {
-          files.push(itemToDelete);
-        } else if (item.type === 'dir') {
-          dirs.push(itemToDelete);
-        }
-      });
-
-      return { files, dirs };
-    },
-    removeItemFromDirStore(status, filesToDelete) {
-      if (status === "success") {
-        this.dirItemsStore.$patch((state) => {
-          filesToDelete.forEach(itemToDelete => {
-            const targetDirItems = state.data.find((dirItems) => {
-              return dirItems.diskName === this.diskName && dirItems.dirName === this.dirName;
+            this.items.forEach(item => {
+                const itemToDelete = {
+                    name: item.name,
+                    path: item.path
+                };
+                if (item.type === 'file') {
+                    files.push(itemToDelete);
+                } else if (item.type === 'dir') {
+                    dirs.push(itemToDelete);
+                }
             });
 
-            if (targetDirItems) {
-              targetDirItems.dirItems = targetDirItems.dirItems.filter((item) => {
-                return item.name !== itemToDelete.name;
-              });
-            }
-          });
-        });
-      }
-    },
-    showErrors(data) {
-      if (data.errors) {
-        this.$emitter.emit(
-            "showErrorModal",
-            {
-              headline: "Delete item error",
-              errors: data.errors,
-              showErrorKey: false
-            }
-        );
-      }
+            return {files, dirs};
+        }
     }
-  }
 }
 </script>
 
 <template>
-  <button type="button" class="action-btn" @click="confirmDelete">
-    <img src="@assets/trash3.svg" alt="" class="svg-img">
-    <span class="action-btn__text item-action-btn__text">Delete</span>
-  </button>
+    <button class="action-btn" type="button" @click="showConfirmModal = true">
+        <img alt="" class="svg-img" src="@assets/trash3.svg">
+        <span class="action-btn__text item-action-btn__text">Delete</span>
+    </button>
 
-  <ConfirmModal v-if="showConfirmModal"
-                :confirm-method-on-yes="deleteItems"
-                :confirm-method-on-no="hideConfirmModal">
+    <ConfirmModal v-if="showConfirmModal"
+                  :confirm-method-on-no="hideConfirmModal"
+                  :confirm-method-on-yes="deleteItems">
 
-    <template v-slot:confirmQuestion>
-      You are about to delete "{{items.length}}" items<br>
-      Do you want to delete it?
-    </template>
-  </ConfirmModal>
+        <template v-slot:confirmQuestion>
+            You are about to delete "{{ items.length }}" items<br>
+            Do you want to delete it?
+        </template>
+    </ConfirmModal>
 </template>

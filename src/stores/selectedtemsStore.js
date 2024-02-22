@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 
-export const useCheckedItemsStore = defineStore("checkedItems", {
+export const useSelectedItemsStore = defineStore("selectedItems", {
     state: () => ({
         items: [],
     }),
