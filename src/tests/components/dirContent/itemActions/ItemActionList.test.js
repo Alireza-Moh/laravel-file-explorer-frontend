@@ -7,7 +7,7 @@ import ItemActionList from "@/components/dirContent/itemActions/ItemActionList.v
 import CreateFileButton from "@/components/dirContent/itemActions/buttons/CreateFileButton.vue";
 import CreateDirButton from "@/components/dirContent/itemActions/buttons/CreateDirButton.vue";
 import UploadFilesButton from "@/components/dirContent/itemActions/buttons/UploadFilesButton.vue";
-import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
 import DownloadButton from "@/components/dirContent/itemActions/buttons/DownloadButton.vue";
 import DeleteButton from "@/components/dirContent/itemActions/buttons/DeleteButton.vue";
 import RenameButton from "@/components/dirContent/itemActions/buttons/RenameButton.vue";
@@ -74,7 +74,7 @@ describe('ItemActionList', () => {
     });
 
     test('should show item related action buttons when checked-items-store state changes', async () => {
-        useCheckedItemsStore().$patch((state) => {
+        useSelectedItemsStore().$patch((state) => {
             state.items = randomItems
         });
         await wrapper.vm.$nextTick();
@@ -115,7 +115,7 @@ describe('ItemActionList', () => {
 
     test("should hide related action buttons and emit 'hideRenameInput' event when no item is selected", async () => {
         const emitSpy = vi.spyOn($emitter, "emit");
-        useCheckedItemsStore().$patch((state) => {
+        useSelectedItemsStore().$patch((state) => {
             state.items = []
         });
         await wrapper.vm.$nextTick();

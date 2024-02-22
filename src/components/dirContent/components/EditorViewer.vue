@@ -50,11 +50,7 @@ export default {
     },
     methods: {
         fetchItemContent() {
-            const url = this.settingsStore.baseUrl
-                + "disks/"
-                + this.item.diskName
-                + "/items/"
-                + this.item.name.replace("." + this.item.extension, "")
+            const url = this.getUrl()
                 + "?"
                 + new URLSearchParams({
                     path: encodeURIComponent(this.item.path)
@@ -69,13 +65,7 @@ export default {
             });
         },
         saveChanges() {
-            const url = this.settingsStore.baseUrl
-                + "disks/"
-                + this.item.diskName
-                + "/items/"
-                + this.item.name.replace("." + this.item.extension, "");
-
-            this.$http.post(url, this.getOption(), false).then((data) => {
+            this.$http.post(this.getUrl(), this.getOption(), false).then((data) => {
                 if (data.result) {
                     window.showAlert(data.result.status, data.result.message);
                     this.showEditor = false;
@@ -91,6 +81,13 @@ export default {
             return  {
                 body: formData,
             }
+        },
+        getUrl() {
+            return this.settingsStore.baseUrl
+                + "disks/"
+                + this.item.diskName
+                + "/items/"
+                + this.item.name.replace("." + this.item.extension, "");
         }
     }
 }

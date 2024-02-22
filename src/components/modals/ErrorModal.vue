@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: "MultipleErrorModal",
+    name: "ErrorModal",
     data() {
         return {
             showErrorModal: false,

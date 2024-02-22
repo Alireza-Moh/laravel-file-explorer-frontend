@@ -1,11 +1,11 @@
 <script>
-import MultipleErrorModal from "@/components/modals/MultipleErrorModal.vue";
 import {useSettingsStore} from "@/stores/settingsStore.js";
-import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
+import globalMixin from "@/components/mixins/globalMixin.js";
 
 export default {
     name: "DownloadButton",
-    components: {MultipleErrorModal},
+    mixins: [globalMixin],
     props: {
         items: {
             type: Array
@@ -14,10 +14,8 @@ export default {
     data() {
         return {
             diskName: null,
-            errors: {},
-            showErrorModal: false,
             settingsStore: useSettingsStore(),
-            checkedItemsStore: useCheckedItemsStore(),
+            selectedItemsStore: useSelectedItemsStore(),
         }
     },
     created() {
@@ -36,13 +34,12 @@ export default {
                 this.handleDownloadResponse(blob);
 
                 this.$emitter.emit("uncheckInput");
-                this.checkedItemsStore.items = [];
+                this.selectedItemsStore.items = [];
             });
         },
         handleDownloadResponse(blob) {
             if (blob.errors) {
-                this.errors = blob.errors;
-                this.showErrorModal = true;
+                this.showErrorModal(blob, "Download Errors");
             }
             if (blob.result) {
                 window.showAlert(blob.result.status, blob.result.message);
@@ -71,10 +68,6 @@ export default {
         },
         getDownloadFileName() {
             return this.items.length === 1 ? this.items[0].name : this.diskName + "_items";
-        },
-        hideErrorModal() {
-            this.showErrorModal = false;
-            this.errors = {};
         }
     }
 }
@@ -85,7 +78,4 @@ export default {
         <img alt="download icon" class="svg-img" src="@assets/download.svg">
         <span class="action-btn__text item-action-btn__text">Download</span>
     </button>
-    <MultipleErrorModal v-if="showErrorModal"
-                        :errors="errors"
-                        @hide-error-modal="hideErrorModal"/>
 </template>

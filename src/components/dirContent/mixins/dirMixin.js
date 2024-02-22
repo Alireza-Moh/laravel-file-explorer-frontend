@@ -1,5 +1,5 @@
 import {useSettingsStore} from "@/stores/settingsStore.js";
-import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import globalMixin from "@/components/mixins/globalMixin.js";
 
@@ -9,13 +9,13 @@ export default {
         return {
             settingsStore: useSettingsStore(),
             dirItemsStore: useDirItemsStore(),
-            checkedItemsStore: useCheckedItemsStore()
+            selectedItemsStore: useSelectedItemsStore()
         }
     },
     methods: {
         openDir(dir) {
             if (dir.type === "dir") {
-                this.checkedItemsStore.uncheckItems();
+                this.selectedItemsStore.uncheckItems();
                 this.$emitter.emit("disablePreviewView");
                 const dirItems = this.dirItemsStore.getDirItems(
                     this.settingsStore.defaultFileExplorerViewData.selectedDisk,
@@ -29,7 +29,7 @@ export default {
                     this.fetchDirItems(dir);
                 }
                 this.$emitter.emit("uncheckInput");
-                this.checkedItemsStore.items = [];
+                this.selectedItemsStore.items = [];
             }
         },
         fetchDirItems(dir) {

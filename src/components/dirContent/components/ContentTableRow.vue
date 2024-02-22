@@ -67,9 +67,9 @@ export default {
         },
         onCheck() {
             if (this.item.isChecked) {
-                this.checkedItemsStore.addItem(this.item);
+                this.selectedItemsStore.addItem(this.item);
             } else {
-                this.checkedItemsStore.removeItemFromList(this.item);
+                this.selectedItemsStore.removeItemFromList(this.item);
             }
         }
     },

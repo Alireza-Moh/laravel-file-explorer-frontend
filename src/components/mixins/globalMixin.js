@@ -1,6 +1,6 @@
 export default {
     methods: {
-        showErrorModal(data, headline = "Errors:", showErrorKey = false) {
+        showErrorModal(data, headline = "Errors", showErrorKey = false) {
             if (data.errors) {
                 this.$emitter.emit(
                     "showErrorModal",

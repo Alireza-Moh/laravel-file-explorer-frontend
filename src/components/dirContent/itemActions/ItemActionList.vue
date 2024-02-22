@@ -5,7 +5,7 @@ import DownloadButton from "@/components/dirContent/itemActions/buttons/Download
 import CreateDirButton from "@/components/dirContent/itemActions/buttons/CreateDirButton.vue";
 import CreateFileButton from "@/components/dirContent/itemActions/buttons/CreateFileButton.vue";
 import UploadFilesButton from "@/components/dirContent/itemActions/buttons/UploadFilesButton.vue";
-import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
 
 export default {
     name: "ItemActionList",
@@ -22,11 +22,11 @@ export default {
             showItemActions: false,
             items: [],
             item: null,
-            checkedItemsStore: useCheckedItemsStore()
+            selectedItemsStore: useSelectedItemsStore()
         }
     },
     mounted() {
-        this.checkedItemsStore.$subscribe((mutation, state) => {
+        this.selectedItemsStore.$subscribe((mutation, state) => {
             this.items = state.items;
             const length = state.items.length;
             this.showItemActions = length > 0;

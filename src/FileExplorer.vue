@@ -13,8 +13,8 @@ import {useSettingsStore} from "@/stores/settingsStore.js";
 import {useDisksStore} from "@/stores/disksStore.js";
 import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
-import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
-import MultipleErrorModal from "@/components/modals/MultipleErrorModal.vue";
+import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
+import ErrorModal from "@/components/modals/ErrorModal.vue";
 import RenameModal from "@/components/modals/RenameModal.vue";
 import EditorViewer from "@/components/dirContent/components/EditorViewer.vue";
 
@@ -23,7 +23,7 @@ export default {
     components: {
         EditorViewer,
         RenameModal,
-        MultipleErrorModal,
+        ErrorModal,
         Loader,
         VideoPlayerViewer,
         ImageViewer,
@@ -42,7 +42,7 @@ export default {
             disksStore: useDisksStore(),
             diskDirsStore: useDiskDirsStore(),
             dirItemsStore: useDirItemsStore(),
-            checkedItemsStore: useCheckedItemsStore(),
+            selectedItemsStore: useSelectedItemsStore(),
             hideTree: false,
             navTranslate: "-100%",
             contentMove: 0
@@ -122,7 +122,7 @@ export default {
             </div>
             <ImageViewer v-once/>
             <VideoPlayerViewer v-once/>
-            <MultipleErrorModal/>
+            <ErrorModal/>
             <RenameModal/>
             <EditorViewer/>
         </main>

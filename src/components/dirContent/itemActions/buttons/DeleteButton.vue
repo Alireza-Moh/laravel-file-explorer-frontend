@@ -1,6 +1,6 @@
 <script>
 import ConfirmModal from "@/components/modals/ConfirmModal.vue";
-import {useCheckedItemsStore} from "@/stores/checkedItemsStore.js";
+import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import globalMixin from "@/components/mixins/globalMixin.js";
 import deleteItemMixin from "@/components/mixins/deleteItemMixin.js";
@@ -17,7 +17,7 @@ export default {
     data() {
         return {
             showConfirmModal: false,
-            checkedItemsStore: useCheckedItemsStore(),
+            selectedItemsStore: useSelectedItemsStore(),
             dirItemsStore: useDirItemsStore()
         }
     },
@@ -25,7 +25,7 @@ export default {
         hideConfirmModal() {
             this.showConfirmModal = false;
             this.$emitter.emit("uncheckInput");
-            this.checkedItemsStore.items = [];
+            this.selectedItemsStore.items = [];
         },
         async deleteItems() {
             const itemsToDelete = this.getFromData();
@@ -40,7 +40,7 @@ export default {
             }
 
             this.$emitter.emit("uncheckInput");
-            this.checkedItemsStore.items = [];
+            this.selectedItemsStore.items = [];
         },
         getFromData() {
             let files = [];

@@ -6,7 +6,7 @@ import DeleteButton from "@/components/dirContent/itemActions/buttons/DeleteButt
 import ConfirmModal from "@/components/modals/ConfirmModal.vue";
 import randomItemsWithDirs from "@/tests/testData/randomItemsWithDirs.json";
 import mitt from "mitt";
-import checkedItemsStoreTestData from "@/tests/testData/stores/checkedItemsStoreTestData.json";
+import selectedItemsStoreTestData from "@/tests/testData/stores/selectedItemsStoreTestData.json";
 
 describe("DeleteButton", () => {
     let wrapper, $emitter, $http;
@@ -35,7 +35,7 @@ describe("DeleteButton", () => {
                         initialState: {
                             settings: settingsStoreTestData,
                             dirItems: dirItemsStoreTestData,
-                            checkedItemsStore: checkedItemsStoreTestData,
+                            checkedItemsStore: selectedItemsStoreTestData,
                         }
                     })
                 ]

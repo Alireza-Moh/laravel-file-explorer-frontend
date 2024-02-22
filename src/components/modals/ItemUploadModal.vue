@@ -1,9 +1,9 @@
 <script>
 import Alert from "@/components/_baseComponents/Alert.vue";
-import UploadItemsList from "@/components/modals/components/UploadItemsList.vue";
-import UploadItemsDropBox from "@/components/modals/components/UploadItemsDropBox.vue";
-import UploadItemsSetting from "@/components/modals/components/UploadItemsSetting.vue";
-import UploadItemsActionButtons from "@/components/modals/components/UploadItemsActionButtons.vue";
+import UploadItemsList from "@/components/modals/uploadComponents/UploadItemsList.vue";
+import UploadItemsDropBox from "@/components/modals/uploadComponents/UploadItemsDropBox.vue";
+import UploadItemsSetting from "@/components/modals/uploadComponents/UploadItemsSetting.vue";
+import UploadItemsActionButtons from "@/components/modals/uploadComponents/UploadItemsActionButtons.vue";
 
 export default {
     name: "ItemUploadModal",
