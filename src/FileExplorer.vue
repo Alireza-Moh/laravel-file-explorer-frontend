@@ -71,7 +71,7 @@ export default {
     },
     methods: {
         initExplorer() {
-            const endUrl = this.settingsStore.baseUrl + "load-file-explorer";
+            const endUrl = this.settingsStore.baseUrl + "init-explorer";
 
             this.$http.get(endUrl, {}).then((response) => {
                 if (response.result && response.result.data) {
