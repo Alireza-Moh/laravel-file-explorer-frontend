@@ -35,6 +35,12 @@ export default {
         ItemActionList,
         DirTree
     },
+    props: {
+      setting: {
+          type: Object,
+          required: true
+      }
+    },
     data() {
         return {
             isLoading: true,
@@ -49,7 +55,7 @@ export default {
         }
     },
     created() {
-        this.settingsStore.setBaseUrl("http://laravel-wrapper.localhost:8084/api/laravel-file-explorer/");
+        this.settingsStore.setBaseUrl(this.setting.baseUrl);
         this.initExplorer();
 
         if (window.innerWidth <= 900) {
