@@ -3,9 +3,11 @@ import {useSettingsStore} from "@/stores/settingsStore.js";
 import {useDisksStore} from "@/stores/disksStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import {useDiskDirsStore} from "@/stores/diskDirsStore.js";
+import globalMixin from "@/components/mixins/globalMixin.js";
 
 export default {
     name: "DiskList",
+    mixins: [globalMixin],
     data() {
         return {
             selectedDisk: null,
@@ -46,11 +48,15 @@ export default {
         fetchDiskDirs(diskName) {
             this.$http.get(this.settingsStore.baseUrl + "disks/" + diskName)
                 .then((data) => {
-                    this.updateDiskDirsStore(data, diskName);
-                    this.updateDirItemsStore(diskName, data);
-                    this.updateDefaultFileExplorerViewData(diskName, data);
+                    if (data.result) {
+                        const result = data.result
+                        this.updateDiskDirsStore(result, diskName);
+                        this.updateDirItemsStore(diskName, result);
+                        this.updateDefaultFileExplorerViewData(diskName, result);
 
-                    this.selectedDisk = diskName;
+                        this.selectedDisk = diskName;
+                    }
+                    this.showErrorModal(data);
                 });
         },
         updateDiskDirsStore(data, diskName) {

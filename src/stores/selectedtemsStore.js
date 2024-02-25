@@ -4,6 +4,14 @@ export const useSelectedItemsStore = defineStore("selectedItems", {
     state: () => ({
         items: [],
     }),
+    getters: {
+        getSelectedItems: (state) => {
+            return state.items;
+        },
+        getSelectedItemByName(state) {
+            return (itemName) => state.items.find((item) => item.name === itemName);
+        }
+    },
     actions: {
         addItem(item) {
             this.items.push(item);
