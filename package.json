@@ -1,6 +1,6 @@
 {
-  "name": "laravel-file-exploreraabs",
-  "version": "0.0.1-beta.3",
+  "name": "laravel-file-exploreraabsz",
+  "version": "0.0.1-beta.4",
   "private": false,
   "license": "MIT",
   "author": {
@@ -42,12 +42,12 @@
   },
   "type": "module",
   "files": ["dist"],
-  "main": "./dist/laravel-file-exploreraabs.umd.cjs",
-  "module": "./dist/laravel-file-exploreraabs.js",
+  "main": "./dist/laravel-file-exploreraabsz.umd.cjs",
+  "module": "./dist/laravel-file-exploreraabsz.js",
   "exports": {
     ".": {
-      "import": "./dist/laravel-file-exploreraabs.js",
-      "require": "./dist/laravel-file-exploreraabs.umd.cjs"
+      "import": "./dist/laravel-file-exploreraabsz.js",
+      "require": "./dist/laravel-file-exploreraabsz.umd.cjs"
     },
     "./dist/style.css": {
       "import": "./dist/style.css",
