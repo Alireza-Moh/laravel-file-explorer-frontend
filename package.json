@@ -2,15 +2,10 @@
   "name": "laravel-file-explorer",
   "version": "1.0.0",
   "private": false,
-  "type": "module",
   "license": "MIT",
   "author": {
     "name": "Alireza Mohammadi",
     "role": "Developer"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Alireza-Moh/laravel-file-explorer-frontend.git"
   },
   "keywords": [
     "laravel",
@@ -41,19 +36,7 @@
     "vue file explroer",
     "web IDE vue"
   ],
-  "files": ["dist"],
-  "main": "./dist/larvel-file-explorer.umd.cjs",
-  "module": "./dist/larvel-file-explorer.js",
-  "exports": {
-    ".": {
-      "import": "./dist/larvel-file-explorer.js",
-      "require": "./dist/larvel-file-explorer.umd.cjs"
-    },
-    "./dist/style.css": {
-      "import": "./dist/style.css",
-      "require": "./dist/style.css"
-    }
-  },
+  "main": "src/index.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -67,10 +50,6 @@
     "mitt": "^3.0.1",
     "pinia": "^2.1.7",
     "vue": "^3.3.11"
-  },
-  "peerDependencies": {
-    "vue": "^3.0.0",
-    "pinia": "^2.1.7"
   },
   "devDependencies": {
     "@pinia/testing": "^0.1.3",

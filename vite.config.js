@@ -1,7 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [vue()],
@@ -15,15 +14,12 @@ export default defineConfig({
     globals: true
   },
   build: {
-    lib: {
-      entry: resolve(__dirname, "src/index.js"),
-      name: "laravel-file-explorer"
-    },
+    minify: true,
+    cssCodeSplit: false,
     rollupOptions: {
-      external: ["vue"],
       output: {
-        globals: {
-          vue: "vue"
+        manualChunks: {
+          vendor: []
         }
       }
     }
