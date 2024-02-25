@@ -1,6 +1,6 @@
 {
-  "name": "laravel-file-explorer",
-  "version": "1.0.0",
+  "name": "laravel-file-exploreraab",
+  "version": "0.0.1-beta.2",
   "private": false,
   "license": "MIT",
   "author": {
@@ -42,12 +42,12 @@
   },
   "type": "module",
   "files": ["dist"],
-  "main": "./dist/larvel-file-explorer.umd.cjs",
-  "module": "./dist/larvel-file-explorer.js",
+  "main": "./dist/laravel-file-exploreraab.umd.cjs",
+  "module": "./dist/laravel-file-exploreraab.js",
   "exports": {
     ".": {
-      "import": "./dist/larvel-file-explorer.js",
-      "require": "./dist/larvel-file-explorer.umd.cjs"
+      "import": "./dist/laravel-file-exploreraab.js",
+      "require": "./dist/laravel-file-exploreraab.umd.cjs"
     },
     "./dist/style.css": {
       "import": "./dist/style.css",
