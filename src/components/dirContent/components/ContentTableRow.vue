@@ -35,6 +35,7 @@ export default {
     mounted() {
         this.$emitter.on("uncheckInput", () => {
             this.item.isChecked = false;
+            this.selectedItemsStore.items = [];
         });
     },
     methods: {

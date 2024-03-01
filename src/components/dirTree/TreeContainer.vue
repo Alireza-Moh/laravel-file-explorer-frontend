@@ -48,9 +48,8 @@ export default {
 <style scoped>
 .nav {
     width: 250px;
-    position: fixed;
-    height: 100%;
-    padding-top: 2em;
+    position: absolute;
+    padding-top: 1em;
     transition: all 0.3s linear;
 }
 
@@ -58,6 +57,7 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 100%;
 }
 
 .nav.hide {

@@ -25,23 +25,23 @@ export const useDiskDirsStore = defineStore("diskDirs", {
                 targetDisk.dirs = dirs;
             }
         },
-        updateDirMetadataByName(diskName, metadata, oldItemName) {
+        updateDirMetadataByName(diskName, oldItemName, updatedItem) {
             const targetDisk = this.getDiskDirs(diskName);
             if (targetDisk) {
-                this.findDir(targetDisk.dirs, metadata, oldItemName);
+                this.findDir(targetDisk.dirs, updatedItem, oldItemName);
             }
         },
-        findDir(dirs, metadata, oldItemName) {
+        findDir(dirs, updatedItem, oldItemName) {
             for (let i = 0; i < dirs.length; i++) {
                 const dir = dirs[i];
                 if (dir.name === oldItemName) {
-                    Object.assign(dir, metadata)
+                    dirs[i] = updatedItem
                     return true;
                 } else if (dir.subDir && dir.subDir.length) {
-                    const foundFile = this.findDir(dir.subDir, metadata, oldItemName);
+                    const foundFile = this.findDir(dir.subDir, updatedItem, oldItemName);
                     if (foundFile) {
                         if (dir.subDir.length === 0) {
-                            Object.assign(dir.subDir, metadata)
+                            dir.subDir = dirs[i] = updatedItem
                         }
                         return true;
                     }

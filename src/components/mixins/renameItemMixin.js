@@ -18,8 +18,7 @@ export default {
             const url = this.settingsStore.baseUrl
                 + "disks/"
                 + this.item.diskName
-                + "/dirs/"
-                + this.getFileNameWithoutExtension();
+                + "/items/rename"
 
             this.$http.post(url, this.getRequestOption()).then((data) => {
                 this.$emitter.emit("uncheckInput");
@@ -32,27 +31,20 @@ export default {
                     oldName: this.item.name,
                     newName: this.newItemName,
                     oldPath: this.item.path,
-                    newPath: this.getNewPath()
+                    newPath: this.getNewPath(),
+                    type: this.item.type,
+                    dirName: this.item.dirName
                 })
             };
         },
         getNewPath() {
             return this.item.path.replace(this.item.name, this.newItemName);
         },
-        getFileNameWithoutExtension() {
-            const lastDotIndex = this.item.name.lastIndexOf('.');
-
-            if (lastDotIndex === -1) {
-                return this.item.name;
-            } else {
-                return this.item.name.substring(0, lastDotIndex);
-            }
-        },
         handleResponse(data) {
             if (data.result) {
                 const status = data.result.status;
                 if (status === "success") {
-                    this.updateItemInStore();
+                    this.updateItemInStore(data.result.updatedItem);
                 }
 
                 window.showAlert(status, data.result.message);
@@ -60,31 +52,25 @@ export default {
             }
             this.showErrorModal(data, "Rename item error");
         },
-        updateItemInStore() {
+        updateItemInStore(updatedItem) {
             useDirItemsStore().updateItem(
                 this.item.diskName,
                 this.item.dirName,
                 this.item.name,
-                this.getUpdatedMetadata()
+                updatedItem
             );
             if (this.item.type === "dir") {
                 useDiskDirsStore().updateDirMetadataByName(
                     this.item.diskName,
-                    this.getUpdatedMetadata(),
-                    this.oldItemName
+                    this.oldItemName,
+                    {
+                        dirName: updatedItem.dirName,
+                        diskName: updatedItem.diskName,
+                        name: updatedItem.name,
+                        path: updatedItem.path
+                    }
                 );
             }
-        },
-        getUpdatedMetadata() {
-            let commonMetadata = {
-                name: this.newItemName,
-                path: this.getNewPath()
-            }
-            if (this.item.type === "file") {
-                commonMetadata["url"] = this.item.url.replace(this.item.name, this.newItemName)
-            }
-
-            return commonMetadata;
         }
     }
 }

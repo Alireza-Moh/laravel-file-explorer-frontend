@@ -92,9 +92,9 @@ describe("RenameButton", () => {
         wrapper.vm.saveNewItemName("newItemName.png");
 
         expect(postHttpSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/oldItemName",
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/rename",
             {
-                body: '{"oldName":"oldItemName.png","newName":"newItemName.png","oldPath":"android/oldItemName.png","newPath":"android/newItemName.png"}'
+                body: '{"oldName":"oldItemName.png","newName":"newItemName.png","oldPath":"android/oldItemName.png","newPath":"android/newItemName.png","type":"file","dirName":"android"}'
             }
         );
 
