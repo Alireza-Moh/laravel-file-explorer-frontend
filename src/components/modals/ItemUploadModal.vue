@@ -55,7 +55,7 @@ export default {
                     :items="items"
                     :max-upload-items="maxUploadItems"
                     :max-upload-items-reached="maxUploadItemsReached"
-                    @update-items-list-comp="updateComp"/>
+                    @pass-errors-to-items="updateComp"/>
             </div>
         </div>
     </div>
