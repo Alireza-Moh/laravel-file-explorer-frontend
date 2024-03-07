@@ -4,7 +4,7 @@ import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 
 export default {
     name: "UploadItemsActionButtons",
-    emits: ["updateFilesListComp"],
+    emits: ["passErrorsToItems"],
     props: {
         maxUploadItems: {
             type: Number
@@ -59,7 +59,7 @@ export default {
         },
         handleResponse(data, selectedDisk, selectedDir) {
             if (data.errors) {
-                this.$emit("updateFilesListComp", data.errors);
+                this.$emit("passErrorsToItems", data.errors);
                 return;
             }
             if (data.result) {
