@@ -29,7 +29,7 @@ Laravel File Explorer is a package for easy file management in Laravel apps, off
 Download the frontend into your project
 
 ```bash
-  npm install laravel-file-explorer
+  npm i laravel-file-explorer
 ```
 Add the FileExplorer component to the vue app
 ```javascript
@@ -40,5 +40,5 @@ app.use(LaravelFileExplorer);
 ```
 Use the component inside your vue component
 ```javascript
-  <LaravelFileExplorer setting="{baseUrl: 'http://laravel-wrapper.localhost:8084/api/laravel-file-explorer/'}"/>
+  <LaravelFileExplorer :setting="{baseUrl: 'http://laravel-wrapper.localhost:8084/api/laravel-file-explorer/'}"/>
 ```
