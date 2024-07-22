@@ -63,7 +63,7 @@ export default {
                 return;
             }
             if (data.result) {
-                window.showAlert(data.result.status, data.result.message);
+                window.showAlert(data.status, data.message);
                 this.dirItemsStore.updateDir(data.result.items, selectedDisk, selectedDir);
                 this.cancel();
             }

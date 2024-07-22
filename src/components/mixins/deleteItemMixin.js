@@ -31,8 +31,8 @@ export default {
                 this.$http.delete(url, options).then((data) => {
                     this.showErrorModal(data, "Item Deletion Error");
                     if (data.result) {
-                        const status = data.result.status;
-                        window.showAlert(status, data.result.message);
+                        const status = data.status;
+                        window.showAlert(status, data.message);
 
                         if (status === "success") {
                             this.removeItemFromDirStore();

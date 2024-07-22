@@ -42,12 +42,12 @@ export default {
         },
         handleResponse(data) {
             if (data.result) {
-                const status = data.result.status;
+                const status = data.status;
                 if (status === "success") {
                     this.updateItemInStore(data.result.updatedItem);
                 }
 
-                window.showAlert(status, data.result.message);
+                window.showAlert(status, data.message);
                 this.$emitter.emit("hideRenameModal");
             }
             this.showErrorModal(data, "Rename item error");

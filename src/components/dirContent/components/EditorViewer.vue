@@ -67,7 +67,7 @@ export default {
         saveChanges() {
             this.$http.post(this.getUrl(), this.getOption(), false).then((data) => {
                 if (data.result) {
-                    window.showAlert(data.result.status, data.result.message);
+                    window.showAlert(data.status, data.message);
                     this.showEditor = false;
                 }
                 this.showErrorModal(data, "Failed updating file");

@@ -43,7 +43,7 @@ export default {
                     const items = data.result.items;
 
                     this.$emitter.emit("hideRenameModal");
-                    window.showAlert(data.result.status, data.result.message);
+                    window.showAlert(data.status, data.message);
                     this.updateStore(items, data);
                 }
             });

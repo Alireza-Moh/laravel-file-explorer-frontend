@@ -42,7 +42,7 @@ export default {
                 this.showErrorModal(blob, "Download Errors");
             }
             if (blob.result) {
-                window.showAlert(blob.result.status, blob.result.message);
+                window.showAlert(blob.status, blob.message);
             }
             if (blob instanceof Blob) {
                 this.createDownloadLink(blob);
