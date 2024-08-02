@@ -1,6 +1,6 @@
 {
+  "status": "success",
   "result": {
-    "status": "success",
     "data": {
       "disks": [
         "tests",

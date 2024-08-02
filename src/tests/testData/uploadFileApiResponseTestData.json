@@ -1,7 +1,7 @@
 {
+  "status": "success",
+  "message": "Items uploaded successfully",
   "result": {
-    "status": "success",
-    "message": "Items uploaded successfully",
     "items": [
       {
         "diskName": "tests",

@@ -1,4 +1,3 @@
-import deleteDirApiResponseTestData from "@/tests/testData/deleteDirApiResponseTestData.json";
 import {mount} from "@vue/test-utils";
 import {createTestingPinia} from "@pinia/testing";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";

@@ -1,6 +1,5 @@
 {
-  "result": {
-    "status":"success",
-    "message":"Item renamed successfully"
-  }
+  "status":"success",
+  "message":"Item renamed successfully",
+  "result": {}
 }

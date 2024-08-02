@@ -1,5 +1,4 @@
 import axios from "axios";
-import Resource from "axios-resource";
 import CSRFException from "@/exceptions/CSRFException.js";
 import {useSettingsStore} from "@/stores/settingsStore.js";
 

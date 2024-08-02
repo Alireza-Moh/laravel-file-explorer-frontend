@@ -2,7 +2,6 @@ import { mount } from '@vue/test-utils';
 import mitt from "mitt";
 import {createTestingPinia} from "@pinia/testing";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
-import dirItemsApiResponseTestData from "@/tests/testData/dirItemsApiResponseTestData.json";
 import ItemActionList from "@/components/dirContent/itemActions/ItemActionList.vue";
 import CreateFileButton from "@/components/dirContent/itemActions/buttons/CreateFileButton.vue";
 import CreateDirButton from "@/components/dirContent/itemActions/buttons/CreateDirButton.vue";

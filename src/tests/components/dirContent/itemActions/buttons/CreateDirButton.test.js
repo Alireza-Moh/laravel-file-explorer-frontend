@@ -1,6 +1,5 @@
 import {mount} from "@vue/test-utils";
 import {createTestingPinia} from "@pinia/testing";
-import createFileApiResponseTestData from "@/tests/testData/createFileApiResponseTestData.json";
 import diskDirsStoreTestData from "@/tests/testData/stores/diskDirsStoreTestData.json";
 import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData.json";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";

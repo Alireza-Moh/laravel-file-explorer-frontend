@@ -6,7 +6,6 @@ import selectedItemsStoreTestData from "@/tests/testData/stores/selectedItemsSto
 import ItemIcon from "@/components/dirContent/components/ItemIcon.vue";
 import {getTestImage, getTestVideo} from "@/tests/helpers/functions.js";
 import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
-import dirItemsApiResponseTestData from "@/tests/testData/dirItemsApiResponseTestData.json";
 import PreviewView from "@/components/dirContent/components/PreviewView.vue";
 import Api from "@/services/Api.js";
 

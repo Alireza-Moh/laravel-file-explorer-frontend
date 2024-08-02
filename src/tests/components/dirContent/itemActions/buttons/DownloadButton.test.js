@@ -32,7 +32,6 @@ vi.mock('@/services/Api.js', () => {
 
 describe("DownloadButton", () => {
     let wrapper, $emitter, $API;
-    const mockBlob = new Blob(['mock file content'], { type: 'text/plain' });
 
     beforeEach(() => {
         $emitter = mitt();

@@ -3,7 +3,6 @@ import DirLink from "@/components/dirTree/components/DirLink.vue";
 import {createTestingPinia} from "@pinia/testing";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import RightClickContextMenu from "@/components/dirTree/components/RightClickContextMenu.vue";
-import dirItemsApiResponseTestData from "@/tests/testData/dirItemsApiResponseTestData.json";
 import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData.json";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import mitt from "mitt";

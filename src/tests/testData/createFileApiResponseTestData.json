@@ -1,7 +1,7 @@
 {
+  "status": "success",
+  "message": "File created successfully",
   "result": {
-    "status": "success",
-    "message": "File created successfully",
     "items": [
       {
         "diskName": "tests",
