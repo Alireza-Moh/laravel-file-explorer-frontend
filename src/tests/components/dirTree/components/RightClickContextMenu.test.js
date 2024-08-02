@@ -7,9 +7,34 @@ import diskDirsStoreTestData from "@/tests/testData/stores/diskDirsStoreTestData
 import mitt from "mitt";
 import ContextMenuRenameAction from "@/components/dirTree/components/ContextMenuRenameAction.vue";
 import ContextMenuDeleteAction from "@/components/dirTree/components/ContextMenuDeleteAction.vue";
+import Api from "@/services/Api.js";
+
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            post: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            fetchCsrfToken: vi.fn().mockResolvedValue({
+                data: {
+                    data: {
+                        csrfToken: 'mockCsrfToken'
+                    }
+                }
+            })
+        }
+    };
+});
 
 describe('RightClickContextMenu', () => {
-    let wrapper, $http, $emitter;
+    let wrapper, $API, $emitter;
 
     beforeEach(() => {
         $emitter = new mitt();
@@ -20,16 +45,12 @@ describe('RightClickContextMenu', () => {
             value: showAlert
         });
 
-        $http = {
-            delete: vi.fn().mockImplementation(() => {
-                return Promise.resolve(deleteDirApiResponseTestData);
-            })
-        };
+        $API = Api;
 
         wrapper = mount(RightClickContextMenu, {
             global: {
                 mocks: {
-                    $http,
+                    $API,
                     $emitter
                 },
                 plugins: [

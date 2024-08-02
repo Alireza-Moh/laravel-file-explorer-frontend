@@ -55,7 +55,7 @@
     "selectedDirItems": [
       {
         "diskName": "tests",
-        "dirName": "android",
+        "parent": "android",
         "name": "4576_001ss.jpg",
         "size": 87.91,
         "lastModified": "2018-11-27 21:19:34",
@@ -67,7 +67,7 @@
       },
       {
         "diskName": "tests",
-        "dirName": "android",
+        "parent": "android",
         "name": "45A13B56photo.jpg",
         "size": 263.98,
         "lastModified": "2020-10-30 23:54:32",

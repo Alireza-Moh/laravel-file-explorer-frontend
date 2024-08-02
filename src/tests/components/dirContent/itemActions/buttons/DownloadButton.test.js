@@ -3,20 +3,45 @@ import {createTestingPinia} from "@pinia/testing";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import mitt from "mitt";
 import DownloadButton from "@/components/dirContent/itemActions/buttons/DownloadButton.vue";
+import Api from "@/services/Api.js";
+
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            post: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            fetchCsrfToken: vi.fn().mockResolvedValue({
+                data: {
+                    data: {
+                        csrfToken: 'mockCsrfToken'
+                    }
+                }
+            })
+        }
+    };
+});
+
+
 describe("DownloadButton", () => {
-    let wrapper, $emitter, $http;
+    let wrapper, $emitter, $API;
     const mockBlob = new Blob(['mock file content'], { type: 'text/plain' });
 
     beforeEach(() => {
         $emitter = mitt();
-        $http = {
-            postBlob: vi.fn().mockResolvedValue(mockBlob)
-        };
+        $API = Api;
 
         wrapper = mount(DownloadButton, {
             global: {
                 mocks: {
-                    $http,
+                    $API,
                     $emitter
                 },
                 plugins: [
@@ -74,7 +99,7 @@ describe("DownloadButton", () => {
             value: vi.fn()
         });
         HTMLAnchorElement.prototype.click = vi.fn(); //mock the click on a-tag to avoid navigation error
-        const postBlobHttpSpy = vi.spyOn($http, "postBlob");
+        const postBlobHttpSpy = vi.spyOn($API, "post");
         const actionBtn = wrapper.find(".action-btn");
 
         actionBtn.trigger("click");
@@ -83,12 +108,13 @@ describe("DownloadButton", () => {
         expect(postBlobHttpSpy).toHaveBeenCalledWith(
             "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/download",
             {
-                body: JSON.stringify({
-                    items: [
-                        { name: "4665_s001v", path: 'android/4665_s001v.png', type: 'file' },
-                        { name: "4665_001v", path: 'android/4665_001v.png', type: 'file' },
-                    ]
-                })
+                items: [
+                    { name: "4665_s001v", path: 'android/4665_s001v.png', type: 'file' },
+                    { name: "4665_001v", path: 'android/4665_001v.png', type: 'file' },
+                ]
+            },
+            {
+                "responseType": "blob"
             }
         );
     });

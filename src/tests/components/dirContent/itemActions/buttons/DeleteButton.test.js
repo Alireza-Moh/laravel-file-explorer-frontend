@@ -7,27 +7,43 @@ import ConfirmModal from "@/components/modals/ConfirmModal.vue";
 import randomItemsWithDirs from "@/tests/testData/randomItemsWithDirs.json";
 import mitt from "mitt";
 import selectedItemsStoreTestData from "@/tests/testData/stores/selectedItemsStoreTestData.json";
+import Api from "@/services/Api.js";
+
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            post: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            fetchCsrfToken: vi.fn().mockResolvedValue({
+                data: {
+                    data: {
+                        csrfToken: 'mockCsrfToken'
+                    }
+                }
+            })
+        }
+    };
+});
 
 describe("DeleteButton", () => {
-    let wrapper, $emitter, $http;
+    let wrapper, $emitter, $API;
 
     beforeEach(() => {
         $emitter = mitt();
-        $http = {
-            delete: vi.fn().mockImplementation(() => {
-                return Promise.resolve({
-                    "result": {
-                        "status": "success",
-                        "message": "File deleted successfully"
-                    }
-                });
-            })
-        };
+        $API = Api
 
         wrapper = mount(DeleteButton, {
             global: {
                 mocks: {
-                    $http,
+                    $API,
                     $emitter
                 },
                 plugins: [
@@ -63,7 +79,9 @@ describe("DeleteButton", () => {
         const modal = wrapper.findComponent(ConfirmModal);
         const modalQuestionBox = modal.find(".confirm-message-box");
         expect(modal.exists()).toBe(true);
-        expect(modalQuestionBox.text().startsWith('You are about to delete "' + randomItemsWithDirs.length + '"')).toBe(true);
+        expect(modalQuestionBox.text()
+            .startsWith('You are about to delete "' + randomItemsWithDirs.length + '"'))
+            .toBe(true);
     });
 
     test("should hide confirm modal when cancel-btn is clicked", async () => {
@@ -87,7 +105,7 @@ describe("DeleteButton", () => {
             configurable: true,
             value: showAlert
         });
-        const deleteHttpSpy = vi.spyOn($http, "delete");
+        const deleteHttpSpy = vi.spyOn($API, "post");
         wrapper.setData({showConfirmModal: true});
         await wrapper.vm.$nextTick();
         const closeBtn = wrapper.find(".yes");
@@ -96,76 +114,65 @@ describe("DeleteButton", () => {
         await wrapper.vm.$nextTick();
         await flushPromises();
 
-        expect(deleteHttpSpy).toHaveBeenCalledTimes(2);
+        expect(deleteHttpSpy).toHaveBeenCalledTimes(1);
         expect(deleteHttpSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/delete",
+            "disks/tests/all/items/delete",
             {
-                body: JSON.stringify({
-                    items: [
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' },
-                        { name: '4665_001v.png', path: 'android/4665_001v.png' }
-                    ]
-                })
-            }
-        );
-        expect(deleteHttpSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/delete",
-            {
-                body: JSON.stringify({
-                    items: [
-                        { name: 'aa', path: 'android/aa' },
-                        { name: 'bbb', path: 'android/aa' },
-                        { name: 'ccc', path: 'android/aa' }
-                    ]
-                })
+                items: [
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file'},
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file'},
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: '4665_001v.png', path: 'android/4665_001v.png', type: 'file' },
+                    { name: 'aa', path: 'android/aa', type: 'dir' },
+                    { name: 'bbb', path: 'android/bbb', type: 'dir' },
+                    { name: 'ccc', path: 'android/ccc', type: 'dir' }
+                ]
             }
         );
     });

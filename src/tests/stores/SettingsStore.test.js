@@ -6,7 +6,7 @@ describe('useSettingsStore', () => {
     const dirs = [
         {
             "diskName": "tests",
-            "dirName": "android",
+            "parent": "android",
             "name": "bbb",
             "size": "-",
             "lastModified": "-",
@@ -16,7 +16,7 @@ describe('useSettingsStore', () => {
         },
         {
             "diskName": "tests",
-            "dirName": "android",
+            "parent": "android",
             "name": "ccc",
             "size": "-",
             "lastModified": "-",
@@ -28,7 +28,7 @@ describe('useSettingsStore', () => {
     const items = [
         {
             "diskName": "tests",
-            "dirName": "android",
+            "parent": "android",
             "name": "4665_001v.png",
             "size": 85.39,
             "lastModified": "2024-01-11 00:31:03",
@@ -39,7 +39,7 @@ describe('useSettingsStore', () => {
         },
         {
             "diskName": "tests",
-            "dirName": "android",
+            "parent": "android",
             "name": "4665_001v.png",
             "size": 61.23,
             "lastModified": "2024-01-03 20:21:46",
@@ -50,7 +50,7 @@ describe('useSettingsStore', () => {
         },
         {
             "diskName": "tests",
-            "dirName": "android",
+            "parent": "android",
             "name": "4665_001v.png",
             "size": 9.77,
             "lastModified": "2024-01-05 23:57:07",

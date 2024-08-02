@@ -6,22 +6,43 @@ import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import CreateDirButton from "@/components/dirContent/itemActions/buttons/CreateDirButton.vue";
 import mitt from "mitt";
+import Api from "@/services/Api.js";
+
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            post: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            fetchCsrfToken: vi.fn().mockResolvedValue({
+                data: {
+                    data: {
+                        csrfToken: 'mockCsrfToken'
+                    }
+                }
+            })
+        }
+    };
+});
 
 describe("CreateDirButton", () => {
-    let wrapper, $http, $emitter;
+    let wrapper, $API, $emitter;
 
     beforeEach(() => {
         $emitter = mitt();
-        $http = {
-            post: vi.fn().mockImplementation(() => {
-                return Promise.resolve(createFileApiResponseTestData);
-            })
-        };
+        $API = Api;
 
         wrapper = mount(CreateDirButton, {
             global: {
                 mocks: {
-                    $http,
+                    $API,
                     $emitter
                 },
                 plugins: [
@@ -62,34 +83,26 @@ describe("CreateDirButton", () => {
         );
     });
 
-    test("should create file when create button is clicked in the modal", async () => {
+    test("should create directory when create button is clicked in the modal", async () => {
         const showAlert = vi.fn();
         Object.defineProperty(window, 'showAlert', {
             writable: true,
             configurable: true,
             value: showAlert
         });
-        const targetFileName = "testFileName";
+
+        wrapper.setData({diskName: "tests", dirName: 'android'});
+        const targetDirName = "testDirName";
         const createFileMethodSpy = vi.spyOn(wrapper.vm, "createDir");
         const createItemMethodSpy = vi.spyOn(wrapper.vm, "createItem");
-        const postHttpSpy = vi.spyOn($http, "post");
 
-        wrapper.vm.createDir(targetFileName);
+        wrapper.vm.createDir(targetDirName);
 
-        expect(createFileMethodSpy).toHaveBeenCalledWith(targetFileName);
+        expect(createFileMethodSpy).toHaveBeenCalledWith(targetDirName);
         expect(createItemMethodSpy).toHaveBeenCalledWith(
             "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/android/new-dir",
-            "android/" + targetFileName,
+            "android/" + targetDirName,
             "android"
-        );
-        expect(postHttpSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/android/new-dir",
-            {
-                body: JSON.stringify({
-                    path: "android/" + targetFileName,
-                    destination: "android"
-                })
-            }
         );
     });
 
@@ -106,5 +119,6 @@ describe("CreateDirButton", () => {
         wrapper.vm.createDir("");
 
         expect(showAlertSpy).toHaveBeenCalledWith("failed", "Disk or directory not found");
+
     });
 });

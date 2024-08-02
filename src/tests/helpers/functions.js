@@ -1,7 +1,7 @@
 const getTestVideo= () => {
     return {
         diskName:"tests",
-        dirName:"android",
+        parent:"android",
         name:"test-video.mp4",
         size:608.45,
         lastModified:"2020-10-30 23:54:50",
@@ -16,7 +16,7 @@ const getTestVideo= () => {
 const getTestImage= () => {
     return {
         diskName: "mobile",
-        dirName: "ios",
+        parent: "ios",
         name: "63962_001i.img",
         size: 48.11,
         lastModified: "2024-01-10 06:01:56",

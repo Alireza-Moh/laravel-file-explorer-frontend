@@ -7,6 +7,7 @@ import DirContentTable from "@/components/dirContent/DirContentTable.vue";
 import ContentTableMenu from "@/components/dirContent/components/ContentTableMenu.vue";
 import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData.json";
 import mitt from "mitt";
+
 describe('DirContentTable Component', () => {
     let wrapper, settingsStore, $emitter;
 
@@ -63,7 +64,7 @@ describe('DirContentTable Component', () => {
         wrapper.vm.items = [
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 48.11,
                 "lastModified": "2024-01-10 06:01:56",
@@ -74,7 +75,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 92.29,
                 "lastModified": "2024-01-13 05:22:58",
@@ -85,7 +86,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 12.14,
                 "lastModified": "2024-01-07 05:53:06",
@@ -96,7 +97,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 57.54,
                 "lastModified": "2024-01-13 22:57:34",
@@ -107,7 +108,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 40.76,
                 "lastModified": "2024-01-07 16:15:05",
@@ -118,7 +119,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 98.72,
                 "lastModified": "2024-01-04 00:24:59",
@@ -129,7 +130,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 23.58,
                 "lastModified": "2024-01-11 10:06:31",
@@ -140,7 +141,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 66.55,
                 "lastModified": "2024-01-09 16:32:19",
@@ -151,7 +152,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 15.83,
                 "lastModified": "2024-01-12 13:02:37",
@@ -162,7 +163,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 72.93,
                 "lastModified": "2024-01-06 08:54:13",
@@ -173,7 +174,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 44.13,
                 "lastModified": "2024-01-11 21:24:03",
@@ -184,7 +185,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 24.1,
                 "lastModified": "2024-01-05 21:49:00",
@@ -195,7 +196,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 5.38,
                 "lastModified": "2024-01-02 09:31:41",
@@ -206,7 +207,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 78.21,
                 "lastModified": "2024-01-05 15:17:57",
@@ -217,7 +218,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 65.85,
                 "lastModified": "2024-01-11 02:03:21",
@@ -228,7 +229,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 13.82,
                 "lastModified": "2024-01-11 20:14:28",
@@ -239,7 +240,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 43.52,
                 "lastModified": "2024-01-03 12:36:54",
@@ -250,7 +251,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 45.36,
                 "lastModified": "2024-01-12 11:57:00",
@@ -261,7 +262,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 95.42,
                 "lastModified": "2024-01-10 05:06:00",
@@ -272,7 +273,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 87.44,
                 "lastModified": "2024-01-07 22:46:11",
@@ -283,7 +284,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 36.11,
                 "lastModified": "2024-01-11 19:45:06",
@@ -294,7 +295,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 11.65,
                 "lastModified": "2024-01-05 15:33:44",
@@ -305,7 +306,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 89.66,
                 "lastModified": "2024-01-07 09:54:38",
@@ -316,7 +317,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 11.86,
                 "lastModified": "2024-01-14 08:34:25",
@@ -327,7 +328,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 80.3,
                 "lastModified": "2024-01-08 17:16:40",
@@ -338,7 +339,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 20.15,
                 "lastModified": "2024-01-04 21:38:45",
@@ -349,7 +350,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 56.77,
                 "lastModified": "2024-01-14 11:55:15",
@@ -360,7 +361,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 2.71,
                 "lastModified": "2024-01-07 11:54:47",
@@ -371,7 +372,7 @@ describe('DirContentTable Component', () => {
             },
             {
                 "diskName": "mobile",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "63962_001i.img",
                 "size": 58.45,
                 "lastModified": "2024-01-11 00:03:21",

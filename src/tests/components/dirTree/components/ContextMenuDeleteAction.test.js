@@ -1,15 +1,38 @@
-import deleteDirApiResponseTestData from "@/tests/testData/deleteDirApiResponseTestData.json";
 import {mount} from "@vue/test-utils";
 import {createTestingPinia} from "@pinia/testing";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import RightClickContextMenu from "@/components/dirTree/components/RightClickContextMenu.vue";
 import diskDirsStoreTestData from "@/tests/testData/stores/diskDirsStoreTestData.json";
 import mitt from "mitt";
-import ContextMenuRenameAction from "@/components/dirTree/components/ContextMenuRenameAction.vue";
 import ContextMenuDeleteAction from "@/components/dirTree/components/ContextMenuDeleteAction.vue";
+import Api from "@/services/Api.js";
+
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            post: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            fetchCsrfToken: vi.fn().mockResolvedValue({
+                data: {
+                    data: {
+                        csrfToken: 'mockCsrfToken'
+                    }
+                }
+            })
+        }
+    };
+});
 
 describe('ContextMenuDeleteAction', () => {
-    let wrapper, $http, $emitter;
+    let wrapper, $API, $emitter;
 
     beforeEach(() => {
         $emitter = new mitt();
@@ -20,16 +43,12 @@ describe('ContextMenuDeleteAction', () => {
             value: showAlert
         });
 
-        $http = {
-            delete: vi.fn().mockImplementation(() => {
-                return Promise.resolve(deleteDirApiResponseTestData);
-            })
-        };
+        $API = Api;
 
         wrapper = mount(RightClickContextMenu, {
             global: {
                 mocks: {
-                    $http,
+                    $API,
                     $emitter
                 },
                 plugins: [
@@ -73,7 +92,7 @@ describe('ContextMenuDeleteAction', () => {
     });
 
     test("should delete the subdirectory when the delete link is clicked", async () => {
-        const deleteSpy = vi.spyOn($http, 'delete');
+        const deleteSpy = vi.spyOn($API, 'post');
         wrapper.setProps({
             dir: {
                 "diskName": "tests",
@@ -89,37 +108,33 @@ describe('ContextMenuDeleteAction', () => {
         deleteLink.trigger("click");
 
         expect(deleteSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/delete",
+            "disks/tests/all/items/delete",
             {
-                body: JSON.stringify({
-                    items: [
-                        {
-                            name: "forTesting",
-                            path: "android/forTesting"
-                        }
-                    ]
-                })
+                items: [
+                    {
+                        name: "forTesting",
+                        path: "android/forTesting"
+                    }
+                ]
             }
         );
     });
 
     test("should send a delete request to the server when the delete link is clicked", async () => {
-        const deleteSpy = vi.spyOn($http, 'delete');
+        const deleteSpy = vi.spyOn($API, 'post');
         const deleteLink = wrapper.find('#delete-link');
 
         deleteLink.trigger("click");
 
         expect(deleteSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/delete",
+            "disks/tests/all/items/delete",
             {
-                body: JSON.stringify({
-                    items: [
-                        {
-                            name: "android",
-                            path: "android"
-                        }
-                    ]
-                })
+                items: [
+                    {
+                        name: "android",
+                        path: "android"
+                    }
+                ]
             }
         );
     });

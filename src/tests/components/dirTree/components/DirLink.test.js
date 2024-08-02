@@ -7,6 +7,31 @@ import dirItemsApiResponseTestData from "@/tests/testData/dirItemsApiResponseTes
 import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData.json";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import mitt from "mitt";
+import Api from "@/services/Api.js";
+
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            post: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            fetchCsrfToken: vi.fn().mockResolvedValue({
+                data: {
+                    data: {
+                        csrfToken: 'mockCsrfToken'
+                    }
+                }
+            })
+        }
+    };
+});
 
 const getIosDirectoryItems = () => {
     return {
@@ -29,28 +54,17 @@ const getIosDirectoryItems = () => {
 };
 
 describe('DirLink component', () => {
-    let wrapper, $http, $emitter;
+    let wrapper, $API, $emitter;
 
     beforeEach(() => {
-        $http = {
-            get: vi.fn().mockImplementation(() => {
-                return Promise.resolve(dirItemsApiResponseTestData);
-            }),
-            put: vi.fn().mockImplementation(() => {
-                return Promise.resolve({
-                    "result": {
-                        "status": "success"
-                    }
-                });
-            })
-        }
+        $API = Api;
 
         $emitter = mitt();
 
         wrapper = mount(DirLink, {
             global: {
                 mocks: {
-                    $http,
+                    $API,
                     $emitter
                 },
                 plugins: [
@@ -91,10 +105,10 @@ describe('DirLink component', () => {
         expect(DirLink).toBeTruthy();
     });
 
-    test("should contain 'android' as dirname", () => {
-        const dirNameSpan = wrapper.find('.nav__name');
+    test("should contain 'android' as parent", () => {
+        const parentSpan = wrapper.find('.nav__name');
 
-        expect(dirNameSpan.text()).toContain('android');
+        expect(parentSpan.text()).toContain('android');
     });
 
     test("should show folder icon", () => {
@@ -141,7 +155,7 @@ describe('DirLink component', () => {
     });
 
     test("should fetch items for 'ios' directory on nav__link-wrapper click for opening directory with a POST request", async () => {
-        const postRequestSpy = vi.spyOn($http, 'get')
+        const postRequestSpy = vi.spyOn($API, 'get')
         wrapper.setProps(getIosDirectoryItems());
         await wrapper.vm.$nextTick();
 
@@ -149,17 +163,17 @@ describe('DirLink component', () => {
         await linkWrapper.trigger("click");
 
         expect(postRequestSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/ios?path=ios",
+            "disks/tests/dirs/ios?path=ios",
         );
     });
 
     test("should not make a POST request for 'ios' directory to the backend if the items of the directory already exists in the store", async () => {
-        const postRequestSpy = vi.spyOn($http, 'get')
+        const postRequestSpy = vi.spyOn($API, 'get')
         wrapper.setProps(getIosDirectoryItems());
         const items = [
             {
                 "diskName": "tests",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "file1.txt",
                 "size": 123.45,
                 "lastModified": "2022-01-11 08:30:00",
@@ -170,7 +184,7 @@ describe('DirLink component', () => {
             },
             {
                 "diskName": "tests",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "document.pdf",
                 "size": 1024.75,
                 "lastModified": "2022-01-11 09:15:45",
@@ -181,7 +195,7 @@ describe('DirLink component', () => {
             },
             {
                 "diskName": "tests",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "image.jpg",
                 "size": 512.89,
                 "lastModified": "2022-01-11 10:45:20",
@@ -192,7 +206,7 @@ describe('DirLink component', () => {
             },
             {
                 "diskName": "tests",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "spreadsheet.pdf",
                 "size": 2048.33,
                 "lastModified": "2022-01-11 12:00:01",
@@ -203,7 +217,7 @@ describe('DirLink component', () => {
             },
             {
                 "diskName": "tests",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "code.js",
                 "size": 76.5,
                 "lastModified": "2022-01-11 13:30:45",
@@ -214,7 +228,7 @@ describe('DirLink component', () => {
             },
             {
                 "diskName": "tests",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "presentation.pdf",
                 "size": 1536.22,
                 "lastModified": "2022-01-11 15:20:00",
@@ -225,7 +239,7 @@ describe('DirLink component', () => {
             },
             {
                 "diskName": "tests",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "video.mp4",
                 "size": 4096.75,
                 "lastModified": "2022-01-11 17:10:30",
@@ -236,7 +250,7 @@ describe('DirLink component', () => {
             },
             {
                 "diskName": "tests",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "archive.pdf",
                 "size": 8192.5,
                 "lastModified": "2022-01-11 19:00:15",
@@ -247,7 +261,7 @@ describe('DirLink component', () => {
             },
             {
                 "diskName": "tests",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "document.docx",
                 "size": 2048.88,
                 "lastModified": "2022-01-11 20:45:50",
@@ -258,7 +272,7 @@ describe('DirLink component', () => {
             },
             {
                 "diskName": "tests",
-                "dirName": "ios",
+                "parent": "ios",
                 "name": "image.png",
                 "size": 512.5,
                 "lastModified": "2022-01-11 22:30:25",
@@ -270,7 +284,7 @@ describe('DirLink component', () => {
         ];
         useDirItemsStore().data.push({
             diskName: "tests",
-            dirName: "ios",
+            parent: "ios",
             items: items,
             selectedDirPath: "ios",
         });

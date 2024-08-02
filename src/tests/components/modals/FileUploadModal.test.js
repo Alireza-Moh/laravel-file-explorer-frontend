@@ -1,24 +1,44 @@
 import { mount } from "@vue/test-utils";
 import FileUploadModal from "@/components/modals/ItemUploadModal.vue";
 import {createTestingPinia} from "@pinia/testing";
-import uploadFileApiResponseTestData from "@/tests/testData/uploadFileApiResponseTestData.json";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import mitt from "mitt";
+import Api from "@/services/Api.js";
 
-describe("FileUploadModal component", () => {
-    let wrapper, fileInput, $http, $emitter;
-
-    beforeEach(async () => {
-        $http = {
-            post: vi.fn().mockImplementation(() => {
-                return Promise.resolve(uploadFileApiResponseTestData)
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            post: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            fetchCsrfToken: vi.fn().mockResolvedValue({
+                data: {
+                    data: {
+                        csrfToken: 'mockCsrfToken'
+                    }
+                }
             })
         }
+    };
+});
+
+describe("FileUploadModal component", () => {
+    let wrapper, fileInput, $API, $emitter;
+
+    beforeEach(async () => {
+        $API = Api;
         $emitter = mitt();
         wrapper = mount(FileUploadModal, {
             global: {
                 mocks: {
-                    $http,
+                    $API,
                     $emitter
                 },
                 plugins: [
@@ -114,7 +134,7 @@ describe("FileUploadModal component", () => {
     });
 
     test("should send the files to the backend when the save button is clicked", async () => {
-        const postSpy = vi.spyOn($http, 'post');
+        const postSpy = vi.spyOn($API, 'post');
         const showAlert = vi.fn();
         Object.defineProperty(window, 'showAlert', {
             writable: true,
@@ -151,7 +171,7 @@ describe("FileUploadModal component", () => {
     });
 
     test("should send form data to backend", async () => {
-        const postSpy = vi.spyOn($http, 'post');
+        const postSpy = vi.spyOn($API, 'post');
         const showAlert = vi.fn();
         Object.defineProperty(window, 'showAlert', {
             writable: true,
@@ -186,11 +206,8 @@ describe("FileUploadModal component", () => {
         await saveButton.trigger("click");
 
         expect(postSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/upload",
-            {
-                body: formData
-            },
-            false
+            "disks/tests/items/upload",
+            formData
         );
     });
 });
