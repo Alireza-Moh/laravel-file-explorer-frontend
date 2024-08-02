@@ -1,11 +1,10 @@
 <script>
 import RightClickContextMenu from "@/components/dirTree/components/RightClickContextMenu.vue";
 import dirMixin from "@/components/dirContent/mixins/dirMixin.js";
-import ItemActionModal from "@/components/modals/RenameModal.vue";
 
 export default {
     name: "DirLink",
-    components: {ItemActionModal, RightClickContextMenu},
+    components: {RightClickContextMenu},
     mixins: [dirMixin],
     emits: ['openSubNav'],
     props: {

@@ -46,26 +46,19 @@ export default {
             );
         },
         fetchDiskDirs(diskName) {
-            this.$http.get(this.settingsStore.baseUrl + "disks/" + diskName)
-                .then((data) => {
-                    if (data.result) {
-                        const result = data.result
-                        this.updateDiskDirsStore(result, diskName);
-                        this.updateDirItemsStore(diskName, result);
-                        this.updateDefaultFileExplorerViewData(diskName, result);
+            this.$API.get("disks/" + diskName).then(response => {
+                const result = response.data.result;
 
-                        this.selectedDisk = diskName;
-                    }
-                    this.showErrorModal(data);
-                });
+                this.updateDiskDirsStore(result, diskName);
+                this.updateDirItemsStore(diskName, result);
+                this.updateDefaultFileExplorerViewData(diskName, result);
+                this.selectedDisk = diskName;
+            }).catch(error => {
+                window.showAlert(error.response.data.status, error.response.data.message);
+            });
         },
         updateDiskDirsStore(data, diskName) {
-            const diskDirs = {
-                selectedDir: data.selectedDir,
-                diskName: diskName,
-                dirs: data.dirs,
-            };
-            this.diskDirsStore.addDiskDirs(diskDirs);
+            this.diskDirsStore.addDiskDirs(diskName, data.selectedDir, data.dirs);
         },
         updateDirItemsStore(diskName, data) {
             this.dirItemsStore.addNewDirWithItems(

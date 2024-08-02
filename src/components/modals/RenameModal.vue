@@ -39,6 +39,7 @@ export default {
                        name="itemName"
                        required
                        type="text">
+                <span class="error"></span>
             </div>
             <div class="button-box">
                 <button id="save-btn"

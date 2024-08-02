@@ -36,11 +36,21 @@ export default {
                     return;
                 }
 
-                const url = this.settingsStore.baseUrl
-                    + "disks/" + selectedDisk
-                    + "/items/upload";
-                this.$http.post(url, this.getOptions(), false).then((data) => {
-                    this.handleResponse(data, selectedDisk, selectedDir);
+                const url = "disks/" + selectedDisk + "/items/upload";
+
+                this.$API.post(url, this.getOptions()).then(response => {
+                    if (response.data.result) {
+                        window.showAlert(response.data.status, response.data.message);
+                        this.dirItemsStore.replaceItemsInDir(response.data.result.items, selectedDisk, selectedDir);
+                        this.cancel();
+                    }
+                }).catch(error => {
+                    this.$emit("passErrorsToItems", error.response.data.errors);
+                    window.showAlert(error.response.data.status, error.response.data.message);
+
+                    if (error.response.status === 403) {
+                        this.cancel();
+                    }
                 });
             }
         },
@@ -53,20 +63,7 @@ export default {
                 formData.append("items[]", this.items[i]);
             }
 
-            return {
-                body: formData,
-            };
-        },
-        handleResponse(data, selectedDisk, selectedDir) {
-            if (data.errors) {
-                this.$emit("passErrorsToItems", data.errors);
-                return;
-            }
-            if (data.result) {
-                window.showAlert(data.status, data.message);
-                this.dirItemsStore.updateDir(data.result.items, selectedDisk, selectedDir);
-                this.cancel();
-            }
+            return formData;
         },
         cancel() {
             this.$emitter.emit("closeUploadModal");

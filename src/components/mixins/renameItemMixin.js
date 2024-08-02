@@ -20,56 +20,40 @@ export default {
                 + this.item.diskName
                 + "/items/rename"
 
-            this.$http.post(url, this.getRequestOption()).then((data) => {
-                this.$emitter.emit("uncheckInput");
-                this.handleResponse(data);
+            this.$API.fetchCsrfToken().then(response => {
+                this.$API.post(url, this.getRequestOption(response)).then((data) => {
+                    this.updateItemInStore(data.data.result.updatedItem);
+                    window.showAlert(data.data.status, data.data.message);
+                }).catch(error => {
+                    this.showErrorModal(error.response.data, "Rename item error");
+                    window.showAlert(error.response.data.status, error.response.data.message);
+                }).finally(() => {
+                    this.$emitter.emit("uncheckInput");
+                    this.$emitter.emit("hideRenameModal");
+                });
             });
         },
-        getRequestOption() {
+        getRequestOption(response) {
             return  {
-                body: JSON.stringify({
-                    oldName: this.item.name,
-                    newName: this.newItemName,
-                    oldPath: this.item.path,
-                    newPath: this.getNewPath(),
-                    type: this.item.type,
-                    dirName: this.item.dirName
-                })
+                oldName: this.item.name,
+                newName: this.newItemName,
+                oldPath: this.item.path,
+                newPath: this.getNewPath(),
+                type: this.item.type,
+                parent: this.item.parent,
+                _token: response.data.data.csrfToken
             };
         },
         getNewPath() {
             return this.item.path.replace(this.item.name, this.newItemName);
         },
-        handleResponse(data) {
-            if (data.result) {
-                const status = data.status;
-                if (status === "success") {
-                    this.updateItemInStore(data.result.updatedItem);
-                }
-
-                window.showAlert(status, data.message);
-                this.$emitter.emit("hideRenameModal");
-            }
-            this.showErrorModal(data, "Rename item error");
-        },
         updateItemInStore(updatedItem) {
-            useDirItemsStore().updateItem(
-                this.item.diskName,
-                this.item.dirName,
-                this.item.name,
-                updatedItem
-            );
+            useDirItemsStore().updateItem(updatedItem, this.oldItemName);
+            useSettingsStore().updateItemForSelectedDir(updatedItem, this.oldItemName);
+
             if (this.item.type === "dir") {
-                useDiskDirsStore().updateDirMetadataByName(
-                    this.item.diskName,
-                    this.oldItemName,
-                    {
-                        dirName: updatedItem.dirName,
-                        diskName: updatedItem.diskName,
-                        name: updatedItem.name,
-                        path: updatedItem.path
-                    }
-                );
+                useSettingsStore().updateDirForSelectedDisk(updatedItem, this.oldItemName);
+                useDiskDirsStore().updateDiskDirs(updatedItem, this.oldItemName);
             }
         }
     }

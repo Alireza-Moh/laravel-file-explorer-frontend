@@ -71,14 +71,12 @@ export default {
     },
     methods: {
         initExplorer() {
-            const endUrl = this.settingsStore.baseUrl + "init-explorer";
+            this.$API.get('init-explorer').then(response => {
+                const receivedData = response.data.result;
 
-            this.$http.get(endUrl, {}).then((response) => {
-                if (response.result && response.result.data) {
-                    const receivedData = response.result.data;
-
+                if (receivedData) {
                     this.storeDisks(receivedData.disks);
-                    this.storeDirsForDisk(receivedData.dirsForSelectedDisk, receivedData.selectedDir);
+                    this.storeAllDirectoriesForDisk(receivedData);
                     this.dirItemsStore.addNewDirWithItems(
                         receivedData.selectedDisk,
                         receivedData.selectedDir,
@@ -86,25 +84,28 @@ export default {
                         receivedData.selectedDirItems
                     );
                     this.storeDefaultFileExplorerViewData(receivedData);
-                    this.isLoading = false;
-                } else {
-                    window.showAlert("failed", "No data could be found", 5000);
                 }
+                this.isLoading = false;
+            }).catch(error => {
+                window.showAlert("failed", "No data could be found", 5000);
             });
         },
         storeDisks(disks) {
             this.disksStore.setDisks(disks);
         },
-        storeDirsForDisk(dirs, selectedDir) {
-            dirs.selectedDir = selectedDir;
-            this.diskDirsStore.addDiskDirs(dirs);
+        storeAllDirectoriesForDisk(receivedData) {
+            this.diskDirsStore.addDiskDirs(
+                receivedData.selectedDisk,
+                receivedData.selectedDir,
+                receivedData.dirsForSelectedDisk
+            );
         },
         storeDefaultFileExplorerViewData(receivedData) {
             this.settingsStore.setDefaultFileExplorerViewData(
                 receivedData.selectedDisk,
                 receivedData.selectedDir,
                 receivedData.selectedDirPath,
-                receivedData.dirsForSelectedDisk.dirs,
+                receivedData.dirsForSelectedDisk,
                 receivedData.selectedDirItems
             );
         }

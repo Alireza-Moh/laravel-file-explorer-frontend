@@ -3,8 +3,8 @@ export default {
     name: "Notify",
     data() {
         return {
-            type: "",
-            message: "",
+            type: null,
+            message: null,
             showTime: 0,
             timeout: null,
             showAlert: false
@@ -12,15 +12,17 @@ export default {
     },
     created() {
         window.showAlert = (type, message, showTime = 5000) => {
-            this.showAlert = true;
-            this.type = type;
-            this.message = message;
-            this.showTime = showTime;
+            if (message) {
+                this.showAlert = true;
+                this.type = type;
+                this.message = message;
+                this.showTime = showTime;
 
-            if (this.timeout) {
-                clearTimeout(this.timeout);
+                if (this.timeout) {
+                    clearTimeout(this.timeout);
+                }
+                this.startTimeout();
             }
-            this.startTimeout();
         };
     },
     methods: {

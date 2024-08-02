@@ -24,29 +24,19 @@ export default {
     methods: {
         download() {
             const url = this.settingsStore.baseUrl + "disks/" + this.diskName + "/items/download";
-            const options = {
-                body: JSON.stringify({
-                    items: this.getFormData()
-                })
+            const data = {
+                items: this.getFormData()
             };
 
-            this.$http.postBlob(url, options).then((blob) => {
-                this.handleDownloadResponse(blob);
+            this.$API.post(url, data, { responseType: 'blob' }).then((response) => {
+                this.createDownloadLink(response);
 
+            }).catch((error) => {
+                window.showAlert(error.response.data.status, error.response.data.message);
+            }).finally(() => {
                 this.$emitter.emit("uncheckInput");
                 this.selectedItemsStore.items = [];
             });
-        },
-        handleDownloadResponse(blob) {
-            if (blob.errors) {
-                this.showErrorModal(blob, "Download Errors");
-            }
-            if (blob.result) {
-                window.showAlert(blob.status, blob.message);
-            }
-            if (blob instanceof Blob) {
-                this.createDownloadLink(blob);
-            }
         },
         getFormData() {
             return this.items.map(item => ({
@@ -56,7 +46,7 @@ export default {
             }));
         },
         createDownloadLink(blob) {
-            const url = window.URL.createObjectURL(blob);
+            const url = window.URL.createObjectURL(blob.data);
 
             const link = document.createElement('a');
             link.href = url;

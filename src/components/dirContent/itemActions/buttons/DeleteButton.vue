@@ -27,7 +27,7 @@ export default {
             this.$emitter.emit("uncheckInput");
             this.selectedItemsStore.items = [];
         },
-        async deleteItems() {
+      /*  async deleteItems() {
             const itemsToDelete = this.getFromData();
             this.diskName = this.items[0].diskName;
             this.dirName = this.items[0].dirName;
@@ -41,24 +41,23 @@ export default {
 
             this.$emitter.emit("uncheckInput");
             this.selectedItemsStore.items = [];
-        },
-        getFromData() {
-            let files = [];
-            let dirs = [];
+        },*/
 
+        deleteItems() {
             this.items.forEach(item => {
-                const itemToDelete = {
+                this.itemsToDelete.push({
                     name: item.name,
-                    path: item.path
-                };
-                if (item.type === 'file') {
-                    files.push(itemToDelete);
-                } else if (item.type === 'dir') {
-                    dirs.push(itemToDelete);
-                }
+                    path: item.path,
+                    type: item.type
+                });
             });
+            this.diskName = this.items[0].diskName;
+            this.dirName = this.items[0].dirName;
 
-            return {files, dirs};
+            this.deleteSelectedItems("file");
+
+            this.$emitter.emit("uncheckInput");
+            this.selectedItemsStore.items = [];
         }
     }
 }

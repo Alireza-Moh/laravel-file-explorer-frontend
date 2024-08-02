@@ -30,30 +30,35 @@ export default {
     },
     methods: {
         createItem(url, path, destination) {
-            const options = {
-                body: JSON.stringify({
+            this.$API.fetchCsrfToken().then(responseToken => {
+                const options = {
                     path: path,
-                    destination: destination
-                })
-            };
-
-            this.$http.post(url, options).then((data) => {
-                this.showErrorModal(data);
-                if (data.result) {
-                    const items = data.result.items;
-
-                    this.$emitter.emit("hideRenameModal");
-                    window.showAlert(data.status, data.message);
-                    this.updateStore(items, data);
-                }
-            });
+                    destination: destination,
+                    _token: responseToken.data.data.csrfToken
+                };
+                this.$API.post(url, options).then((response) => {
+                    const result = response.data.result;
+                    if (result) {
+                        this.$emitter.emit("hideRenameModal");
+                        window.showAlert(response.data.status, response.data.message);
+                        this.updateStore(result);
+                    }
+                }).catch(error => {
+                    const response = error.response;
+                    this.showErrorModal(response.data);
+                    window.showAlert(response.data.status, response.data.message);
+                    if (response.status === 403) {
+                        this.$emitter.emit("hideRenameModal");
+                    }
+                });
+            })
         },
-        updateStore(items, data) {
-            this.dirItemsStore.updateDir(items, this.diskName, this.dirName);
-            this.diskDirsStore.replaceDirsForDisk(this.diskName, data.result.dirs);
+        updateStore(data) {
+            this.dirItemsStore.replaceItemsInDir(data.items, this.diskName, this.dirName);
+            this.diskDirsStore.replaceDirsForDisk(this.diskName, data.dirs);
 
-            this.settingsStore.replaceDirsForSelectedDisk(this.diskName, this.dirName, data.result.dirs);
-            this.settingsStore.replaceItemsForSelectedDir(this.diskName, this.dirName, items);
+            this.settingsStore.replaceDirsForSelectedDisk(this.diskName, this.dirName, data.dirs);
+            this.settingsStore.replaceItemsForSelectedDir(this.diskName, this.dirName, data.items);
         }
     }
 }

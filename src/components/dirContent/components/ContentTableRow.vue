@@ -109,7 +109,7 @@ export default {
         </div>
 
         <div class="size-cell">
-            {{ item.size }}
+            {{ item.formattedSize }}
         </div>
     </div>
 </template>

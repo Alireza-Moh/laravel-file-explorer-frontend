@@ -39,12 +39,6 @@ export default {
     mounted() {
         this.$emitter.on("showEditorViewer", (item) => {
             this.item = item;
-            this.options = {
-                mode: editorItemExtensions[item.extension],
-                theme: 'darcula',
-                lineNumbers: true,
-                line: true,
-            }
             this.fetchItemContent();
         });
     },
@@ -56,21 +50,21 @@ export default {
                     path: encodeURIComponent(this.item.path)
                 });
 
-            this.$http.get(url).then((data) => {
-                if (data.result) {
-                    this.content = data.result.content;
+            this.$API.get(url).then(response => {
+                if (response.data.result) {
+                    this.content = response.data.result.content;
+                    this.setupEditorSettings(response.data.result.readOnly);
                     this.showEditor = true;
                 }
-                this.showErrorModal(data, "File content errors");
+            }).catch(error => {
+                window.showAlert(error.response.data.status, error.response.data.message);
             });
         },
         saveChanges() {
-            this.$http.post(this.getUrl(), this.getOption(), false).then((data) => {
-                if (data.result) {
-                    window.showAlert(data.status, data.message);
-                    this.showEditor = false;
-                }
-                this.showErrorModal(data, "Failed updating file");
+            this.$API.post(this.getUrl(), this.getOption()).then(response => {
+                window.showAlert(response.data.status, response.data.message);
+            }).catch(error => {
+                window.showAlert(error.response.data.status, error.response.data.message);
             });
         },
         getOption() {
@@ -78,16 +72,23 @@ export default {
             formData.append("path", this.item.path);
             formData.append("item", new Blob([this.content]), this.item.name);
 
-            return  {
-                body: formData,
-            }
+            return formData
         },
         getUrl() {
-            return this.settingsStore.baseUrl
-                + "disks/"
+            return "disks/"
                 + this.item.diskName
+                + '/content'
                 + "/items/"
                 + this.item.name.replace("." + this.item.extension, "");
+        },
+        setupEditorSettings(readOnly) {
+            this.options = {
+                mode: editorItemExtensions[this.item.extension],
+                theme: 'darcula',
+                lineNumbers: true,
+                line: true,
+                readOnly: readOnly
+            }
         }
     }
 }
@@ -96,7 +97,10 @@ export default {
 <template>
     <div v-if="showEditor" class="modal-wrapper">
         <div class="modal" ref="modal">
-            <h3 class="headline">{{ item.name }}</h3>
+            <div class="header">
+                <h3 class="headline">{{ item.name }}</h3>
+                <span class="mode">In ReadOnly mode</span>
+            </div>
             <Codemirror v-model:value="content"
                         :options="options"
                         border
@@ -123,7 +127,6 @@ export default {
 }
 
 .headline {
-    margin-bottom: 1em;
     font-size: 1rem;
     font-weight: bold;
 }
@@ -161,5 +164,17 @@ button {
 
 #save-btn:hover {
     background-color: #4d4dbf;
+}
+
+.header {
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mode {
+    color: #155724;
+    font-size: 0.8rem;
 }
 </style>
