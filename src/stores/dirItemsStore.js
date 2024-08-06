@@ -27,6 +27,7 @@ export const useDirItemsStore = defineStore("dirItems", {
                 const targetDir = this.data.find((dir) => {
                     return (dir.diskName === diskName) && (dir.parent === parent);
                 });
+
                 targetDir.dirItems = items;
             }
         },

@@ -7,6 +7,7 @@ import ItemVideoCell from "@/components/dirContent/components/ItemVideoCell.vue"
 import dirMixin from "@/components/dirContent/mixins/dirMixin.js";
 import PreviewView from "@/components/dirContent/components/PreviewView.vue";
 import ItemName from "@/components/dirContent/components/ItemName.vue";
+import audioTypes from "@/services/audioTypes.js";
 
 export default {
     name: "ContentTableRow",
@@ -26,7 +27,9 @@ export default {
             showRenameInput: false,
             isImage: false,
             isVideo: false,
+            isAudio: false,
             videoType: "",
+            audioType: ""
         }
     },
     created() {
@@ -46,7 +49,11 @@ export default {
                 this.$emitter.emit("showImageViewer", this.item.url);
             } else if (this.isVideo) {
                 this.$emitter.emit("showVideoPlayer", this.item);
-            } else {
+            }
+            else if(this.isAudio) {
+                this.$emitter.emit("showAudioPlayer", this.item);
+            }
+            else {
                 this.$emitter.emit("showEditorViewer", this.item);
             }
         },
@@ -59,10 +66,16 @@ export default {
 
                 this.isImage = imageTypes.includes(extension);
                 this.isVideo = videoTypes.includes(extension);
+                this.isAudio = audioTypes.includes(extension);
 
                 if (this.isVideo) {
                     this.videoType = "video/" + extension;
                     this.item.videoType = this.videoType;
+                }
+
+                if (this.isAudio) {
+                    this.audioType = "audio/" + extension;
+                    this.item.audioType = this.audioType;
                 }
             }
         },

@@ -27,6 +27,7 @@ export default {
             return diskName === this.selectedDisk;
         },
         getDiskDirs(diskName) {
+            this.$emitter.emit("fetchingData");
             const diskDirs = this.diskDirsStore.getDiskDirs(diskName);
             if (diskDirs) {
                 this.handleExistingDiskDirs(diskName, diskDirs);
@@ -44,6 +45,7 @@ export default {
                 diskDirs.dirs,
                 dirItems.dirItems
             );
+            this.$emitter.emit("fetchingData");
         },
         fetchDiskDirs(diskName) {
             this.$API.get("disks/" + diskName).then(response => {
@@ -53,6 +55,7 @@ export default {
                 this.updateDirItemsStore(diskName, result);
                 this.updateDefaultFileExplorerViewData(diskName, result);
                 this.selectedDisk = diskName;
+                this.$emitter.emit("fetchingData");
             }).catch(error => {
                 window.showAlert(error.response.data.status, error.response.data.message);
             });

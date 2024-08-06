@@ -7,7 +7,7 @@ import TreeContainer from "@/components/dirTree/TreeContainer.vue";
 import DirContentTable from "@/components/dirContent/DirContentTable.vue";
 import Notify from "@/components/_baseComponents/Notify.vue";
 import ImageViewer from "@/components/dirContent/components/ImageViewer.vue";
-import VideoPlayerViewer from "@/components/dirContent/components/VideoPlayerViewer.vue";
+import VideoPlayer from "@/components/dirContent/components/VideoPlayer.vue";
 import Loader from "@/components/_baseComponents/Loader.vue";
 import {useSettingsStore} from "@/stores/settingsStore.js";
 import {useDisksStore} from "@/stores/disksStore.js";
@@ -17,15 +17,19 @@ import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
 import ErrorModal from "@/components/modals/ErrorModal.vue";
 import RenameModal from "@/components/modals/RenameModal.vue";
 import EditorViewer from "@/components/dirContent/components/EditorViewer.vue";
+import PageLoader from "@/components/_baseComponents/PageLoader.vue";
+import AudioPlayer from "@/components/dirContent/components/AudioPlayer.vue";
 
 export default {
     name: "FileExplorer",
     components: {
+        AudioPlayer,
+        PageLoader,
         EditorViewer,
         RenameModal,
         ErrorModal,
         Loader,
-        VideoPlayerViewer,
+        VideoPlayer,
         ImageViewer,
         Notify,
         DirContentTable,
@@ -51,7 +55,8 @@ export default {
             selectedItemsStore: useSelectedItemsStore(),
             hideTree: false,
             navTranslate: "-100%",
-            contentMove: 0
+            contentMove: 0,
+            isFetchingDataAfterInit: false
         }
     },
     created() {
@@ -67,6 +72,10 @@ export default {
             this.hideTree = !this.hideTree;
             this.navTranslate = 0;
             this.contentMove = "250px"
+        });
+
+        this.$emitter.on("fetchingData", () => {
+            this.isFetchingDataAfterInit = !this.isFetchingDataAfterInit;
         });
     },
     methods: {
@@ -114,6 +123,7 @@ export default {
 </script>
 
 <template>
+    <PageLoader v-if="isFetchingDataAfterInit"/>
     <div class="main-wrapper">
         <Notify v-once/>
         <TopMenu v-once/>
@@ -129,6 +139,7 @@ export default {
             </div>
             <ImageViewer v-once/>
             <VideoPlayerViewer v-once/>
+            <AudioPlayer v-once/>
             <ErrorModal/>
             <RenameModal/>
             <EditorViewer/>

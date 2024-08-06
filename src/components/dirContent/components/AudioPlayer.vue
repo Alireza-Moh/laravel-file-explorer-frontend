@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: "VideoPlayerViewer",
+    name: "AudioPlayer",
     data() {
         return {
             showPlayer: false,
@@ -8,7 +8,7 @@ export default {
         }
     },
     mounted() {
-        this.$emitter.on("showVideoPlayer", (item) => {
+        this.$emitter.on("showAudioPlayer", (item) => {
             this.item = item;
             this.showPlayer = true;
         });
@@ -20,21 +20,20 @@ export default {
     <div v-if="showPlayer" class="modal">
         <span class="close" @click="showPlayer = false">&times;</span>
         <div class="modal-content">
-            <video class="video" controls>
+            <audio controls class="audio">
                 <source :src="item.url"
-                        :type="item.videoType"
+                        :type="item.audioType"
                         class="video-src">
-            </video>
+            </audio>
         </div>
     </div>
 </template>
 
 <style scoped>
+
 .modal {
     position: fixed;
     z-index: 1;
-    left: 0;
-    top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.9);
@@ -58,8 +57,7 @@ export default {
     cursor: pointer;
 }
 
-.video {
-    width: 100%;
-    height: 100%;
+.audio {
+    width: 600px;
 }
 </style>

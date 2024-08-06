@@ -44,13 +44,7 @@ export default {
     },
     methods: {
         fetchItemContent() {
-            const url = this.getUrl()
-                + "?"
-                + new URLSearchParams({
-                    path: encodeURIComponent(this.item.path)
-                });
-
-            this.$API.get(url).then(response => {
+            this.$API.get(this.getUrl()).then(response => {
                 if (response.data.result) {
                     this.content = response.data.result.content;
                     this.setupEditorSettings(response.data.result.readOnly);
@@ -78,8 +72,10 @@ export default {
             return "disks/"
                 + this.item.diskName
                 + '/content'
-                + "/items/"
-                + this.item.name.replace("." + this.item.extension, "");
+                + "/items?"
+                + new URLSearchParams({
+                    path: encodeURIComponent(this.item.path)
+                });
         },
         setupEditorSettings(readOnly) {
             this.options = {
