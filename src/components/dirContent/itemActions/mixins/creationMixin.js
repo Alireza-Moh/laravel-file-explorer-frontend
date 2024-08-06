@@ -36,6 +36,7 @@ export default {
                     destination: destination,
                     _token: responseToken.data.data.csrfToken
                 };
+
                 this.$API.post(url, options).then((response) => {
                     const result = response.data.result;
                     if (result) {

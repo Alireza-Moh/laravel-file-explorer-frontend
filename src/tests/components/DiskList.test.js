@@ -7,6 +7,7 @@ import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import disksStoreTestData from "@/tests/testData/stores/disksStoreTestData.json";
 import Api from "@/services/Api.js";
+import mitt from "mitt";
 
 vi.mock('@/services/Api.js', () => {
     return {
@@ -21,15 +22,17 @@ vi.mock('@/services/Api.js', () => {
 });
 
 describe.concurrent("DiskList component", () => {
-    let wrapper, disksStore, $API;
+    let wrapper, disksStore, $API, $emitter;
 
     beforeEach(() => {
         $API = Api;
+        $emitter = mitt();
 
         wrapper = mount(DiskList, {
             global: {
                 mocks: {
-                    $API
+                    $API,
+                    $emitter
                 },
                 plugins: [
                     createTestingPinia({

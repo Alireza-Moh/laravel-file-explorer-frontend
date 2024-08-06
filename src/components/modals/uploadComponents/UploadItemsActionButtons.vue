@@ -22,17 +22,22 @@ export default {
     data() {
         return {
             settingsStore: useSettingsStore(),
-            dirItemsStore: useDirItemsStore()
+            dirItemsStore: useDirItemsStore(),
+            spinnerDisplay: 'none',
+            disableBtn: false
         }
     },
     methods: {
         uploadFiles() {
             if (this.items.length > 0 && this.items.length <= this.maxUploadItems) {
+                this.disableBtn = true;
+                this.spinnerDisplay = 'block';
                 const selectedDisk = this.settingsStore.defaultFileExplorerViewData.selectedDisk;
                 const selectedDir = this.settingsStore.defaultFileExplorerViewData.selectedDir;
 
-                if (!selectedDisk && !selectedDir) {
-                    window.showAlert("failed", "Disk or directory not found");
+                if (!selectedDisk) {
+                    window.showAlert("failed", "Disk not found");
+                    this.resetButtons();
                     return;
                 }
 
@@ -67,7 +72,12 @@ export default {
         },
         cancel() {
             this.$emitter.emit("closeUploadModal");
+            this.resetButtons();
         },
+        resetButtons() {
+            this.disableBtn = false;
+            this.spinnerDisplay = 'none';
+        }
     }
 }
 </script>
@@ -76,13 +86,14 @@ export default {
     <div class="button-box">
         <button id="save-btn"
                 :class="{selected: maxUploadItemsReached}"
-                :disabled="maxUploadItemsReached"
+                :disabled="maxUploadItemsReached || disableBtn"
                 type="button"
                 @click="uploadFiles">
             Save
         </button>
         <button id="cancel-btn"
                 type="button"
+                :disabled="disableBtn"
                 @click="cancel">Cancel
         </button>
     </div>
@@ -114,6 +125,7 @@ button {
 #save-btn {
     background-color: #7071E8;
     margin-right: 10px;
+    position: relative;
     transition: all 0.2s ease-in-out;
 }
 
@@ -123,5 +135,36 @@ button {
 
 #save-btn:hover {
     background-color: #4d4dbf;
+}
+
+#save-btn::after {
+    display: v-bind(spinnerDisplay);
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    top: 0;
+    left: 3px;
+    bottom: 0;
+    margin: auto;
+    border: 4px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+}
+
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+.modal .button-box button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 </style>

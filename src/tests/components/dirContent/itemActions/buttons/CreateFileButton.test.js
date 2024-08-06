@@ -98,7 +98,7 @@ describe("CreateFileButton", () => {
 
         expect(createFileMethodSpy).toHaveBeenCalledWith(targetFileName);
         expect(createItemMethodSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/android/new-file",
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/new-file",
             "android/" + targetFileName,
             "android"
         );
@@ -111,11 +111,11 @@ describe("CreateFileButton", () => {
             value: showAlert
         });
         const showAlertSpy = vi.spyOn(window, "showAlert");
-        wrapper.setData({diskName: "", dirName: null});
+        wrapper.setData({diskName: ""});
         await wrapper.vm.$nextTick();
 
         wrapper.vm.createFile("");
 
-        expect(showAlertSpy).toHaveBeenCalledWith("failed", "Disk or directory not found");
+        expect(showAlertSpy).toHaveBeenCalledWith("failed", "Disk not found");
     });
 });

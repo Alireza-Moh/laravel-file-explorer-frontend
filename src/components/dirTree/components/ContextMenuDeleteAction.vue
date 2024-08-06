@@ -20,11 +20,12 @@ export default {
     methods: {
         deleteDir() {
             this.diskName = this.dir.diskName;
-            this.dirName = this.dir.dirName;
+            this.dirName = this.dir.parent;
             this.itemsToDelete = [
                 {
                     name: this.dir.name,
-                    path: this.dir.path
+                    path: this.dir.path,
+                    type: this.dir.type
                 }
             ];
 

@@ -16,14 +16,14 @@ export default {
             );
         },
         createFile(fileName) {
-            if (this.diskName && this.dirName) {
+            if (this.diskName) {
                 this.createItem(
-                    this.settingsStore.baseUrl + "disks/" + this.diskName + "/dirs/" + this.dirName + "/new-file",
+                    this.settingsStore.baseUrl + "disks/" + this.diskName + "/new-file",
                     this.selectedDirPath + "/" + fileName,
                     this.selectedDirPath
                 );
             } else {
-                window.showAlert("failed", "Disk or directory not found")
+                window.showAlert("failed", "Disk not found")
             }
         }
     }

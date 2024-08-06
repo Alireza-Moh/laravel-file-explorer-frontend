@@ -6,7 +6,10 @@ export default {
             showRenameModal: false,
             enteredName: null,
             label: "",
-            functionOnSave: null
+            functionOnSave: null,
+            showSpinner: false,
+            spinnerDisplay: 'none',
+            disableBtn: false
         }
     },
     mounted() {
@@ -19,10 +22,14 @@ export default {
 
         this.$emitter.on("hideRenameModal", () => {
             this.showRenameModal = false;
-        })
+            this.disableBtn = false;
+            this.spinnerDisplay = 'none';
+        });
     },
     methods: {
         invokeSaveFunction() {
+            this.disableBtn = true;
+            this.spinnerDisplay = 'block';
             this.functionOnSave(this.enteredName);
         }
     }
@@ -44,12 +51,14 @@ export default {
             <div class="button-box">
                 <button id="save-btn"
                         type="button"
+                        :disabled="disableBtn"
                         @click="invokeSaveFunction">
                     Save
                 </button>
 
                 <button id="cancel-btn"
                         type="button"
+                        :disabled="disableBtn"
                         @click="showRenameModal = false">
                     Cancel
                 </button>
@@ -103,6 +112,7 @@ label {
 .modal .button-box #save-btn {
     background-color: #7071E8;
     margin-right: 10px;
+    position: relative;
     transition: all 0.2s ease-in-out;
 }
 
@@ -112,6 +122,37 @@ label {
 
 .modal .button-box #save-btn:hover {
     background-color: #4d4dbf;
+}
+
+#save-btn::after {
+    display: v-bind(spinnerDisplay);
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    top: 0;
+    left: 3px;
+    bottom: 0;
+    margin: auto;
+    border: 4px solid transparent;
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+}
+
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}
+
+.modal .button-box button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
 }
 
 body.dark-mode .modal .input-box input {

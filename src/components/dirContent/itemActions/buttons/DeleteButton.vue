@@ -27,22 +27,6 @@ export default {
             this.$emitter.emit("uncheckInput");
             this.selectedItemsStore.items = [];
         },
-      /*  async deleteItems() {
-            const itemsToDelete = this.getFromData();
-            this.diskName = this.items[0].diskName;
-            this.dirName = this.items[0].dirName;
-
-            if (itemsToDelete.files.length) {
-                await this.deleteSelectedItems("file", itemsToDelete.files);
-            }
-            if (itemsToDelete.dirs.length) {
-                await this.deleteSelectedItems("dir", itemsToDelete.dirs);
-            }
-
-            this.$emitter.emit("uncheckInput");
-            this.selectedItemsStore.items = [];
-        },*/
-
         deleteItems() {
             this.items.forEach(item => {
                 this.itemsToDelete.push({
@@ -52,9 +36,9 @@ export default {
                 });
             });
             this.diskName = this.items[0].diskName;
-            this.dirName = this.items[0].dirName;
+            this.dirName = this.items[0].parent;
 
-            this.deleteSelectedItems("file");
+            this.deleteSelectedItems();
 
             this.$emitter.emit("uncheckInput");
             this.selectedItemsStore.items = [];

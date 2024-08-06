@@ -33,7 +33,7 @@ export default {
         removeItemFromDirStore() {
             this.dirItemsStore.$patch((state) => {
                 const targetDirItems = state.data.find((dirItems) => {
-                    return dirItems.diskName === this.diskName && dirItems.selectedDirPath === this.dirName;
+                    return dirItems.diskName === this.diskName && dirItems.parent === this.dirName;
                 });
 
                 const itemNamesToDelete = this.itemsToDelete.map(item => item.name);

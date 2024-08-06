@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils';
 import mitt from "mitt";
-import VideoPlayerViewer from "@/components/dirContent/components/VideoPlayerViewer.vue";
+import VideoPlayer from "@/components/dirContent/components/VideoPlayer.vue";
 import {getTestVideo} from "@/tests/helpers/functions.js";
 
 describe('VideoPlayerViewer', () => {
@@ -8,7 +8,7 @@ describe('VideoPlayerViewer', () => {
 
     beforeEach(() => {
         $emitter = mitt();
-        wrapper = mount(VideoPlayerViewer, {
+        wrapper = mount(VideoPlayer, {
             global: {
                 mocks: {
                     $emitter
@@ -22,7 +22,7 @@ describe('VideoPlayerViewer', () => {
     });
 
     test("should render VideoPlayerViewer component", () => {
-        expect(VideoPlayerViewer).toBeTruthy();
+        expect(VideoPlayer).toBeTruthy();
     });
 
     test("should not show modal when false", () => {

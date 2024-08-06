@@ -16,10 +16,10 @@ export default {
             );
         },
         createDir(dirName) {
-            if (this.diskName && this.dirName) {
+            if (this.diskName) {
                 this.createItem(
-                    this.settingsStore.baseUrl + "disks/" + this.diskName + "/dirs/" + this.dirName + "/new-dir",
-                    this.selectedDirPath + "/" + dirName,
+                    this.settingsStore.baseUrl + "disks/" + this.diskName + "/new-dir",
+                    this.selectedDirPath ? (this.selectedDirPath + "/" + dirName) : dirName,
                     this.selectedDirPath
                 );
             } else {

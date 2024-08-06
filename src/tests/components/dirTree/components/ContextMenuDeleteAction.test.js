@@ -113,14 +113,15 @@ describe('ContextMenuDeleteAction', () => {
                 items: [
                     {
                         name: "forTesting",
-                        path: "android/forTesting"
+                        path: "android/forTesting",
+                        type: "dir",
                     }
                 ]
             }
         );
     });
 
-    test("should send a delete request to the server when the delete link is clicked", async () => {
+    test("should send delete request to the server when the delete link is clicked", async () => {
         const deleteSpy = vi.spyOn($API, 'post');
         const deleteLink = wrapper.find('#delete-link');
 
@@ -132,7 +133,8 @@ describe('ContextMenuDeleteAction', () => {
                 items: [
                     {
                         name: "android",
-                        path: "android"
+                        path: "android",
+                        type: "dir",
                     }
                 ]
             }
