@@ -13,24 +13,22 @@ Laravel File Explorer is a package for easy file management in Laravel apps, off
 
 ## Features
 
-- Frontend mae with Vuejs 3
+![](docs/video.gif)
+
+- Frontend made with VueJS 3
 - Light/dark mode toggle
 - Utilizes Laravel Flysystem standards for file system operations
 - Supports Local, FTP, S3, Dropbox, and other storage options
-- Enables selective disk interaction for precise file management
 - Supports File System Operations:
-  - Create and manage files with ease
-  - Organize content through directory creation
-  - Rename files and directories
-  - Enable multi-upload functionality
+  - CURD operations files and directories
+  - Multi-upload functionality
   - Download files
-  - Intuitive image preview feature for quick visual assessment
+  - Image preview
   - Video player
-  - Code editor for quick edits and customization
-  - Backend events for monitoring
-
-
-
+  - Audio player
+  - Code editor (Codemirror)
+  - Laravel events
+  - ACL
 
 ## Installation
 
@@ -52,7 +50,7 @@ Download the frontend into your project
   npm i laravel-file-explorer
 ```
 Add the FileExplorer component to the vue app
-```javascript
+```js
 import LaravelFileExplorer from "laravel-file-explorer";
 import "laravel-file-explorer/dist/style.css";
 
