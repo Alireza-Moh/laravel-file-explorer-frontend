@@ -1,9 +1,13 @@
-import { mount } from "@vue/test-utils";
+import {mount, shallowMount} from "@vue/test-utils";
 import FileUploadModal from "@/components/modals/ItemUploadModal.vue";
 import {createTestingPinia} from "@pinia/testing";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import mitt from "mitt";
 import Api from "@/services/Api.js";
+import UploadItemsSetting from "@/components/modals/uploadComponents/UploadItemsSetting.vue";
+import UploadItemsDropBox from "@/components/modals/uploadComponents/UploadItemsDropBox.vue";
+import UploadItemsList from "@/components/modals/uploadComponents/UploadItemsList.vue";
+import Alert from "@/components/_baseComponents/Alert.vue";
 
 vi.mock('@/services/Api.js', () => {
     return {
@@ -114,16 +118,12 @@ describe("FileUploadModal component", () => {
     });
 
     test("should remove a item when the delete icon is clicked", async () => {
-        const wrapper = mount(FileUploadModal, {
-            data() {
-                return {
-                    items: [
-                        { name: "file1.txt" },
-                        { name: "file2.jpg" },
-                        { name: "file3.pdf" },
-                    ],
-                };
-            },
+        await wrapper.setData({
+            items: [
+                { name: "file1.txt" },
+                { name: "file2.jpg" },
+                { name: "file3.pdf" },
+            ]
         });
         const deleteIcons = wrapper.findAll(".delete-icon");
 

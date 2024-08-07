@@ -88,7 +88,7 @@ describe("DeleteButton", () => {
         const emitSpy = vi.spyOn($emitter, "emit");
         wrapper.setData({showConfirmModal: true});
         await wrapper.vm.$nextTick();
-        const closeBtn = wrapper.find(".no");
+        const closeBtn = wrapper.find("#cancel-btn");
 
         closeBtn.trigger("click");
         await wrapper.vm.$nextTick();
@@ -108,7 +108,7 @@ describe("DeleteButton", () => {
         const deleteHttpSpy = vi.spyOn($API, "post");
         wrapper.setData({showConfirmModal: true});
         await wrapper.vm.$nextTick();
-        const closeBtn = wrapper.find(".yes");
+        const closeBtn = wrapper.find("#save-btn");
 
         closeBtn.trigger("click");
         await wrapper.vm.$nextTick();
