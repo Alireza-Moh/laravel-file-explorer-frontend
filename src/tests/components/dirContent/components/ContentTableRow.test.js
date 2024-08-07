@@ -6,25 +6,45 @@ import selectedItemsStoreTestData from "@/tests/testData/stores/selectedItemsSto
 import ItemIcon from "@/components/dirContent/components/ItemIcon.vue";
 import {getTestImage, getTestVideo} from "@/tests/helpers/functions.js";
 import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
-import dirItemsApiResponseTestData from "@/tests/testData/dirItemsApiResponseTestData.json";
 import PreviewView from "@/components/dirContent/components/PreviewView.vue";
+import Api from "@/services/Api.js";
+
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            post: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            fetchCsrfToken: vi.fn().mockResolvedValue({
+                data: {
+                    data: {
+                        csrfToken: 'mockCsrfToken'
+                    }
+                }
+            })
+        }
+    };
+});
 
 describe('ContentTableRow', () => {
-    let wrapper, $emitter, selectedItemsStore,$http;
+    let wrapper, $emitter, selectedItemsStore, $API;
     const targetItem = getTestImage();
 
     beforeEach(() => {
-        $http = {
-            get: vi.fn().mockImplementation(() => {
-                return Promise.resolve(dirItemsApiResponseTestData);
-            })
-        }
+        $API = Api;
 
         $emitter = mitt();
         wrapper = mount(ContentTableRow, {
             global: {
                 mocks: {
-                    $http,
+                    $API,
                     $emitter
                 },
             },
@@ -75,7 +95,7 @@ describe('ContentTableRow', () => {
 
         imageElement.trigger("dblclick");
 
-        expect(emitSpy).toHaveBeenCalledWith('showImageViewer', targetItem.url);
+        expect(emitSpy).toHaveBeenCalledWith('showImageViewer', targetItem);
     });
 
     test('should show video when show-video icon is clicked and it is a video', async () => {

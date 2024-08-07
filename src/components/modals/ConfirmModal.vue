@@ -1,12 +1,25 @@
 <script>
+import Button from "@/components/_baseComponents/Button.vue";
+
 export default {
     name: "ConfirmModal",
+    components: {Button},
     props: {
         confirmMethodOnYes: {
             type: Function
         },
         confirmMethodOnNo: {
             type: Function
+        }
+    },
+    methods: {
+        yes() {
+            this.$emitter.emit("setButtonAnimation");
+            this.confirmMethodOnYes();
+        },
+        no() {
+            this.$emitter.emit("resetButtonAnimation");
+            this.confirmMethodOnNo();
         }
     }
 }
@@ -19,8 +32,12 @@ export default {
                 <slot name="confirmQuestion"></slot>
             </div>
             <div class="confirm-action-box">
-                <button class="yes" type="button" @click="confirmMethodOnYes">Yes</button>
-                <button class="no" type="button" @click="confirmMethodOnNo">No</button>
+                <Button text="Yes"
+                        :on-click="yes"/>
+
+                <Button text="No"
+                        type="cancel"
+                        :on-click="no"/>
             </div>
         </div>
     </div>
@@ -37,31 +54,5 @@ export default {
     align-items: center;
     gap: 20px;
     margin-top: 2em;
-}
-
-.confirm-action-box button {
-    padding: 8px 1em;
-    width: 100px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    transition: all 0.2s ease-in-out;
-}
-
-.confirm-action-box button.yes {
-    background-color: #7071E8;
-}
-
-.confirm-action-box button.no {
-    background-color: #FE0000;
-}
-
-.confirm-action-box button.yes:hover {
-    background-color: #4d4dbf;
-}
-
-.confirm-action-box button.no:hover {
-    background-color: #e2e2e7;
 }
 </style>

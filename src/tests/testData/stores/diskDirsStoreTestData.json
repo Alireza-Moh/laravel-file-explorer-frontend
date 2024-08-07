@@ -1,57 +1,53 @@
 {
   "dirs": [
     {
-      "dirs": [
+      "diskName": "tests",
+      "parent": "android",
+      "name": "android",
+      "path": "android",
+      "type": "dir",
+      "subDir": [
         {
           "diskName": "tests",
-          "dirName": "android",
-          "name": "android",
-          "path": "android",
+          "name": "forTesting",
+          "path": "android/forTesting",
+          "type": "dir",
+          "subDir": []
+        }
+      ]
+    },
+    {
+      "diskName": "tests",
+      "name": "ios",
+      "path": "ios",
+      "type": "dir",
+      "subDir": [
+        {
+          "diskName": "tests",
+          "name": "forRealse",
+          "path": "ios/forRealse",
           "type": "dir",
           "subDir": [
             {
               "diskName": "tests",
-              "name": "forTesting",
-              "path": "android/forTesting",
-              "type": "dir",
-              "subDir": []
-            }
-          ]
-        },
-        {
-          "diskName": "tests",
-          "name": "ios",
-          "path": "ios",
-          "type": "dir",
-          "subDir": [
-            {
-              "diskName": "tests",
-              "name": "forRealse",
-              "path": "ios/forRealse",
+              "name": "DB IMAGES",
+              "path": "ios/forRealse/DB IMAGES",
               "type": "dir",
               "subDir": [
                 {
                   "diskName": "tests",
-                  "name": "DB IMAGES",
-                  "path": "ios/forRealse/DB IMAGES",
+                  "name": "svgs",
+                  "path": "ios/forRealse/DB IMAGES/svgs",
                   "type": "dir",
-                  "subDir": [
-                    {
-                      "diskName": "tests",
-                      "name": "svgs",
-                      "path": "ios/forRealse/DB IMAGES/svgs",
-                      "type": "dir",
-                      "subDir": []
-                    }
-                  ]
+                  "subDir": []
                 }
               ]
             }
           ]
         }
-      ],
-      "diskName": "tests",
-      "selectedDir": "android"
+      ]
     }
-  ]
+  ],
+  "diskName": "tests",
+  "selectedDir": "android"
 }

@@ -7,7 +7,7 @@ import TreeContainer from "@/components/dirTree/TreeContainer.vue";
 import DirContentTable from "@/components/dirContent/DirContentTable.vue";
 import Notify from "@/components/_baseComponents/Notify.vue";
 import ImageViewer from "@/components/dirContent/components/ImageViewer.vue";
-import VideoPlayerViewer from "@/components/dirContent/components/VideoPlayerViewer.vue";
+import VideoPlayer from "@/components/dirContent/components/VideoPlayer.vue";
 import Loader from "@/components/_baseComponents/Loader.vue";
 import {useSettingsStore} from "@/stores/settingsStore.js";
 import {useDisksStore} from "@/stores/disksStore.js";
@@ -16,16 +16,22 @@ import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
 import ErrorModal from "@/components/modals/ErrorModal.vue";
 import RenameModal from "@/components/modals/RenameModal.vue";
-import EditorViewer from "@/components/dirContent/components/EditorViewer.vue";
+import Editor from "@/components/dirContent/components/Editor.vue";
+import PageLoader from "@/components/_baseComponents/PageLoader.vue";
+import AudioPlayer from "@/components/dirContent/components/AudioPlayer.vue";
+import globalMixin from "@/components/mixins/globalMixin.js";
 
 export default {
     name: "FileExplorer",
+    mixins: [globalMixin],
     components: {
-        EditorViewer,
+        AudioPlayer,
+        PageLoader,
+        Editor,
         RenameModal,
         ErrorModal,
         Loader,
-        VideoPlayerViewer,
+        VideoPlayer,
         ImageViewer,
         Notify,
         DirContentTable,
@@ -51,7 +57,8 @@ export default {
             selectedItemsStore: useSelectedItemsStore(),
             hideTree: false,
             navTranslate: "-100%",
-            contentMove: 0
+            contentMove: 0,
+            isFetchingDataAfterInit: false
         }
     },
     created() {
@@ -68,17 +75,19 @@ export default {
             this.navTranslate = 0;
             this.contentMove = "250px"
         });
+
+        this.$emitter.on("fetchingData", () => {
+            this.isFetchingDataAfterInit = !this.isFetchingDataAfterInit;
+        });
     },
     methods: {
         initExplorer() {
-            const endUrl = this.settingsStore.baseUrl + "init-explorer";
+            this.$API.get('init-explorer').then(response => {
+                const receivedData = response.data.result;
 
-            this.$http.get(endUrl, {}).then((response) => {
-                if (response.result && response.result.data) {
-                    const receivedData = response.result.data;
-
+                if (receivedData) {
                     this.storeDisks(receivedData.disks);
-                    this.storeDirsForDisk(receivedData.dirsForSelectedDisk, receivedData.selectedDir);
+                    this.storeAllDirectoriesForDisk(receivedData);
                     this.dirItemsStore.addNewDirWithItems(
                         receivedData.selectedDisk,
                         receivedData.selectedDir,
@@ -86,25 +95,28 @@ export default {
                         receivedData.selectedDirItems
                     );
                     this.storeDefaultFileExplorerViewData(receivedData);
-                    this.isLoading = false;
-                } else {
-                    window.showAlert("failed", "No data could be found", 5000);
                 }
+                this.isLoading = false;
+            }).catch(error => {
+                window.showAlert("failed", "No data could be found", 5000);
             });
         },
         storeDisks(disks) {
             this.disksStore.setDisks(disks);
         },
-        storeDirsForDisk(dirs, selectedDir) {
-            dirs.selectedDir = selectedDir;
-            this.diskDirsStore.addDiskDirs(dirs);
+        storeAllDirectoriesForDisk(receivedData) {
+            this.diskDirsStore.addDiskDirs(
+                receivedData.selectedDisk,
+                receivedData.selectedDir,
+                receivedData.dirsForSelectedDisk
+            );
         },
         storeDefaultFileExplorerViewData(receivedData) {
             this.settingsStore.setDefaultFileExplorerViewData(
                 receivedData.selectedDisk,
                 receivedData.selectedDir,
                 receivedData.selectedDirPath,
-                receivedData.dirsForSelectedDisk.dirs,
+                receivedData.dirsForSelectedDisk,
                 receivedData.selectedDirItems
             );
         }
@@ -113,6 +125,7 @@ export default {
 </script>
 
 <template>
+    <PageLoader v-if="isFetchingDataAfterInit"/>
     <div class="main-wrapper">
         <Notify v-once/>
         <TopMenu v-once/>
@@ -127,10 +140,11 @@ export default {
                 <DirContentTable/>
             </div>
             <ImageViewer v-once/>
-            <VideoPlayerViewer v-once/>
+            <VideoPlayer v-once/>
+            <AudioPlayer v-once/>
             <ErrorModal/>
             <RenameModal/>
-            <EditorViewer/>
+            <Editor/>
         </main>
     </div>
 </template>

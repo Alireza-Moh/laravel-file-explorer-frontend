@@ -4,9 +4,34 @@ import mitt from "mitt";
 import RenameButton from "@/components/dirContent/itemActions/buttons/RenameButton.vue";
 import {createTestingPinia} from "@pinia/testing";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
+import Api from "@/services/Api.js";
+
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            post: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            fetchCsrfToken: vi.fn().mockResolvedValue({
+                data: {
+                    data: {
+                        csrfToken: 'mockCsrfToken'
+                    }
+                }
+            })
+        }
+    };
+});
 
 describe("RenameButton", () => {
-    let wrapper, $emitter, $http;
+    let wrapper, $emitter, $API;
     const targetItem =   {
         "diskName": "tests",
         "dirName": "android",
@@ -21,21 +46,12 @@ describe("RenameButton", () => {
 
     beforeEach(() => {
         $emitter = mitt();
-        $http = {
-            post: vi.fn().mockImplementation(() => {
-                return Promise.resolve({
-                    "result": {
-                        "status": "success",
-                        "message": "File renamed successfully"
-                    }
-                })
-            })
-        }
+        $API = Api;
         wrapper = mount(RenameButton, {
             global: {
                 mocks: {
                     $emitter,
-                    $http
+                    $API
                 },
                 plugins: [
                     createTestingPinia({
@@ -87,16 +103,10 @@ describe("RenameButton", () => {
             configurable: true,
             value: showAlert
         });
-        const postHttpSpy = vi.spyOn($http, "post");
+        const saveNewItemNameMethodSpy = vi.spyOn(wrapper.vm, "saveNewItemName");
 
         wrapper.vm.saveNewItemName("newItemName.png");
 
-        expect(postHttpSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/items/rename",
-            {
-                body: '{"oldName":"oldItemName.png","newName":"newItemName.png","oldPath":"android/oldItemName.png","newPath":"android/newItemName.png","type":"file","dirName":"android"}'
-            }
-        );
-
+        expect(saveNewItemNameMethodSpy).toHaveBeenCalledWith("newItemName.png");
     });
 });

@@ -2,7 +2,6 @@ import { mount } from '@vue/test-utils';
 import mitt from "mitt";
 import {createTestingPinia} from "@pinia/testing";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
-import dirItemsApiResponseTestData from "@/tests/testData/dirItemsApiResponseTestData.json";
 import ItemActionList from "@/components/dirContent/itemActions/ItemActionList.vue";
 import CreateFileButton from "@/components/dirContent/itemActions/buttons/CreateFileButton.vue";
 import CreateDirButton from "@/components/dirContent/itemActions/buttons/CreateDirButton.vue";
@@ -12,21 +11,43 @@ import DownloadButton from "@/components/dirContent/itemActions/buttons/Download
 import DeleteButton from "@/components/dirContent/itemActions/buttons/DeleteButton.vue";
 import RenameButton from "@/components/dirContent/itemActions/buttons/RenameButton.vue";
 import randomItems from "@/tests/testData/randomItems.json";
-describe('ItemActionList', () => {
-    let wrapper, $emitter,$http;
+import Api from "@/services/Api.js";
 
-    beforeEach(() => {
-        $http = {
-            post: vi.fn().mockImplementation(() => {
-                return Promise.resolve(dirItemsApiResponseTestData);
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            post: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            fetchCsrfToken: vi.fn().mockResolvedValue({
+                data: {
+                    data: {
+                        csrfToken: 'mockCsrfToken'
+                    }
+                }
             })
         }
+    };
+});
+
+describe('ItemActionList', () => {
+    let wrapper, $emitter,$API;
+
+    beforeEach(() => {
+        $API = Api;
         $emitter = mitt();
 
         wrapper = mount(ItemActionList, {
             global: {
                 mocks: {
-                    $http,
+                    $API,
                     $emitter
                 },
             },

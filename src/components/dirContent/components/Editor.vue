@@ -20,13 +20,12 @@ import 'codemirror/mode/ruby/ruby';
 import 'codemirror/mode/go/go';
 import 'codemirror/mode/yaml/yaml';
 import 'codemirror/mode/properties/properties';
-import globalMixin from "@/components/mixins/globalMixin.js";
 import editorItemExtensions from "@/services/editorItemExtensions.js";
+import Button from "@/components/_baseComponents/Button.vue";
 
 export default {
-    name: "EditorViewer",
-    components: {Codemirror},
-    mixins: [globalMixin],
+    name: "Editor",
+    components: {Button, Codemirror},
     data() {
         return {
             item: null,
@@ -39,38 +38,43 @@ export default {
     mounted() {
         this.$emitter.on("showEditorViewer", (item) => {
             this.item = item;
-            this.options = {
-                mode: editorItemExtensions[item.extension],
-                theme: 'darcula',
-                lineNumbers: true,
-                line: true,
-            }
             this.fetchItemContent();
         });
     },
     methods: {
         fetchItemContent() {
-            const url = this.getUrl()
-                + "?"
+            const url = "disks/"
+                + this.item.diskName
+                + '/content'
+                + "/items?"
                 + new URLSearchParams({
                     path: encodeURIComponent(this.item.path)
                 });
 
-            this.$http.get(url).then((data) => {
-                if (data.result) {
-                    this.content = data.result.content;
+            this.$API.get(url).then(response => {
+                if (response.data.result) {
+                    this.content = response.data.result.content;
+                    this.setupEditorSettings(response.data.result.readOnly);
                     this.showEditor = true;
                 }
-                this.showErrorModal(data, "File content errors");
+            }).catch(error => {
+                window.showAlert(error.response.data.status, error.response.data.message);
+            }).finally(() => {
+                this.$emitter.emit("fetchingData");
             });
         },
         saveChanges() {
-            this.$http.post(this.getUrl(), this.getOption(), false).then((data) => {
-                if (data.result) {
-                    window.showAlert(data.result.status, data.result.message);
-                    this.showEditor = false;
-                }
-                this.showErrorModal(data, "Failed updating file");
+            this.$emitter.emit("setButtonAnimation");
+            const url = "disks/"
+                + this.item.diskName
+                + '/content'
+                + "/items/update"
+            this.$API.post(url, this.getOption()).then(response => {
+                window.showAlert(response.data.status, response.data.message);
+            }).catch(error => {
+                window.showAlert(error.response.data.status, error.response.data.message);
+            }).finally(() => {
+                this.$emitter.emit("resetButtonAnimation");
             });
         },
         getOption() {
@@ -78,16 +82,16 @@ export default {
             formData.append("path", this.item.path);
             formData.append("item", new Blob([this.content]), this.item.name);
 
-            return  {
-                body: formData,
-            }
+            return formData
         },
-        getUrl() {
-            return this.settingsStore.baseUrl
-                + "disks/"
-                + this.item.diskName
-                + "/items/"
-                + this.item.name.replace("." + this.item.extension, "");
+        setupEditorSettings(readOnly) {
+            this.options = {
+                mode: editorItemExtensions[this.item.extension],
+                theme: 'darcula',
+                lineNumbers: true,
+                line: true,
+                readOnly: readOnly
+            }
         }
     }
 }
@@ -96,22 +100,21 @@ export default {
 <template>
     <div v-if="showEditor" class="modal-wrapper">
         <div class="modal" ref="modal">
-            <h3 class="headline">{{ item.name }}</h3>
+            <div class="header">
+                <h3 class="headline">{{ item.name }}</h3>
+                <span class="mode">In ReadOnly mode</span>
+            </div>
             <Codemirror v-model:value="content"
                         :options="options"
                         border
                         height="500"/>
             <div class="button-box">
-                <button id="save-btn"
-                        type="button"
-                        @click="saveChanges">
-                    Save
-                </button>
-                <button id="cancel-btn"
-                        type="button"
-                        @click="showEditor = false">
-                    Cancel
-                </button>
+                <Button text="Save"
+                        :on-click="saveChanges"/>
+
+                <Button text="Cancel"
+                        type="cancel"
+                        :on-click="() => {showEditor = false}"/>
             </div>
         </div>
     </div>
@@ -123,7 +126,6 @@ export default {
 }
 
 .headline {
-    margin-bottom: 1em;
     font-size: 1rem;
     font-weight: bold;
 }
@@ -134,32 +136,15 @@ export default {
     margin-top: 1em;
 }
 
-button {
-    border: none;
-    border-radius: 4px;
-    padding: 8px 30px;
-    color: #fff;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
+.header {
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-#cancel-btn {
-    background-color: #FE0000;
-    transition: all 0.3s linear;
-}
-
-#save-btn {
-    background-color: #7071E8;
-    margin-right: 10px;
-    transition: all 0.2s ease-in-out;
-}
-
-#cancel-btn:hover {
-    background-color: #c40606;
-}
-
-#save-btn:hover {
-    background-color: #4d4dbf;
+.mode {
+    color: #155724;
+    font-size: 0.8rem;
 }
 </style>

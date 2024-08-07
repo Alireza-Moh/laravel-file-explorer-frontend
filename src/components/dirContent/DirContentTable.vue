@@ -59,7 +59,7 @@ export default {
 
         this.dirItemsStore.$subscribe((mutation, state) => {
             const dir = state.data.find((dir) => {
-                return (dir.diskName === this.selectedDisk) && (dir.dirName === this.selectedDir);
+                return (dir.diskName === this.selectedDisk) && (dir.parent === this.selectedDir);
             });
             if (dir && dir.dirItems) {
                 this.items = dir.dirItems;

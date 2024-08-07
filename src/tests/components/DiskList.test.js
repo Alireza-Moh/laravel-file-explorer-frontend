@@ -2,26 +2,37 @@ import {flushPromises, mount} from "@vue/test-utils";
 import DiskList from "@/components/DiskList.vue";
 import {createTestingPinia} from "@pinia/testing";
 import {useDisksStore} from "@/stores/disksStore.js";
-import diskApiResponseTestData from "@/tests/testData/diskApiResponseTestData.json";
 import diskDirsStoreTestData from "@/tests/testData/stores/diskDirsStoreTestData.json";
 import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData.json";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import disksStoreTestData from "@/tests/testData/stores/disksStoreTestData.json";
+import Api from "@/services/Api.js";
+import mitt from "mitt";
 
-describe.concurrent("DiskList component", () => {
-    let wrapper, disksStore, $http;
-
-    beforeEach(() => {
-        $http = {
-            get: vi.fn().mockImplementation(() => {
-                return Promise.resolve(diskApiResponseTestData);
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
             })
         }
+    };
+});
+
+describe.concurrent("DiskList component", () => {
+    let wrapper, disksStore, $API, $emitter;
+
+    beforeEach(() => {
+        $API = Api;
+        $emitter = mitt();
 
         wrapper = mount(DiskList, {
             global: {
                 mocks: {
-                    $http
+                    $API,
+                    $emitter
                 },
                 plugins: [
                     createTestingPinia({
@@ -73,7 +84,7 @@ describe.concurrent("DiskList component", () => {
     });
 
     test("should not make an API request upon clicking the web disk button if the web-disk data already exist", async () => {
-        const buySpy = vi.spyOn($http, 'get')
+        const buySpy = vi.spyOn($API, 'get')
         const webDiskButton = wrapper.findAll('.action-btn').filter(button => button.text() === 'tests')[0];
 
         webDiskButton.trigger('click');
@@ -83,11 +94,11 @@ describe.concurrent("DiskList component", () => {
 
     test("should make an API request upon clicking the web disk button if the images-disk data already exist", async () => {
         const targetDisk = "images";
-        const buySpy = vi.spyOn($http, 'get')
+        const buySpy = vi.spyOn($API, 'get')
         const webDiskButton = wrapper.findAll('.action-btn').filter(button => button.text() === targetDisk)[0];
 
         webDiskButton.trigger('click');
-        expect(buySpy).toHaveBeenCalledWith("http://localhost:8080/my-project/api/laravel-file-explorer/disks/" + targetDisk);
+        expect(buySpy).toHaveBeenCalledWith("disks/" + targetDisk);
     });
 
     test("should show message when disk list is empty", async () => {

@@ -5,7 +5,7 @@ describe('useSelectedItemsStore', () => {
     let store;
     const targetItem =   {
         "diskName": "tests",
-        "dirName": "android",
+        "parent": "android",
         "name": "4665_001v.png",
         "size": 64.61,
         "lastModified": "2024-01-10 05:31:56",

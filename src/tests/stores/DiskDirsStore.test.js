@@ -25,7 +25,7 @@ describe('useDirItemsStore', () => {
         const dirs = [
             {
                 "diskName": "tests",
-                "dirName": "android",
+                "parent": "android",
                 "name": "bbb",
                 "size": "-",
                 "lastModified": "-",
@@ -35,7 +35,7 @@ describe('useDirItemsStore', () => {
             },
             {
                 "diskName": "tests",
-                "dirName": "android",
+                "parent": "android",
                 "name": "ccc",
                 "size": "-",
                 "lastModified": "-",
@@ -44,14 +44,23 @@ describe('useDirItemsStore', () => {
                 "extension": null
             }
         ];
-        store.addDiskDirs(diskDirsStoreTestData.dirs[0]);
+        store.addDiskDirs(
+            diskDirsStoreTestData.diskName,
+            diskDirsStoreTestData.selectedDir,
+            diskDirsStoreTestData.dirs
+        );
+
         store.replaceDirsForDisk("tests", dirs);
 
         expect(store.dirs[0].dirs).toEqual(expect.arrayContaining(dirs));
     });
 
     test('should get directory items using getters', () => {
-        store.addDiskDirs(diskDirsStoreTestData.dirs[0]);
+        store.addDiskDirs(
+            diskDirsStoreTestData.diskName,
+            diskDirsStoreTestData.selectedDir,
+            diskDirsStoreTestData.dirs
+        );
 
         const disk = store.getDiskDirs("tests");
 

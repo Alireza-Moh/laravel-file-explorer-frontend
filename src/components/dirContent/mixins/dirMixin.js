@@ -23,7 +23,9 @@ export default {
                 );
 
                 if (dirItems) {
+                    console.log("here")
                     this.updateSettingDefaultStore(dir, dirItems.dirItems, dirItems.selectedDirPath);
+                    this.$emitter.emit("fetchingData");
                 }
                 else {
                     this.fetchDirItems(dir);
@@ -36,8 +38,7 @@ export default {
             const diskName = this.settingsStore.defaultFileExplorerViewData.selectedDisk;
             const dirName = dir.name;
 
-            const url = this.settingsStore.baseUrl
-                + "disks/"
+            const url = "disks/"
                 + diskName
                 + "/dirs/"
                 + dirName
@@ -46,14 +47,16 @@ export default {
                     path: encodeURIComponent(dir.path)
                 });
 
-            this.$http.get(url).then((data) => {
-                this.showErrorModal(data, "Failed fetching directory data");
-                if (!data.errors) {
-                    const items = data.items;
-
-                    this.addsNewDirWithItemsToStore(dir, diskName, items, data.selectedDirPath)
-                    this.updateSettingDefaultStore(dir, items, data.selectedDirPath);
+            this.$API.get(url).then(response => {
+                const result = response.data.result;
+                if (result) {
+                    this.addsNewDirWithItemsToStore(dir, diskName, result.items, result.selectedDirPath)
+                    this.updateSettingDefaultStore(dir, result.items, result.selectedDirPath);
                 }
+            }).catch(error => {
+                window.showAlert(error.response.data.status, error.response.data.message);
+            }).finally(() => {
+                this.$emitter.emit("fetchingData");
             });
         },
         addsNewDirWithItemsToStore(dir, selectedDisk, items, selectedDirPath) {

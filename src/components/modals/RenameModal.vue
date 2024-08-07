@@ -1,12 +1,16 @@
 <script>
+import Button from "@/components/_baseComponents/Button.vue";
+
 export default {
     name: "RenameModal",
+    components: {Button},
     data() {
         return {
             showRenameModal: false,
             enteredName: null,
             label: "",
-            functionOnSave: null
+            functionOnSave: null,
+            showSpinner: false
         }
     },
     mounted() {
@@ -19,10 +23,12 @@ export default {
 
         this.$emitter.on("hideRenameModal", () => {
             this.showRenameModal = false;
-        })
+            this.$emitter.emit("resetButtonAnimation");
+        });
     },
     methods: {
         invokeSaveFunction() {
+            this.$emitter.emit("setButtonAnimation");
             this.functionOnSave(this.enteredName);
         }
     }
@@ -39,19 +45,15 @@ export default {
                        name="itemName"
                        required
                        type="text">
+                <span class="error"></span>
             </div>
             <div class="button-box">
-                <button id="save-btn"
-                        type="button"
-                        @click="invokeSaveFunction">
-                    Save
-                </button>
+                <Button text="Save"
+                        :on-click="invokeSaveFunction"/>
 
-                <button id="cancel-btn"
-                        type="button"
-                        @click="showRenameModal = false">
-                    Cancel
-                </button>
+                <Button text="Cancel"
+                        type="cancel"
+                        :on-click="() => {showRenameModal = false}"/>
             </div>
         </div>
     </div>
@@ -82,35 +84,6 @@ label {
     border-radius: 4px;
     padding-left: 10px;
     outline: none;
-}
-
-.modal .button-box button {
-    border: none;
-    border-radius: 4px;
-    padding: 8px 30px;
-    color: #fff;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.modal .button-box #cancel-btn {
-    background-color: #FE0000;
-    transition: all 0.3s linear;
-}
-
-.modal .button-box #save-btn {
-    background-color: #7071E8;
-    margin-right: 10px;
-    transition: all 0.2s ease-in-out;
-}
-
-.modal .button-box #cancel-btn:hover {
-    background-color: #c40606;
-}
-
-.modal .button-box #save-btn:hover {
-    background-color: #4d4dbf;
 }
 
 body.dark-mode .modal .input-box input {

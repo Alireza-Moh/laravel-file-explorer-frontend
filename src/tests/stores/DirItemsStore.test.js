@@ -16,17 +16,26 @@ describe('useDirItemsStore', () => {
     });
 
     test('should add an dir to the list', () => {
-        const dir = dirItemsStoreTestData.data[0];
-        store.addNewDirWithItems(dir.diskName, dir.dirName, dir.selectedDirPath, dir.dirItems);
+        store.addNewDirWithItems(
+            dirItemsStoreTestData.diskName,
+            dirItemsStoreTestData.parent,
+            dirItemsStoreTestData.selectedDirPath,
+            dirItemsStoreTestData.dirItems
+        );
 
-       expect(store.data[0]).toEqual(dir);
+       expect(store.data).toEqual([dirItemsStoreTestData]);
     });
 
 
     test('should update items for dir', async () => {
-        const dir = dirItemsStoreTestData.data[0];
-        store.addNewDirWithItems(dir.diskName, dir.dirName, dir.selectedDirPath, dir.dirItems);
-        store.updateDir(randomItems, "tests", "android");
+        store.addNewDirWithItems(
+            dirItemsStoreTestData.diskName,
+            dirItemsStoreTestData.parent,
+            dirItemsStoreTestData.selectedDirPath,
+            dirItemsStoreTestData.dirItems
+        );
+
+        store.replaceItemsInDir(randomItems, "tests", "android");
 
         expect(store.data[0].dirItems).toHaveLength(randomItems.length);
     });
@@ -34,13 +43,16 @@ describe('useDirItemsStore', () => {
     test('should get directory items using getters', () => {
         const diskName = 'tests';
         const dirName = 'android';
-        const dir = dirItemsStoreTestData.data[0];
-        store.addNewDirWithItems(dir.diskName, dir.dirName, dir.selectedDirPath, dir.dirItems);
+        store.addNewDirWithItems(
+            dirItemsStoreTestData.diskName,
+            dirItemsStoreTestData.parent,
+            dirItemsStoreTestData.selectedDirPath,
+            dirItemsStoreTestData.dirItems
+        );
 
         const retrievedDir = store.getDirItems(diskName, dirName);
 
-        expect(retrievedDir).toBeTruthy();
         expect(retrievedDir.diskName).toBe(diskName);
-        expect(retrievedDir.dirName).toBe(dirName);
+        expect(retrievedDir.parent).toBe(dirName);
     });
 });

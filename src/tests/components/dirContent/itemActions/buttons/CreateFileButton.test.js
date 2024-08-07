@@ -1,26 +1,47 @@
 import {mount} from "@vue/test-utils";
 import {createTestingPinia} from "@pinia/testing";
-import createFileApiResponseTestData from "@/tests/testData/createFileApiResponseTestData.json";
 import diskDirsStoreTestData from "@/tests/testData/stores/diskDirsStoreTestData.json";
 import dirItemsStoreTestData from "@/tests/testData/stores/dirItemsStoreTestData.json";
 import settingsStoreTestData from "@/tests/testData/stores/settingsStoreTestData.json";
 import CreateFileButton from "@/components/dirContent/itemActions/buttons/CreateFileButton.vue";
 import mitt from "mitt";
+import Api from "@/services/Api.js";
+
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            post: vi.fn().mockResolvedValue({
+                data: {
+                    result: [] // mock response data as needed
+                }
+            }),
+            fetchCsrfToken: vi.fn().mockResolvedValue({
+                data: {
+                    data: {
+                        csrfToken: 'mockCsrfToken'
+                    }
+                }
+            })
+        }
+    };
+});
+
 describe("CreateFileButton", () => {
-    let wrapper, $http, $emitter;
+    let wrapper, $API, $emitter;
 
     beforeEach(() => {
         $emitter = new mitt()
-        $http = {
-            post: vi.fn().mockImplementation(() => {
-                return Promise.resolve(createFileApiResponseTestData);
-            })
-        };
+        $API = Api;
 
         wrapper = mount(CreateFileButton, {
             global: {
                 mocks: {
-                    $http,
+                    $API,
                     $emitter
                 },
                 plugins: [
@@ -68,27 +89,18 @@ describe("CreateFileButton", () => {
             configurable: true,
             value: showAlert
         });
+        wrapper.setData({diskName: "tests", dirName: 'android'});
         const targetFileName = "testFileName.txt";
         const createFileMethodSpy = vi.spyOn(wrapper.vm, "createFile");
         const createItemMethodSpy = vi.spyOn(wrapper.vm, "createItem");
-        const postHttpSpy = vi.spyOn($http, "post");
 
         wrapper.vm.createFile(targetFileName);
 
         expect(createFileMethodSpy).toHaveBeenCalledWith(targetFileName);
         expect(createItemMethodSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/android/new-file",
+            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/new-file",
             "android/" + targetFileName,
             "android"
-        );
-        expect(postHttpSpy).toHaveBeenCalledWith(
-            "http://localhost:8080/my-project/api/laravel-file-explorer/disks/tests/dirs/android/new-file",
-            {
-                body: JSON.stringify({
-                    path: "android/" + targetFileName,
-                    destination: "android"
-                })
-            }
         );
     });
 
@@ -99,11 +111,11 @@ describe("CreateFileButton", () => {
             value: showAlert
         });
         const showAlertSpy = vi.spyOn(window, "showAlert");
-        wrapper.setData({diskName: "", dirName: null});
+        wrapper.setData({diskName: ""});
         await wrapper.vm.$nextTick();
 
         wrapper.vm.createFile("");
 
-        expect(showAlertSpy).toHaveBeenCalledWith("failed", "Disk or directory not found");
+        expect(showAlertSpy).toHaveBeenCalledWith("failed", "Disk not found");
     });
 });

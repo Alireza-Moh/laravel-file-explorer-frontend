@@ -1,11 +1,10 @@
 <script>
 import RightClickContextMenu from "@/components/dirTree/components/RightClickContextMenu.vue";
 import dirMixin from "@/components/dirContent/mixins/dirMixin.js";
-import ItemActionModal from "@/components/modals/RenameModal.vue";
 
 export default {
     name: "DirLink",
-    components: {ItemActionModal, RightClickContextMenu},
+    components: {RightClickContextMenu},
     mixins: [dirMixin],
     emits: ['openSubNav'],
     props: {
@@ -54,6 +53,10 @@ export default {
             this.top = event.clientY;
 
             this.showRightContext = true;
+        },
+        openDirectory() {
+            this.$emitter.emit("fetchingData");
+            this.openDir(this.dir);
         }
     }
 }
@@ -64,7 +67,7 @@ export default {
          class="nav__link"
          @contextmenu="showContextMenu">
 
-        <div class="nav__link-wrapper" @click="openDir(dir)">
+        <div class="nav__link-wrapper" @click="openDirectory">
             <img alt="folder icon"
                  class="dir-folder-icon"
                  src="@assets/folder-fill.svg"/>

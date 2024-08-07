@@ -1,4 +1,5 @@
 import {defineStore} from "pinia";
+import searchAndUpdate from "@/services/helpers.js";
 
 export const useDirItemsStore = defineStore("dirItems", {
     state: () => ({
@@ -6,39 +7,37 @@ export const useDirItemsStore = defineStore("dirItems", {
     }),
 
     getters: {
-        getDirItems: (state) => (diskName, dirName) => {
-            return state.data.find(dirObject => dirObject.diskName === diskName && dirObject.dirName === dirName);
+        getDirItems: (state) => (diskName, parent) => {
+            return state.data.find(dirObject => dirObject.diskName === diskName && dirObject.parent === parent);
         }
     },
     actions: {
         addNewDirWithItems(diskName, dirName, dirPath, items) {
             const dirWithItems = {
                 diskName: diskName,
-                dirName: dirName,
+                parent: dirName,
                 dirItems: items,
                 selectedDirPath: dirPath
             };
 
             this.data.push(dirWithItems);
         },
-        updateDir(items, diskName, dirName) {
+        replaceItemsInDir(items, diskName, parent) {
             if (items.length) {
                 const targetDir = this.data.find((dir) => {
-                    return (dir.diskName === diskName) && (dir.dirName === dirName);
+                    return (dir.diskName === diskName) && (dir.parent === parent);
                 });
+
                 targetDir.dirItems = items;
             }
         },
-        updateItem(diskName, dirName, itemName, updatedItem) {
+        updateItem(updatedItem, oldName) {
             const targetDir = this.data.find((dir) => {
-                return (dir.diskName === diskName) && (dir.dirName === dirName);
+                return (dir.diskName === updatedItem.diskName) && (dir.parent === updatedItem.parent);
             });
 
             if (targetDir) {
-                let targetItemIndex = targetDir.dirItems.findIndex(dirItem => dirItem.name === itemName);
-                if (targetItemIndex !== -1) {
-                    targetDir.dirItems[targetItemIndex] = updatedItem;
-                }
+                searchAndUpdate(targetDir.dirItems, updatedItem, oldName)
             }
         }
     }

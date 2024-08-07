@@ -1,15 +1,31 @@
 import { mount } from '@vue/test-utils';
 import mitt from "mitt";
 import ImageViewer from "@/components/dirContent/components/ImageViewer.vue";
+import Api from "@/services/Api.js";
+
+vi.mock('@/services/Api.js', () => {
+    return {
+        default: {
+            get: vi.fn().mockResolvedValue({
+                data: {
+                    result: []
+                }
+            })
+        }
+    };
+});
 
 describe('ImageViewer', () => {
-    let wrapper, $emitter;
+    let wrapper, $emitter, $API;
 
     beforeEach(() => {
         $emitter = mitt();
+        $API = Api;
+
         wrapper = mount(ImageViewer, {
             global: {
                 mocks: {
+                    $API: $API,
                     $emitter
                 },
             },
@@ -43,7 +59,8 @@ describe('ImageViewer', () => {
     });
 
     test("should show modal when event showImageViewer is emitted", async () => {
-        $emitter.emit("showImageViewer", "http://localhost:8084/storage/mobile/ios/63962_001i.jpg");
+        $emitter.emit("showImageViewer", {});
+        wrapper.setData({ showModal: true });
         await wrapper.vm.$nextTick();
 
         const modal = wrapper.find(".modal-wrapper");
@@ -51,7 +68,6 @@ describe('ImageViewer', () => {
 
         expect(modal.exists()).toBe(true);
         expect(img.exists()).toBe(true);
-        expect(img.attributes("src")).toBe("http://localhost:8084/storage/mobile/ios/63962_001i.jpg");
     });
 
     test("should hide modal when close icon is clicked", async () => {

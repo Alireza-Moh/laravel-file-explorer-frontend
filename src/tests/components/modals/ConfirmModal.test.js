@@ -1,13 +1,21 @@
 import {mount} from "@vue/test-utils";
 import ConfirmModal from "@/components/modals/ConfirmModal.vue";
+import mitt from "mitt";
+import Button from "@/components/_baseComponents/Button.vue";
 
 describe("ConfirmModal component", () => {
-    let wrapper, confirmMethodOnYes, confirmMethodOnNo;
+    let wrapper, confirmMethodOnYes, confirmMethodOnNo, $emitter;
 
     beforeEach(() => {
+        $emitter = mitt();
         confirmMethodOnYes = vi.fn();
         confirmMethodOnNo = vi.fn();
         wrapper = mount(ConfirmModal, {
+            global: {
+                mocks: {
+                    $emitter
+                }
+            },
             props: {
                 confirmMethodOnYes,
                 confirmMethodOnNo
@@ -24,14 +32,22 @@ describe("ConfirmModal component", () => {
     });
 
     test("should trigger the confirmMethodOnYes when 'Yes' button is clicked", async () => {
-        await wrapper.find(".yes").trigger("click");
+        const emitSpy = vi.spyOn($emitter, "emit");
+        const yesBtn = wrapper.find("#save-btn");
 
+        await yesBtn.trigger("click");
+
+        expect(emitSpy).toHaveBeenCalledWith('setButtonAnimation');
         expect(confirmMethodOnYes).toHaveBeenCalled();
     });
 
     test("should trigger the confirmMethodOnNo when 'No' button is clicked", async () => {
-        await wrapper.find(".no").trigger("click");
+        const emitSpy = vi.spyOn($emitter, "emit");
+        const noBtn = wrapper.find("#cancel-btn");
 
+        await noBtn.trigger("click");
+
+        expect(emitSpy).toHaveBeenCalledWith('resetButtonAnimation');
         expect(confirmMethodOnNo).toHaveBeenCalled();
     });
 });

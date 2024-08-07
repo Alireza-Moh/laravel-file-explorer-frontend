@@ -1,4 +1,5 @@
 import {defineStore} from "pinia";
+import searchAndUpdate from "@/services/helpers.js";
 
 export const useDiskDirsStore = defineStore("diskDirs", {
     state: () => ({
@@ -13,8 +14,13 @@ export const useDiskDirsStore = defineStore("diskDirs", {
         },
     },
     actions: {
-        addDiskDirs(diskData) {
-            this.dirs.push(diskData);
+        addDiskDirs(diskName, selectedDir, dirs) {
+            const disk = {
+                diskName: diskName,
+                dirs: dirs,
+                selectedDir: selectedDir
+            }
+            this.dirs.push(disk);
         },
         replaceDirsForDisk(diskName, dirs) {
             const targetDisk = this.dirs.find((disk) => {
@@ -25,29 +31,11 @@ export const useDiskDirsStore = defineStore("diskDirs", {
                 targetDisk.dirs = dirs;
             }
         },
-        updateDirMetadataByName(diskName, oldItemName, updatedItem) {
-            const targetDisk = this.getDiskDirs(diskName);
+        updateDiskDirs(updatedItem, oldName) {
+            const targetDisk = this.getDiskDirs(updatedItem.diskName);
             if (targetDisk) {
-                this.findDir(targetDisk.dirs, updatedItem, oldItemName);
+                searchAndUpdate(targetDisk.dirs, updatedItem, oldName);
             }
         },
-        findDir(dirs, updatedItem, oldItemName) {
-            for (let i = 0; i < dirs.length; i++) {
-                const dir = dirs[i];
-                if (dir.name === oldItemName) {
-                    dirs[i] = updatedItem
-                    return true;
-                } else if (dir.subDir && dir.subDir.length) {
-                    const foundFile = this.findDir(dir.subDir, updatedItem, oldItemName);
-                    if (foundFile) {
-                        if (dir.subDir.length === 0) {
-                            dir.subDir = dirs[i] = updatedItem
-                        }
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
     }
 });

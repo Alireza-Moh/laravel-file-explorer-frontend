@@ -1,9 +1,11 @@
 <script>
 import {useSettingsStore} from "@/stores/settingsStore.js";
 import {useDirItemsStore} from "@/stores/dirItemsStore.js";
+import Button from "@/components/_baseComponents/Button.vue";
 
 export default {
     name: "UploadItemsActionButtons",
+    components: {Button},
     emits: ["passErrorsToItems"],
     props: {
         maxUploadItems: {
@@ -28,19 +30,31 @@ export default {
     methods: {
         uploadFiles() {
             if (this.items.length > 0 && this.items.length <= this.maxUploadItems) {
+                this.$emitter.emit("setButtonAnimation");
                 const selectedDisk = this.settingsStore.defaultFileExplorerViewData.selectedDisk;
                 const selectedDir = this.settingsStore.defaultFileExplorerViewData.selectedDir;
 
-                if (!selectedDisk && !selectedDir) {
-                    window.showAlert("failed", "Disk or directory not found");
+                if (!selectedDisk) {
+                    window.showAlert("failed", "Disk not found");
+                    this.$emitter.emit("resetButtonAnimation");
                     return;
                 }
 
-                const url = this.settingsStore.baseUrl
-                    + "disks/" + selectedDisk
-                    + "/items/upload";
-                this.$http.post(url, this.getOptions(), false).then((data) => {
-                    this.handleResponse(data, selectedDisk, selectedDir);
+                const url = "disks/" + selectedDisk + "/items/upload";
+
+                this.$API.post(url, this.getOptions()).then(response => {
+                    if (response.data.result) {
+                        window.showAlert(response.data.status, response.data.message);
+                        this.dirItemsStore.replaceItemsInDir(response.data.result.items, selectedDisk, selectedDir);
+                        this.cancel();
+                    }
+                }).catch(error => {
+                    this.$emit("passErrorsToItems", error.response.data.errors);
+                    window.showAlert(error.response.data.status, error.response.data.message);
+
+                    if (error.response.status === 403) {
+                        this.cancel();
+                    }
                 });
             }
         },
@@ -53,41 +67,25 @@ export default {
                 formData.append("items[]", this.items[i]);
             }
 
-            return {
-                body: formData,
-            };
-        },
-        handleResponse(data, selectedDisk, selectedDir) {
-            if (data.errors) {
-                this.$emit("passErrorsToItems", data.errors);
-                return;
-            }
-            if (data.result) {
-                window.showAlert(data.result.status, data.result.message);
-                this.dirItemsStore.updateDir(data.result.items, selectedDisk, selectedDir);
-                this.cancel();
-            }
+            return formData;
         },
         cancel() {
             this.$emitter.emit("closeUploadModal");
-        },
+            this.$emitter.emit("resetButtonAnimation");
+        }
     }
 }
 </script>
 
 <template>
     <div class="button-box">
-        <button id="save-btn"
-                :class="{selected: maxUploadItemsReached}"
+        <Button text="Save"
                 :disabled="maxUploadItemsReached"
-                type="button"
-                @click="uploadFiles">
-            Save
-        </button>
-        <button id="cancel-btn"
-                type="button"
-                @click="cancel">Cancel
-        </button>
+                :on-click="uploadFiles"/>
+
+        <Button text="Cancel"
+                type="cancel"
+                :on-click="cancel"/>
     </div>
 </template>
 
@@ -97,34 +95,5 @@ export default {
     display: flex;
     justify-content: flex-end;
     margin-top: 1em;
-}
-
-button {
-    border: none;
-    border-radius: 4px;
-    padding: 8px 30px;
-    color: #fff;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-#cancel-btn {
-    background-color: #FE0000;
-    transition: all 0.3s linear;
-}
-
-#save-btn {
-    background-color: #7071E8;
-    margin-right: 10px;
-    transition: all 0.2s ease-in-out;
-}
-
-#cancel-btn:hover {
-    background-color: #c40606;
-}
-
-#save-btn:hover {
-    background-color: #4d4dbf;
 }
 </style>
