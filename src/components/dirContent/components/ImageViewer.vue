@@ -11,6 +11,7 @@ export default {
         this.$emitter.on("showImageViewer", (url) => {
             this.url = url;
             this.showModal = true;
+            this.$emitter.emit("fetchingData");
         });
     }
 }

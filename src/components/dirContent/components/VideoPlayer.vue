@@ -11,6 +11,7 @@ export default {
         this.$emitter.on("showVideoPlayer", (item) => {
             this.item = item;
             this.showPlayer = true;
+            this.$emitter.emit("fetchingData");
         });
     }
 }

@@ -14,7 +14,6 @@ export default {
     },
     methods: {
         openDir(dir) {
-            this.$emitter.emit("fetchingData");
             if (dir.type === "dir") {
                 this.selectedItemsStore.uncheckItems();
                 this.$emitter.emit("disablePreviewView");
@@ -24,6 +23,7 @@ export default {
                 );
 
                 if (dirItems) {
+                    console.log("here")
                     this.updateSettingDefaultStore(dir, dirItems.dirItems, dirItems.selectedDirPath);
                     this.$emitter.emit("fetchingData");
                 }
@@ -52,10 +52,11 @@ export default {
                 if (result) {
                     this.addsNewDirWithItemsToStore(dir, diskName, result.items, result.selectedDirPath)
                     this.updateSettingDefaultStore(dir, result.items, result.selectedDirPath);
-                    this.$emitter.emit("fetchingData");
                 }
             }).catch(error => {
                 window.showAlert(error.response.data.status, error.response.data.message);
+            }).finally(() => {
+                this.$emitter.emit("fetchingData");
             });
         },
         addsNewDirWithItemsToStore(dir, selectedDisk, items, selectedDirPath) {

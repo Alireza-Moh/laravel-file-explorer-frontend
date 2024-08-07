@@ -53,6 +53,10 @@ export default {
             this.top = event.clientY;
 
             this.showRightContext = true;
+        },
+        openDirectory() {
+            this.$emitter.emit("fetchingData");
+            this.openDir(this.dir);
         }
     }
 }
@@ -63,7 +67,7 @@ export default {
          class="nav__link"
          @contextmenu="showContextMenu">
 
-        <div class="nav__link-wrapper" @click="openDir(dir)">
+        <div class="nav__link-wrapper" @click="openDirectory">
             <img alt="folder icon"
                  class="dir-folder-icon"
                  src="@assets/folder-fill.svg"/>
