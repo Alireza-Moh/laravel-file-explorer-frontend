@@ -38,8 +38,9 @@ export default {
 
 <template>
     <div v-if="showModal" class="modal-wrapper">
-    <span class="close"
-          @click="showModal = false">&times;</span>
+        <span class="close" @click="showModal = false">
+            &times;
+        </span>
         <img :src="url"
              alt="Original"
              class="modal-content modal-img"/>

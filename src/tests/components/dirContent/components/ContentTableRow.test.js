@@ -95,7 +95,7 @@ describe('ContentTableRow', () => {
 
         imageElement.trigger("dblclick");
 
-        expect(emitSpy).toHaveBeenCalledWith('showImageViewer', targetItem.url);
+        expect(emitSpy).toHaveBeenCalledWith('showImageViewer', targetItem);
     });
 
     test('should show video when show-video icon is clicked and it is a video', async () => {
