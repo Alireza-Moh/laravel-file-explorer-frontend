@@ -20,13 +20,12 @@ import 'codemirror/mode/ruby/ruby';
 import 'codemirror/mode/go/go';
 import 'codemirror/mode/yaml/yaml';
 import 'codemirror/mode/properties/properties';
-import globalMixin from "@/components/mixins/globalMixin.js";
 import editorItemExtensions from "@/services/editorItemExtensions.js";
+import Button from "@/components/_baseComponents/Button.vue";
 
 export default {
-    name: "EditorViewer",
-    components: {Codemirror},
-    mixins: [globalMixin],
+    name: "Editor",
+    components: {Button, Codemirror},
     data() {
         return {
             item: null,
@@ -44,7 +43,15 @@ export default {
     },
     methods: {
         fetchItemContent() {
-            this.$API.get(this.getUrl()).then(response => {
+            const url = "disks/"
+                + this.item.diskName
+                + '/content'
+                + "/items?"
+                + new URLSearchParams({
+                    path: encodeURIComponent(this.item.path)
+                });
+
+            this.$API.get(url).then(response => {
                 if (response.data.result) {
                     this.content = response.data.result.content;
                     this.setupEditorSettings(response.data.result.readOnly);
@@ -52,13 +59,22 @@ export default {
                 }
             }).catch(error => {
                 window.showAlert(error.response.data.status, error.response.data.message);
+            }).finally(() => {
+                this.$emitter.emit("fetchingData");
             });
         },
         saveChanges() {
-            this.$API.post(this.getUrl(), this.getOption()).then(response => {
+            this.$emitter.emit("setButtonAnimation");
+            const url = "disks/"
+                + this.item.diskName
+                + '/content'
+                + "/items/update"
+            this.$API.post(url, this.getOption()).then(response => {
                 window.showAlert(response.data.status, response.data.message);
             }).catch(error => {
                 window.showAlert(error.response.data.status, error.response.data.message);
+            }).finally(() => {
+                this.$emitter.emit("resetButtonAnimation");
             });
         },
         getOption() {
@@ -67,15 +83,6 @@ export default {
             formData.append("item", new Blob([this.content]), this.item.name);
 
             return formData
-        },
-        getUrl() {
-            return "disks/"
-                + this.item.diskName
-                + '/content'
-                + "/items?"
-                + new URLSearchParams({
-                    path: encodeURIComponent(this.item.path)
-                });
         },
         setupEditorSettings(readOnly) {
             this.options = {
@@ -102,16 +109,12 @@ export default {
                         border
                         height="500"/>
             <div class="button-box">
-                <button id="save-btn"
-                        type="button"
-                        @click="saveChanges">
-                    Save
-                </button>
-                <button id="cancel-btn"
-                        type="button"
-                        @click="showEditor = false">
-                    Cancel
-                </button>
+                <Button text="Save"
+                        :on-click="saveChanges"/>
+
+                <Button text="Cancel"
+                        type="cancel"
+                        :on-click="() => {showEditor = false}"/>
             </div>
         </div>
     </div>
@@ -131,35 +134,6 @@ export default {
     display: flex;
     justify-content: flex-end;
     margin-top: 1em;
-}
-
-button {
-    border: none;
-    border-radius: 4px;
-    padding: 8px 30px;
-    color: #fff;
-    font-size: 0.9rem;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-#cancel-btn {
-    background-color: #FE0000;
-    transition: all 0.3s linear;
-}
-
-#save-btn {
-    background-color: #7071E8;
-    margin-right: 10px;
-    transition: all 0.2s ease-in-out;
-}
-
-#cancel-btn:hover {
-    background-color: #c40606;
-}
-
-#save-btn:hover {
-    background-color: #4d4dbf;
 }
 
 .header {

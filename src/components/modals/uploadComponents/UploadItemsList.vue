@@ -22,10 +22,9 @@ export default {
             <div v-for="(item, index) in items" :key="index">
                 <div class="file">
                     <span>{{ item.name }}</span>
-                    <span class="delete-icon"
-                          @click="$emit('removeItem', item.name)">
-            X
-          </span>
+                    <span class="delete-icon" @click="$emit('removeItem', item.name)">
+                        X
+                    </span>
                 </div>
                 <div v-for="(fileName, index) in Object.keys(errors)"
                      :key="index"

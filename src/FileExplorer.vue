@@ -16,16 +16,18 @@ import {useDirItemsStore} from "@/stores/dirItemsStore.js";
 import {useSelectedItemsStore} from "@/stores/selectedtemsStore.js";
 import ErrorModal from "@/components/modals/ErrorModal.vue";
 import RenameModal from "@/components/modals/RenameModal.vue";
-import EditorViewer from "@/components/dirContent/components/EditorViewer.vue";
+import Editor from "@/components/dirContent/components/Editor.vue";
 import PageLoader from "@/components/_baseComponents/PageLoader.vue";
 import AudioPlayer from "@/components/dirContent/components/AudioPlayer.vue";
+import globalMixin from "@/components/mixins/globalMixin.js";
 
 export default {
     name: "FileExplorer",
+    mixins: [globalMixin],
     components: {
         AudioPlayer,
         PageLoader,
-        EditorViewer,
+        Editor,
         RenameModal,
         ErrorModal,
         Loader,
@@ -138,11 +140,11 @@ export default {
                 <DirContentTable/>
             </div>
             <ImageViewer v-once/>
-            <VideoPlayerViewer v-once/>
+            <VideoPlayer v-once/>
             <AudioPlayer v-once/>
             <ErrorModal/>
             <RenameModal/>
-            <EditorViewer/>
+            <Editor/>
         </main>
     </div>
 </template>
