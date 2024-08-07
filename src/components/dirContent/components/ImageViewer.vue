@@ -3,16 +3,35 @@ export default {
     name: "ImageViewer",
     data() {
         return {
+            item: "",
             url: "",
             showModal: false
         }
     },
     mounted() {
-        this.$emitter.on("showImageViewer", (url) => {
-            this.url = url;
-            this.showModal = true;
-            this.$emitter.emit("fetchingData");
+        this.$emitter.on("showImageViewer", (item) => {
+            this.item = item;
+            this.getUrl();
         });
+    },
+    methods: {
+        getUrl() {
+            const url = 'disks/'
+                + this.item.diskName
+                + '/items/url?'
+                + new URLSearchParams({
+                    path: encodeURIComponent(this.item.path)
+                });
+
+            this.$API.get(url).then(response => {
+                this.url = response.data.result.url;
+                this.showModal = true;
+            }).catch(error => {
+                window.showAlert(error.response.data.status, error.response.data.message);
+            }).finally(() => {
+                this.$emitter.emit("fetchingData");
+            });
+        }
     }
 }
 </script>

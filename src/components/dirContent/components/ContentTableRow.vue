@@ -47,7 +47,7 @@ export default {
             if (this.item.type === "dir") {
                 this.openDir(this.item);
             } else if (this.isImage) {
-                this.$emitter.emit("showImageViewer", this.item.url);
+                this.$emitter.emit("showImageViewer", this.item);
             } else if (this.isVideo) {
                 this.$emitter.emit("showVideoPlayer", this.item);
             }
