@@ -20,11 +20,15 @@ import Editor from "@/components/dirContent/components/Editor.vue";
 import PageLoader from "@/components/_baseComponents/PageLoader.vue";
 import AudioPlayer from "@/components/dirContent/components/AudioPlayer.vue";
 import globalMixin from "@/components/mixins/globalMixin.js";
+import PDFModal from "@/components/modals/PDFModal.vue";
+import Api from "@/services/Api.js";
+import {getCurrentInstance} from "vue";
 
 export default {
     name: "FileExplorer",
     mixins: [globalMixin],
     components: {
+        PDFModal,
         AudioPlayer,
         PageLoader,
         Editor,
@@ -63,11 +67,13 @@ export default {
     },
     created() {
         this.settingsStore.setBaseUrl(this.setting.baseUrl);
-        this.initExplorer();
+        getCurrentInstance().appContext.config.globalProperties.$API = new Api(this.setting.baseUrl);
 
         if (window.innerWidth <= 900) {
             this.hideTree = true;
         }
+
+        this.initExplorer();
     },
     mounted() {
         this.$emitter.on("toggleTree", () => {
@@ -145,6 +151,7 @@ export default {
             <ErrorModal/>
             <RenameModal/>
             <Editor/>
+            <PDFModal/>
         </main>
     </div>
 </template>
@@ -258,6 +265,42 @@ body.dark-mode .rename-input {
     z-index: 2;
 }
 
+.modal-content {
+    margin: auto;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.close {
+    color: #fff;
+    font-size: 40px;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 570px) {
+    .modal {
+        width: 400px !important;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .modal {
+        width: 350px !important;
+    }
+}
+
+body.dark-mode .modal {
+    background-color: #202124;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    color: #f1f3f4;
+}
+
 @media screen and (max-width: 900px) {
     .nav {
         transform: translateX(v-bind(navTranslate));
@@ -281,25 +324,9 @@ body.dark-mode .rename-input {
     .date-cell {
         display: none;
     }
-
-    .modal {
-        width: 400px !important;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    .modal {
-        width: 350px !important;
-    }
 }
 
 body.dark-mode .error {
     color: #c30c0c;
-}
-
-body.dark-mode .modal {
-    background-color: #202124;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    color: #f1f3f4;
 }
 </style>
