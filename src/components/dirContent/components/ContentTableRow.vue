@@ -44,7 +44,7 @@ export default {
     methods: {
         showItem() {
             this.$emitter.emit("fetchingData");
-            if (this.item.extension.toLowerCase() === 'pdf') {
+            if (this.item.type !== 'dir' && this.item.extension.toLowerCase() === 'pdf') {
                 this.$emitter.emit("showPDFModal", this.item);
             }
             else if (this.item.type === "dir") {

@@ -1,20 +1,11 @@
 import axios from "axios";
 import CSRFException from "@/exceptions/CSRFException.js";
-import {useSettingsStore} from "@/stores/settingsStore.js";
 
-class Api {
-    constructor() {
+export default class Api {
+    constructor(baseUrl) {
         this.http = axios.create({
+            baseURL: baseUrl,
             withCredentials: true
-        });
-
-        this.http.interceptors.request.use(request => {
-            const settingsStore = useSettingsStore();
-            request.baseURL = settingsStore.baseUrl;
-
-            return request;
-        }, error => {
-            return Promise.reject(error);
         });
     }
 
@@ -41,5 +32,3 @@ class Api {
         });
     }
 }
-
-export default new Api();

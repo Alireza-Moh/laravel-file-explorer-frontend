@@ -21,6 +21,8 @@ import PageLoader from "@/components/_baseComponents/PageLoader.vue";
 import AudioPlayer from "@/components/dirContent/components/AudioPlayer.vue";
 import globalMixin from "@/components/mixins/globalMixin.js";
 import PDFModal from "@/components/modals/PDFModal.vue";
+import Api from "@/services/Api.js";
+import {getCurrentInstance} from "vue";
 
 export default {
     name: "FileExplorer",
@@ -65,11 +67,13 @@ export default {
     },
     created() {
         this.settingsStore.setBaseUrl(this.setting.baseUrl);
-        this.initExplorer();
+        getCurrentInstance().appContext.config.globalProperties.$API = new Api(this.setting.baseUrl);
 
         if (window.innerWidth <= 900) {
             this.hideTree = true;
         }
+
+        this.initExplorer();
     },
     mounted() {
         this.$emitter.on("toggleTree", () => {
