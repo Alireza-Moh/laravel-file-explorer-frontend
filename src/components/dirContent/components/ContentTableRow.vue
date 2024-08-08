@@ -44,7 +44,10 @@ export default {
     methods: {
         showItem() {
             this.$emitter.emit("fetchingData");
-            if (this.item.type === "dir") {
+            if (this.item.extension.toLowerCase() === 'pdf') {
+                this.$emitter.emit("showPDFModal", this.item);
+            }
+            else if (this.item.type === "dir") {
                 this.openDir(this.item);
             } else if (this.isImage) {
                 this.$emitter.emit("showImageViewer", this.item);

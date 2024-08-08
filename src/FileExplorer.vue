@@ -20,11 +20,13 @@ import Editor from "@/components/dirContent/components/Editor.vue";
 import PageLoader from "@/components/_baseComponents/PageLoader.vue";
 import AudioPlayer from "@/components/dirContent/components/AudioPlayer.vue";
 import globalMixin from "@/components/mixins/globalMixin.js";
+import PDFModal from "@/components/modals/PDFModal.vue";
 
 export default {
     name: "FileExplorer",
     mixins: [globalMixin],
     components: {
+        PDFModal,
         AudioPlayer,
         PageLoader,
         Editor,
@@ -145,6 +147,7 @@ export default {
             <ErrorModal/>
             <RenameModal/>
             <Editor/>
+            <PDFModal/>
         </main>
     </div>
 </template>
