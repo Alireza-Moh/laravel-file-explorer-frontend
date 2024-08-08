@@ -49,6 +49,7 @@ export default {
                         this.cancel();
                     }
                 }).catch(error => {
+                    this.$emitter.emit("resetButtonAnimation");
                     this.$emit("passErrorsToItems", error.response.data.errors);
                     window.showAlert(error.response.data.status, error.response.data.message);
 

@@ -258,6 +258,42 @@ body.dark-mode .rename-input {
     z-index: 2;
 }
 
+.modal-content {
+    margin: auto;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.close {
+    color: #fff;
+    font-size: 40px;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 570px) {
+    .modal {
+        width: 400px !important;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .modal {
+        width: 350px !important;
+    }
+}
+
+body.dark-mode .modal {
+    background-color: #202124;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    color: #f1f3f4;
+}
+
 @media screen and (max-width: 900px) {
     .nav {
         transform: translateX(v-bind(navTranslate));
@@ -281,25 +317,9 @@ body.dark-mode .rename-input {
     .date-cell {
         display: none;
     }
-
-    .modal {
-        width: 400px !important;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    .modal {
-        width: 350px !important;
-    }
 }
 
 body.dark-mode .error {
     color: #c30c0c;
-}
-
-body.dark-mode .modal {
-    background-color: #202124;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    color: #f1f3f4;
 }
 </style>
