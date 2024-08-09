@@ -49,8 +49,8 @@ describe('PreviewView', () => {
             }
         );
         await wrapper.vm.$nextTick();
-        const itemVideoCell = wrapper.findComponent(ItemVideoCell);
 
+        const itemVideoCell = wrapper.findComponent(ItemVideoCell);
         expect(itemVideoCell.exists()).toBe(true);
         expect(itemVideoCell.props('itemUrl')).toEqual(videItem.url);
     });

@@ -29,8 +29,13 @@ export default {
             this.currentDirPath = selectedDisk + "/" + defaultFileExplorerViewData.selectedDirPath;
         },
         changeContentVariant() {
-            this.showPreviewView = !this.showPreviewView;
-            this.$emitter.emit('showPreviewView');
+            if (this.settingsStore.isAclEnabled()) {
+                window.showAlert('warning', 'Preview is not available because you do not have the necessary permission');
+            }
+            else {
+                this.showPreviewView = !this.showPreviewView;
+                this.$emitter.emit('showPreviewView');
+            }
         }
     }
 }
