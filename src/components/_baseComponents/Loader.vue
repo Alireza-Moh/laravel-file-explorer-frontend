@@ -43,7 +43,7 @@ export default {
     position: absolute;
     inset: -15px;
     margin: auto;
-    background: #de3500;
+    background: #7071E8;
     animation: diamondLoader 2s linear infinite;
 }
 
