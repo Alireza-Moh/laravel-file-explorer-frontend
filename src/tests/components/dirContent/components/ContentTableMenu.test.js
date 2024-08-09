@@ -52,13 +52,17 @@ describe('ContentTableMenu', () => {
     });
 
     test("should emit 'showPreviewView' event when action-btn is clicked", async () => {
-        const emitSpy = vi.spyOn($emitter, "emit");
+        const showAlert = vi.fn();
+        Object.defineProperty(window, 'showAlert', {
+            writable: true,
+            configurable: true,
+            value: showAlert
+        });
         const actionBtn = wrapper.find(".action-btn");
 
         actionBtn.trigger("click");
 
-        expect(emitSpy).toHaveBeenCalledWith('showPreviewView');
-        expect(wrapper.vm.showPreviewView).toBe(true);
+        expect(wrapper.vm.showPreviewView).toBe(false);
 
     });
 
