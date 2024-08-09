@@ -101,9 +101,11 @@ export default {
                         receivedData.selectedDirItems
                     );
                     this.storeDefaultFileExplorerViewData(receivedData);
+                    this.settingsStore.setAclEnabled(receivedData.isAclEnabled);
                 }
                 this.isLoading = false;
             }).catch(error => {
+                console.log(error)
                 window.showAlert("failed", "No data could be found", 5000);
             });
         },

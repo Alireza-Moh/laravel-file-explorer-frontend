@@ -4,11 +4,20 @@ import searchAndUpdate from "@/services/helpers.js";
 export const useSettingsStore = defineStore("settings", {
     state: () => ({
         baseUrl: "",
+        aclEnabled: false,
         defaultFileExplorerViewData: {}
     }),
+    getters: {
+      isAclEnabled: (state) => () => {
+          return state.isAclEnabled;
+      }
+    },
     actions: {
         setBaseUrl(baseUrl) {
             this.baseUrl = baseUrl;
+        },
+        setAclEnabled(aclEnabled) {
+            this.aclEnabled = aclEnabled;
         },
         setDefaultFileExplorerViewData(diskName, dirName, dirPath, diskDirs, dirItems) {
             this.defaultFileExplorerViewData = {

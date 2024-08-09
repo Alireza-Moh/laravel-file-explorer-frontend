@@ -97,11 +97,6 @@ export default {
                 this.checkItemMediaType();
             },
             deep: true
-        },
-        showPreviewView(value) {
-            if (value === true && this.item.type === 'file' && this.item.url === '') {
-                window.showAlert('warning', 'Preview is not available because you do not have the necessary permission');
-            }
         }
     }
 }

@@ -30,10 +30,14 @@ export default {
 </script>
 
 <template>
-    <template v-if="isFile">
-        <ItemImageCell v-if="isImage" :item-url="item.url" />
-        <ItemVideoCell v-else-if="isVideo" :item-url="item.url" :video-type="videoType" />
-        <ItemEmptyCell v-else />
-    </template>
-    <ItemName :item-name="item.name" />
+    <ItemImageCell v-if="isImage"
+                   :item-url="item.url"/>
+
+    <ItemVideoCell v-if="isVideo"
+                   :item-url="item.url"
+                   :video-type="videoType"/>
+
+    <ItemEmptyCell v-if="!isImage && !isVideo"/>
+
+    <ItemName :item-name="item.name"/>
 </template>
