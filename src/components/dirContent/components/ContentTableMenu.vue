@@ -29,7 +29,7 @@ export default {
             this.currentDirPath = selectedDisk + "/" + defaultFileExplorerViewData.selectedDirPath;
         },
         changeContentVariant() {
-            if (this.settingsStore.isAclEnabled()) {
+            if (this.settingsStore.isAclEnabled() && !this.settingsStore.userHasPermission('read')) {
                 window.showAlert('warning', 'Preview is not available because you do not have the necessary permission');
             }
             else {

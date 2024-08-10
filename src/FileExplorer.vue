@@ -102,6 +102,7 @@ export default {
                     );
                     this.storeDefaultFileExplorerViewData(receivedData);
                     this.settingsStore.setAclEnabled(receivedData.isAclEnabled);
+                    this.settingsStore.setUserPermissions(receivedData.userPermissions);
                 }
                 this.isLoading = false;
             }).catch(error => {

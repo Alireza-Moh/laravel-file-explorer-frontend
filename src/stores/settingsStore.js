@@ -5,12 +5,16 @@ export const useSettingsStore = defineStore("settings", {
     state: () => ({
         baseUrl: "",
         aclEnabled: false,
+        userPermissions: [],
         defaultFileExplorerViewData: {}
     }),
     getters: {
-      isAclEnabled: (state) => () => {
-          return state.isAclEnabled;
-      }
+        isAclEnabled: (state) => () => {
+            return state.isAclEnabled;
+        },
+        userHasPermission: (state) => (requestedPermission) => {
+            return state.userPermissions.includes(requestedPermission);
+        }
     },
     actions: {
         setBaseUrl(baseUrl) {
@@ -18,6 +22,9 @@ export const useSettingsStore = defineStore("settings", {
         },
         setAclEnabled(aclEnabled) {
             this.aclEnabled = aclEnabled;
+        },
+        setUserPermissions(userPermissions) {
+            this.userPermissions = userPermissions;
         },
         setDefaultFileExplorerViewData(diskName, dirName, dirPath, diskDirs, dirItems) {
             this.defaultFileExplorerViewData = {
