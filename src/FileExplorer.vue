@@ -46,10 +46,10 @@ export default {
         DirTree
     },
     props: {
-      setting: {
-          type: Object,
-          required: true
-      }
+        setting: {
+            type: Object,
+            required: true
+        }
     },
     data() {
         return {
@@ -174,6 +174,7 @@ body {
 .content-box {
     margin-left: 250px;
     border-left: 1px solid #e8ebef;
+    border-right: 1px solid #e8ebef;
     transition: all 0.3s linear;
 }
 
@@ -324,6 +325,7 @@ body.dark-mode .modal {
     .name-cell {
         width: 100%;
     }
+
     .date-cell {
         display: none;
     }
