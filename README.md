@@ -60,3 +60,48 @@ Use the component inside your vue component
 ```javascript
   <LaravelFileExplorer :setting="{baseUrl: 'http://laravel-wrapper.localhost:8084/api/laravel-file-explorer/'}"/>
 ```
+
+## Laravel File Explorer in a modal
+
+![Laravel File Explorer image](docs/laravel-file-explorer-in-modal.png)
+
+You may use the LaravelFileExplorerInModal component to display the File Explorer as a popup, which returns an array of the selected files
+```javascript
+<LaravelFileExplorerInModal :setting="{baseUrl: 'http://laravel-wrapper.localhost:8084/api/laravel-file-explorer/'}"
+                            v-model="selectedFiles"/>
+```
+
+
+The returned array is structured as follows:
+```javascript
+[
+  {
+    diskName: "mobileTV",
+    parent: "iphone", //the directory where the file is located
+    name: "1000016101.jpg",
+    path: "iphone/1000016101.jpg",
+    type: "file",
+    size: 2318331,
+    formattedSize: "2.21 MB",
+    url: "",
+    extension: "jpg",
+    isChecked: true,
+    lastModified: "2024-08-06 11:27:34",
+    subDir: []
+  },
+  {
+    diskName: "mobileTV",
+    parent: "iphone", //the directory containing the file
+    name: "9ABUnSDn0obF94vBHi86kdT4yNJ4smoyaU3bYWM8.jpg",
+    path: "iphone/9ABUnSDn0obF94vBHi86kdT4yNJ4smoyaU3bYWM8.jpg",
+    type: "file",
+    size: 1701551,
+    formattedSize: "1.62 MB",
+    url: "",
+    extension: "jpg",
+    isChecked: true,
+    lastModified: "2024-08-05 19:32:33",
+    subDir: [] //if the directory contains subdirectories, they will also be included in the returned array
+  }
+]
+```

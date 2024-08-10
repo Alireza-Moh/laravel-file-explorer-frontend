@@ -44,6 +44,9 @@ export default {
         select() {
             this.$emit('update:modelValue', this.selectedItems);
             this.showModal = false;
+        },
+        cancel() {
+            this.selectedItemsStore.uncheckItems();
         }
     }
 }
@@ -62,7 +65,7 @@ export default {
                         :disabled="disabled"/>
                 <Button text="Cancel"
                         type="cancel"
-                        :on-click="() => showModal = false"/>
+                        :on-click="cancel"/>
             </div>
         </div>
     </div>
