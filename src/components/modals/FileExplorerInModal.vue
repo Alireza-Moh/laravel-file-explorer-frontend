@@ -32,12 +32,7 @@ export default {
     mounted() {
         this.selectedItemsStore.$subscribe((mutation, state) => {
             this.selectedItems = state.items;
-            if (state.items.length) {
-                this.disabled = false;
-            }
-            else {
-                this.disabled = true;
-            }
+            this.disabled = !state.items.length;
         });
     },
     methods: {
