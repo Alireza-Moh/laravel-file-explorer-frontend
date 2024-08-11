@@ -62,5 +62,6 @@ export default {
 
 .nav.hide {
     transform: translateX(-100%);
+    display: none;
 }
 </style>

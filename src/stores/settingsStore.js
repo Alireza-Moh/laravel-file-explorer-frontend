@@ -6,7 +6,9 @@ export const useSettingsStore = defineStore("settings", {
         baseUrl: "",
         aclEnabled: false,
         userPermissions: [],
-        defaultFileExplorerViewData: {}
+        defaultFileExplorerViewData: {},
+        dirContentTableViewportHeight: '620px',
+        dirContentTableViewportBorder: false
     }),
     getters: {
         isAclEnabled: (state) => () => {
@@ -58,6 +60,12 @@ export const useSettingsStore = defineStore("settings", {
         isCorrectDisk(diskName, parent) {
             return this.defaultFileExplorerViewData.selectedDisk === diskName
                 && this.defaultFileExplorerViewData.selectedDir === parent;
+        },
+        setDirContentTableViewportHeight(height) {
+            this.dirContentTableViewportHeight = height;
+        },
+        setDirContentTableViewportBorder(value) {
+            this.dirContentTableViewportBorder = value;
         }
     }
 });

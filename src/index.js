@@ -1,6 +1,7 @@
 import mitt from "mitt";
 import {createPinia} from 'pinia';
 import FileExplorer from './FileExplorer.vue';
+import FileExplorerInModal from "@/components/modals/FileExplorerInModal.vue";
 
 export default {
 
@@ -10,5 +11,6 @@ export default {
         app.use(createPinia());
 
         app.component("LaravelFileExplorer", FileExplorer);
+        app.component("LaravelFileExplorerInModal", FileExplorerInModal);
     }
 }

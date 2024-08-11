@@ -18,7 +18,9 @@ export default {
             scrollTop: 0,
             settingsStore: useSettingsStore(),
             dirItemsStore: useDirItemsStore(),
-            showPreviewView: false
+            showPreviewView: false,
+            viewportHeight: '620px',
+            dirContentTableViewportBorder: false
         };
     },
     computed: {
@@ -43,6 +45,8 @@ export default {
         this.items = defaultData.selectedDirItems;
         this.selectedDir = defaultData.selectedDir;
         this.selectedDisk = defaultData.selectedDisk;
+        this.viewportHeight = this.settingsStore.dirContentTableViewportHeight;
+        this.dirContentTableViewportBorder = this.settingsStore.dirContentTableViewportBorder
     },
     mounted() {
         this.updateVisibleItems();
@@ -53,6 +57,8 @@ export default {
             this.items = defaultData.selectedDirItems;
             this.selectedDir = defaultData.selectedDir;
             this.selectedDisk = defaultData.selectedDisk;
+            this.viewportHeight = this.settingsStore.dirContentTableViewportHeight;
+            this.dirContentTableViewportBorder = this.settingsStore.dirContentTableViewportBorder
 
             this.updateVisibleItems();
         });
@@ -101,7 +107,10 @@ export default {
         <div class="headline date-cell">Modified</div>
         <div class="headline size-cell">Size</div>
     </div>
-    <div ref="viewport" class="viewport" @scroll="onScroll">
+    <div ref="viewport"
+         class="viewport"
+         :class="{'with-border': dirContentTableViewportBorder}"
+         @scroll="onScroll">
 
         <div :style="{ height: fullHeight + 'px' }" class="full-container">
 
@@ -127,8 +136,12 @@ export default {
 
 <style scoped>
 .viewport {
-    height: 620px;
+    height: v-bind(viewportHeight);
     overflow-y: auto;
+}
+
+.viewport.with-border {
+    border-bottom: 1px solid #e8ebef;
 }
 
 .full-container {
