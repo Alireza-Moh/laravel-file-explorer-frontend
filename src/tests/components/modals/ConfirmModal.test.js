@@ -1,7 +1,6 @@
 import {mount} from "@vue/test-utils";
 import ConfirmModal from "@/components/modals/ConfirmModal.vue";
 import mitt from "mitt";
-import Button from "@/components/_baseComponents/Button.vue";
 
 describe("ConfirmModal component", () => {
     let wrapper, confirmMethodOnYes, confirmMethodOnNo, $emitter;
